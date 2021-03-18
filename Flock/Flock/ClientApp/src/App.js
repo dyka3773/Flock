@@ -10,3 +10,5 @@ const App = () => {
 }
 
 export default App;
+
+//making sure changes are commited properly
