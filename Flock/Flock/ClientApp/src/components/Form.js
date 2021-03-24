@@ -54,27 +54,29 @@ const Form = ({ label, cancel, submit, inputs} ) => {
     const cancelBtn = () => {
         if (cancel) {
             const { label } = cancel;
-            return <button className="ui button" onClick={onCancel}> {label}</button>;
+            return <input className="ui button" type="button" value={label} onClick={onCancel} />;
         }
        
     };
 
     const submitBtn = () => {
-        if (cancel) {
+        if (submit) {
             const { label } = submit;
-            return <button className="ui primary button" onClick={onSubmit}> {label}</button>;
+            return <input className="ui primary button" type="submit" value={label}/>;
         }
 
     };
 
     const items = inputs.map(
-        (input) => (
-            <InputField label={input.label} key={input.id} onChange={(value) => handleFieldChange(input.id, value)} />
-        )
-    );
+        (input) => {
+            const val = values[input.id];
+            return (
+                <InputField label={input.label} key={input.id} onChange={(value) => handleFieldChange(input.id, value)} value={val||''}/>
+            )
+        });
 
     return (
-        <form className="ui form segment" >
+        <form className="ui form segment" onSubmit={onSubmit}>
             <h4 className="ui dividing header">{label}</h4>
             <div>{items}</div>
             <div>{submitBtn()}{cancelBtn()}</div>
