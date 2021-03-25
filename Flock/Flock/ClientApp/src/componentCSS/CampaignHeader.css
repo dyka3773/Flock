@@ -1,9 +1,13 @@
 ﻿
 .campaign-header {
-   
 }
 
-.campaign-header *{
+    .campaign-header * {
+        position: relative;
+        display: inline-block;
+    }
 
-    display:inline-block;
-}
+    .campaign-header .buttons {
+        position:absolute;
+        right:1%;
+    }

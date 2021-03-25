@@ -1,5 +1,5 @@
 ﻿import React, { useState } from 'react';
-
+import '../componentCSS/Accordion.css';
 /*Accordion receives an array of objects following the below structure
  * const accordionItems = [
     {
@@ -22,7 +22,10 @@ for each array item one accordion item is rendered
 const Accordion = (props) => {
     const [activeIndex, setActiveIndex] = useState(null);
 
-    const onClick = (index) => {
+    const onClick = (event, index) => {
+        if (event.target.tagName === 'BUTTON' || event.target.tagName === 'A')
+            return;
+        console.log(event.target.tagName);
         if (index === activeIndex)
             index = null;
         setActiveIndex(index);
@@ -33,17 +36,17 @@ const Accordion = (props) => {
     const items = props.items.map(
         (item, index) => {
             return (
-                <React.Fragment key={item.id}>
+                <div className="accordion-item" key={item.id}>
                     <div
                         className={`title ${activeIndex === index ? 'active' : ''}`}
-                        onClick={() => onClick(index)}
+                        onClick={(e) => onClick(e,index)}
                     >
                         {item.header}
                     </div>
                     <div className={`content ${activeIndex === index ? 'active' : ''}`}>
                        {item.content}
                     </div>
-                </React.Fragment>
+                </div>
             );
         }
     );

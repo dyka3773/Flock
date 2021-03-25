@@ -29,7 +29,12 @@ const formInputs = [
 const accordionItems = [
     {
         header: <CampaignHeader />,
-        content: <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>,
+        content: <Form
+            label="Basic Form Exampol"
+            inputs={formInputs}
+            cancel={{ label: "cancel", onClick: () => console.log("cancel") }}
+            submit={{ label: "submit", onClick: () => console.log("submit") }}
+        />,
         id: "1"
     },
     {

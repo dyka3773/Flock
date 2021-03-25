@@ -3,12 +3,19 @@ import '../componentCSS/CampaignHeader.css';
 
 const CampaignHeader = ({title, buttons}) => {
 
+    const onClick = (e) => {
+        e.preventDefault();
+
+    }
 
     return (
         <div className="campaign-header">
             <h4>Title</h4>
-            <button>edit</button>
-            <button>delete</button>
+            <div className="buttons">
+                <button onClick={onClick}>delete</button>
+            </div>
+            
+            
         </div>
         );
 }
