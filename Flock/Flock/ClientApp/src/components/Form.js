@@ -3,11 +3,10 @@ import InputField from './InputField';
 
 /* Form expects a label prop , inputs Array prop and optinally a cancel and submit object prop.
  * If the optional objects are present it will create buttons with the provided label(buttonLabel) and the provided event handler method
- * cancel = {btnLabel:buttonLabel, onClick:onClickEventHandler}
- * submit = {btnLabel:buttonLabel, onClick:onClickEventHandler}
- * Submit event handler passes entire state of form as parameter
- * The Form will by default call the submit onClickEventHandler if the  enter key is pressed by the user
- * The Form creates input fields based on the length and the values of the inputs array prop. Example use
+ * Submit event handler passes all input values as parameter
+ * The Form will by default call the onSubmit event handler if the  enter key is pressed by the user
+ * The Form creates input fields based on the inputs array prop (every {label:"",id:""} object is rendered as one input). 
+ * Example use
  * inputs= [
  *       {
             label: "label1",
