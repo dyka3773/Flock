@@ -19,7 +19,7 @@ const App = () => {
         <Router>
             <div id="app">
                 <div className="ui menu" id="main-navbar">
-                    <NavLink className="item" ></NavLink>
+                    <NavLink className="item" activeClassName="active" to="/" exact></NavLink>
 
                     <NavLink className="item" activeClassName="active" to="/" exact>Home</NavLink>
 
