@@ -1,16 +1,16 @@
 ﻿import React from 'react';
-import '../componentCSS/CampaignHeader.css';
+import '../componentCSS/AccordionHeader.css';
 
-const CampaignHeader = ({title, buttons}) => {
+const AccordionHeader = ({title, onDelete}) => {
 
     const onClick = (e) => {
         e.preventDefault();
-
+        onDelete();
     }
 
     return (
         <div className="campaign-header">
-            <h4>Title</h4>
+            <h4>{title}</h4>
             <div className="buttons">
                 <button onClick={onClick}>delete</button>
             </div>
@@ -20,4 +20,4 @@ const CampaignHeader = ({title, buttons}) => {
         );
 }
 
-export default CampaignHeader;
+export default AccordionHeader;

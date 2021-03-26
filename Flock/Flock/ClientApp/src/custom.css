@@ -1,1 +1,10 @@
 /* Provide sufficient contrast against white background */
+html, body, #app, #root {
+    height: 100vh;
+   
+}
+
+
+#main-navbar {
+    height:5vh;
+}

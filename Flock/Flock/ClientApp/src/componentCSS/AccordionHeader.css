@@ -1,9 +1,9 @@
 ﻿
 .campaign-header {
+    position:relative;
 }
 
     .campaign-header * {
-        position: relative;
         display: inline-block;
     }
 

@@ -28,22 +28,26 @@ import InputField from './InputField';
  *
  * */
 
-const Form = ({ label, cancel, submit, inputs} ) => {
+const Form = ({ label, cancel, submit, inputs, children}) => {
 
-    //every fields value is stored as state in the values state object
+    
+
+    //every field's value is stored as state in the values state object
     const [values, setValues] = useState({});
     const handleFieldChange = (id, value) => {
         setValues({ ...values, [id]: value });
     };
 
-    //when submit button or enter key are pressed
+    //when submit button or enter key are pressed the onClick function of the submit object provided is 
+    //triggered with the values of the inputs as a parameter
     const onSubmit = (e) => {
         e.preventDefault();
         const { onClick } = submit;
         onClick(values);
     }
 
-    //when cancel button is pressed
+    //when cancel button is pressed the onClick function of the cancel object provided is triggered
+    
     const onCancel = (e) => {
         e.preventDefault();
         const { onClick } = cancel;
@@ -76,9 +80,15 @@ const Form = ({ label, cancel, submit, inputs} ) => {
 
     return (
         <form className="ui form segment" onSubmit={onSubmit}>
-            <h4 className="ui dividing header">{label}</h4>
+
+            {label ? <h4 className="ui dividing header">{label}</h4> : <></>}
+
             <div>{items}</div>
-            <div>{submitBtn()}{cancelBtn()}</div>
+
+            {children ? children : <></>}
+
+            {submitBtn()}{cancelBtn()}
+            
         </form>
     );
 

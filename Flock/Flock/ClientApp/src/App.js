@@ -1,6 +1,6 @@
 import React from 'react';
-import Page1 from './pages/page1';
-import Page2 from './pages/page2';
+import Page1 from './modules/page1';
+import ManagementModule from './modules/ManagementModule';
 import {
     BrowserRouter as Router,
     Switch,
@@ -9,34 +9,41 @@ import {
     NavLink
 } from "react-router-dom";
 
+
 const App = () => {
 
 
-   
+
 
     return (
         <Router>
-        <div>
-            <div className="ui menu">
-                <NavLink className="item" activeClassName="active" to="/" exact>Page1</NavLink>
+            <div id="app">
+                <div className="ui menu" id="main-navbar">
+                    <NavLink className="item" ></NavLink>
 
-                <NavLink className="item" activeClassName="active" to="/page2">Page2</NavLink>
+                    <NavLink className="item" activeClassName="active" to="/" exact>Home</NavLink>
 
-            </div>
+                    <NavLink className="item" activeClassName="active" to="/campaign-management">Contact List</NavLink>
 
-            {/* A <Switch> looks through its children <Route>s and
+                    <NavLink className="item" activeClassName="active" to="/contact-management">Campaigns</NavLink>
+                </div>
+
+                {/* A <Switch> looks through its children <Route>s and
               renders the first one that matches the current URL. */}
-            <Switch>
-                <Route path="/page2">
-                    <Page2 />
-                </Route>
-                <Route path="/">
-                    <Page1 />
-                </Route>
-            </Switch>
-        </div>
+                <Switch>
+                    <Route path="/campaign-management">
+                        <ManagementModule />
+                    </Route>
+                    <Route path="/contact-management">
+                        <ManagementModule />
+                    </Route>
+                    <Route path="/">
+                        <Page1 />
+                    </Route>
+                </Switch>
+            </div>
         </Router >
-        );
+    );
 
 }
 

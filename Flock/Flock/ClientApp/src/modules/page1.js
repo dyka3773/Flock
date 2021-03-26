@@ -1,7 +1,9 @@
-﻿import React from 'react';
+﻿import React, { useState } from 'react';
 import Form from '../components/Form';
 import Accordion from '../components/Accordion';
-import CampaignHeader from '../components/CampaignHeader';
+import AccordionHeader from '../components/AccordionHeader';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 const formInputs = [
     {
@@ -28,7 +30,7 @@ const formInputs = [
 
 const accordionItems = [
     {
-        header: <CampaignHeader />,
+        header: <AccordionHeader title="title1" onDelete={() => console.log("deleted")}/>,
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
@@ -38,19 +40,21 @@ const accordionItems = [
         id: "1"
     },
     {
-        header: <CampaignHeader />,
+        header: <AccordionHeader title="title2" onDelete={() => console.log("deleted")}/>,
         content: <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>,
         id: "2"
     },
     {
-        header: <CampaignHeader />,
+        header: <AccordionHeader title="title3" onDelete={() => console.log("deleted")}/>,
         content: <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>,
         id: "3"
     }
 ]
 
 
-const page1 = () => {
+const Page1 = () => {
+
+    const [value, onChange] = useState(new Date());
 
 
     const onCancel = () => {
@@ -59,6 +63,9 @@ const page1 = () => {
 
     const onSubmit = (values) => {
         console.log(values);
+        console.log(value.getDate());
+        console.log(value.getMonth()+1);
+        console.log(value.getFullYear());
     }
     
 
@@ -71,9 +78,17 @@ const page1 = () => {
                 inputs={formInputs}
                 cancel={{ label:"cancel", onClick: onCancel}}
                 submit={{ label: "submit", onClick: onSubmit}}
-            />
+            >
+                <div className="ui segment">
+                    <Calendar
+                        className="react-calendar"
+                        onChange={onChange}
+                        value={value}
+                    />
+                </div>
+            </Form>
             <br/>
-            <Accordion items={accordionItems}/>
+            <Accordion items={accordionItems} />
             
         </div>
         
@@ -81,4 +96,4 @@ const page1 = () => {
         );
  }
 
-export default page1;
+export default Page1;

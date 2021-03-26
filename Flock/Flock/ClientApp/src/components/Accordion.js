@@ -23,11 +23,13 @@ const Accordion = (props) => {
     const [activeIndex, setActiveIndex] = useState(null);
 
     const onClick = (event, index) => {
+        //ensures that clicking on a button or anchor element inside an AccordionItem will not trigger the opening or closing of the item
         if (event.target.tagName === 'BUTTON' || event.target.tagName === 'A')
             return;
-        console.log(event.target.tagName);
+
         if (index === activeIndex)
             index = null;
+
         setActiveIndex(index);
 
     }

@@ -1,0 +1,21 @@
+﻿.management-module {
+    height: 95vh;
+    overflow:hidden;
+}
+
+    .management-module .list {
+    }
+
+    .management-module .sidebar {
+        background-color: rgba(0,0,0,0.1);
+    }
+
+    .management-module .title {
+        height:5vh;
+    }
+
+    .management-module .scroll-container {
+        height:75vh;
+        overflow:auto;
+    
+    }
