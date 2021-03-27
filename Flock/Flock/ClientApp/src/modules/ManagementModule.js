@@ -206,28 +206,6 @@ const ManagementModule = () => {
     }, []);
 
 
-    /*const accordionItems = items.map(
-        ({ title, content, id }) => {
-
-            const n = title.search(searchValue);
-            console.log(n);
-            if (n != 0) return ;
-
-            return {
-                header: <AccordionHeader title={title} onDelete={() => console.log("deleted")} />,
-                content: content,
-                id: id
-
-            };
-        }
-    );
-    */
-
-
-
-
-
-
     return (
 
         <div className="ui grid management-module" >
@@ -247,8 +225,8 @@ const ManagementModule = () => {
 
             </div>
             <div className="thirteen wide column list" >
-                <h1 className="ui block header">Current</h1>
-                <div className="scroll-container segment">
+                <h1 className="ui top attached header">Contact List</h1>
+                <div className="ui scroll-container attached segment">
                     <div className="column-titles">name tags date</div>
                     <Accordion items={accordionItems} />
                 </div>

@@ -6,13 +6,17 @@
     .management-module .list {
     }
 
+        .management-module .list .header {
+            height: auto;
+            top:2vh;
+            text-align: center;
+        }
+
     .management-module .sidebar {
         background-color: rgba(0,0,0,0.1);
     }
 
-    .management-module .header {
-        height:5vh;
-    }
+    
 
     .management-module .scroll-container {
         height:75vh;
