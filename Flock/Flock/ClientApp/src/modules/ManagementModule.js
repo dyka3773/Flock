@@ -1,4 +1,4 @@
-﻿import React, {useState} from 'react';
+﻿import React, { useState } from 'react';
 import '../modulesCSS/ManagementModule.css';
 import Accordion from '../components/Accordion';
 import AccordionHeader from '../components/AccordionHeader';
@@ -15,9 +15,9 @@ const formInputs = [
     },
 ];
 
-const accordionItems = [
+const items = [
     {
-        header: <AccordionHeader title="title1" onDelete={() => console.log("deleted")} />,
+        title: "Stefanos",
         content: <Form
 
             inputs={formInputs}
@@ -26,7 +26,7 @@ const accordionItems = [
         id: "1"
     },
     {
-        header: <AccordionHeader title="title2" onDelete={() => console.log("deleted")} />,
+        title: "Thanos",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
@@ -35,196 +35,148 @@ const accordionItems = [
         id: "2"
     },
     {
-        header: <AccordionHeader title="title3" onDelete={() => console.log("deleted")} />,
+        title: "Kwstas",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
             submit={{ label: "submit", onClick: (s) => console.log(s) }}
         />,
         id: "3"
-    }, {
-        header: <AccordionHeader title="title1" onDelete={() => console.log("deleted")} />,
+    },
+    {
+        title: "Stratos",
+        content: <Form
+            label="Basic Form Exampol"
+            inputs={formInputs}
+            submit={{ label: "submit", onClick: (s) => console.log(s) }}
+        />,
+        id: "4"
+    },
+    {
+        title: "Stavros",
+        content: <Form
+            label="Basic Form Exampol"
+            inputs={formInputs}
+            submit={{ label: "submit", onClick: (s) => console.log(s) }}
+        />,
+        id: "5"
+    },
+    {
+        title: "Kwsths",
+        content: <Form
+            label="Basic Form Exampol"
+            inputs={formInputs}
+            submit={{ label: "submit", onClick: (s) => console.log(s) }}
+        />,
+        id: "6"
+    },
+    {
+        title: "Kwstantinos",
+        content: <Form
+            label="Basic Form Exampol"
+            inputs={formInputs}
+            submit={{ label: "submit", onClick: (s) => console.log(s) }}
+        />,
+        id: "7"
+    },
+    {
+        title: "Thanasis",
+        content: <Form
+            label="Basic Form Exampol"
+            inputs={formInputs}
+            submit={{ label: "submit", onClick: (s) => console.log(s) }}
+        />,
+        id: "8"
+    },
+    {
+        title: "Stelios",
+        content: <Form
+            label="Basic Form Exampol"
+            inputs={formInputs}
+            submit={{ label: "submit", onClick: (s) => console.log(s) }}
+        />,
+        id: "9"
+    },
+    {
+        title: "Stefanos1",
         content: <Form
 
             inputs={formInputs}
             submit={{ label: "submit", onClick: (s) => console.log(s) }}
         />,
-        id: "1"
+        id: "10"
     },
     {
-        header: <AccordionHeader title="title2" onDelete={() => console.log("deleted")} />,
+        title: "Thanos1",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
             submit={{ label: "submit", onClick: (s) => console.log(s) }}
         />,
-        id: "2"
+        id: "11"
     },
     {
-        header: <AccordionHeader title="title3" onDelete={() => console.log("deleted")} />,
+        title: "Kwstas",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
             submit={{ label: "submit", onClick: (s) => console.log(s) }}
         />,
-        id: "3"
-    }, {
-        header: <AccordionHeader title="title1" onDelete={() => console.log("deleted")} />,
-        content: <Form
-
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "1"
+        id: "12"
     },
     {
-        header: <AccordionHeader title="title2" onDelete={() => console.log("deleted")} />,
+        title: "Stratos1",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
             submit={{ label: "submit", onClick: (s) => console.log(s) }}
         />,
-        id: "2"
+        id: "13"
     },
     {
-        header: <AccordionHeader title="title3" onDelete={() => console.log("deleted")} />,
+        title: "Stavros1",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
             submit={{ label: "submit", onClick: (s) => console.log(s) }}
         />,
-        id: "3"
-    }, {
-        header: <AccordionHeader title="title1" onDelete={() => console.log("deleted")} />,
-        content: <Form
-
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "1"
+        id: "14"
     },
     {
-        header: <AccordionHeader title="title2" onDelete={() => console.log("deleted")} />,
+        title: "Kwsths1",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
             submit={{ label: "submit", onClick: (s) => console.log(s) }}
         />,
-        id: "2"
+        id: "15"
     },
     {
-        header: <AccordionHeader title="title3" onDelete={() => console.log("deleted")} />,
+        title: "Kwstantinos1",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
             submit={{ label: "submit", onClick: (s) => console.log(s) }}
         />,
-        id: "3"
+        id: "16"
     },
     {
-        header: <AccordionHeader title="title1" onDelete={() => console.log("deleted")} />,
-        content: <Form
-
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "1"
-    },
-    {
-        header: <AccordionHeader title="title2" onDelete={() => console.log("deleted")} />,
+        title: "Thanasis1",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
             submit={{ label: "submit", onClick: (s) => console.log(s) }}
         />,
-        id: "2"
+        id: "17"
     },
     {
-        header: <AccordionHeader title="title3" onDelete={() => console.log("deleted")} />,
+        title: "Stelios",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
             submit={{ label: "submit", onClick: (s) => console.log(s) }}
         />,
-        id: "3"
-    }, {
-        header: <AccordionHeader title="title1" onDelete={() => console.log("deleted")} />,
-        content: <Form
-
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "1"
-    },
-    {
-        header: <AccordionHeader title="title2" onDelete={() => console.log("deleted")} />,
-        content: <Form
-            label="Basic Form Exampol"
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "2"
-    },
-    {
-        header: <AccordionHeader title="title3" onDelete={() => console.log("deleted")} />,
-        content: <Form
-            label="Basic Form Exampol"
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "3"
-    }, {
-        header: <AccordionHeader title="title1" onDelete={() => console.log("deleted")} />,
-        content: <Form
-
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "1"
-    },
-    {
-        header: <AccordionHeader title="title2" onDelete={() => console.log("deleted")} />,
-        content: <Form
-            label="Basic Form Exampol"
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "2"
-    },
-    {
-        header: <AccordionHeader title="title3" onDelete={() => console.log("deleted")} />,
-        content: <Form
-            label="Basic Form Exampol"
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "3"
-    }, {
-        header: <AccordionHeader title="title1" onDelete={() => console.log("deleted")} />,
-        content: <Form
-
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "1"
-    },
-    {
-        header: <AccordionHeader title="title2" onDelete={() => console.log("deleted")} />,
-        content: <Form
-            label="Basic Form Exampol"
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "2"
-    },
-    {
-        header: <AccordionHeader title="title3" onDelete={() => console.log("deleted")} />,
-        content: <Form
-            label="Basic Form Exampol"
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "3"
+        id: "18"
     },
 ]
 
@@ -232,6 +184,49 @@ const accordionItems = [
 const ManagementModule = () => {
 
     const [searchValue, setSearchValue] = useState("");
+    console.log("rerender");
+
+    const accordionItems = items.reduce((accumulator, { title, content, id }) => {
+
+        var regex = new RegExp(searchValue, "i");
+        const n = title.search(regex);
+        //console.log(n);
+        if (n != 0) return accumulator;
+
+        const alteredValue = {
+            header: <AccordionHeader title={title} onDelete={() => console.log("deleted")} />,
+            content: content,
+            id: id
+
+        };
+
+        accumulator.push(alteredValue);
+        return accumulator;
+
+    }, []);
+
+
+    /*const accordionItems = items.map(
+        ({ title, content, id }) => {
+
+            const n = title.search(searchValue);
+            console.log(n);
+            if (n != 0) return ;
+
+            return {
+                header: <AccordionHeader title={title} onDelete={() => console.log("deleted")} />,
+                content: content,
+                id: id
+
+            };
+        }
+    );
+    */
+
+
+
+
+
 
     return (
 
@@ -252,12 +247,12 @@ const ManagementModule = () => {
 
             </div>
             <div className="thirteen wide column list" >
-                <h1 className="title">Current</h1>
+                <h1 className="ui block header">Current</h1>
                 <div className="scroll-container segment">
                     <div className="column-titles">name tags date</div>
                     <Accordion items={accordionItems} />
                 </div>
-                
+
             </div>
         </div>
 
