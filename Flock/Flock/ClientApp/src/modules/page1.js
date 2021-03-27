@@ -1,9 +1,13 @@
 ﻿import React, { useState } from 'react';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+
 import Form from '../components/Form';
 import Accordion from '../components/Accordion';
 import AccordionHeader from '../components/AccordionHeader';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
+import MarkdownEditView from './MarkdownEditView';
+
+
 
 const formInputs = [
     {
@@ -89,7 +93,20 @@ const Page1 = () => {
             </Form>
             <br/>
             <Accordion items={accordionItems} />
-            
+            <br />
+            <br />
+            <MarkdownEditView />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
         </div>
         
         
