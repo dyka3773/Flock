@@ -12,11 +12,13 @@ import MarkdownEditView from './MarkdownEditView';
 const formInputs = [
     {
         label: "Enter your name",
-        id: "name"
+        id: "name",
+        type:"password"
     },
     {
         label: "Enter your surname",
-        id: "surname"
+        id: "surname",
+        type:"email"
     },
     {
         label: "Enter your address",

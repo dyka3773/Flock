@@ -1,16 +1,18 @@
 ﻿import React, { useState } from 'react'; 
-import InputField from './InputField';
+
 
 /* Form expects a label prop , inputs Array prop and optinally a cancel and submit object prop.
  * If the optional objects are present it will create buttons with the provided label(buttonLabel) and the provided event handler method
  * Submit event handler passes all input values as parameter
  * The Form will by default call the onSubmit event handler if the  enter key is pressed by the user
- * The Form creates input fields based on the inputs array prop (every {label:"",id:""} object is rendered as one input). 
+ * The Form creates input fields based on the inputs array prop (every {label:"",id:"", type:""} object is rendered as one input). 
+ * Type describes the type attribute of the rendered input and it defaults to "text"
  * Example use
  * inputs= [
  *       {
             label: "label1",
-            id:"1"
+            id:"1",
+            type:"password"
         },
         {
             label: "label2",
@@ -41,6 +43,8 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
     //when submit button or enter key are pressed the onClick function of the submit object provided is 
     //triggered with the values of the inputs as a parameter
     const onSubmit = (e) => {
+        const renderedInputs = document.getElementsByTagName('input');
+        
         e.preventDefault();
         const { onClick } = submit;
         onClick(values);
@@ -74,7 +78,14 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
         (input) => {
             const val = values[input.id];
             return (
-                <InputField label={input.label} key={input.id} onChange={(value) => handleFieldChange(input.id, value)} value={val||''}/>
+                <React.Fragment key={input.id}>
+                    <label>{input.label}</label>
+                    <input
+                        type={input.type ? input.type : "text"}
+                        onChange={(e) => handleFieldChange(input.id, e.target.value)}
+                        value={val || ''}
+                    />
+                </React.Fragment>
             )
         });
 
