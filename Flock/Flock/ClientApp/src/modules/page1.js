@@ -26,7 +26,8 @@ const formInputs = [
     },
     {
         label: "Enter your darkest secret",
-        id: "secret"
+        id: "secret",
+        type: "email"
     },
     {
         label: "Who's your daddy?",
@@ -37,12 +38,7 @@ const formInputs = [
 const accordionItems = [
     {
         header: <AccordionHeader title="title1" onDelete={() => console.log("deleted")}/>,
-        content: <Form
-            label="Basic Form Exampol"
-            inputs={formInputs}
-            cancel={{ label: "cancel", onClick: () => console.log("cancel") }}
-            submit={{ label: "submit", onClick: () => console.log("submit") }}
-        />,
+        content: <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>,
         id: "1"
     },
     {

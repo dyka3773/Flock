@@ -1,5 +1,5 @@
-﻿import React, { useState } from 'react'; 
-
+﻿import React, { useState, useEffect, useMemo } from 'react'; 
+import '../componentCSS/Form.css';
 
 /* Form expects a label prop , inputs Array prop and optinally a cancel and submit object prop.
  * If the optional objects are present it will create buttons with the provided label(buttonLabel) and the provided event handler method
@@ -32,18 +32,31 @@
 
 const Form = ({ label, cancel, submit, inputs, children}) => {
 
-    
-
     //every field's value is stored as state in the values state object
     const [values, setValues] = useState({});
     const handleFieldChange = (id, value) => {
         setValues({ ...values, [id]: value });
     };
 
+    useEffect(() => {
+        Array.from(document.getElementsByClassName("email")).forEach(
+            inp => {
+                inp.addEventListener("input", (event) => {
+                    if (inp.validity.typeMismatch) {
+                        inp.setCustomValidity("I am expecting an e-mail address!");
+                    } else {
+                        inp.setCustomValidity("");
+                    }
+                });
+            }
+        )
+
+    },[]);
+
     //when submit button or enter key are pressed the onClick function of the submit object provided is 
     //triggered with the values of the inputs as a parameter
     const onSubmit = (e) => {
-        const renderedInputs = document.getElementsByTagName('input');
+        
         
         e.preventDefault();
         const { onClick } = submit;
@@ -84,6 +97,7 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
                         type={input.type ? input.type : "text"}
                         onChange={(e) => handleFieldChange(input.id, e.target.value)}
                         value={val || ''}
+                        className={input.type}
                     />
                 </React.Fragment>
             )
