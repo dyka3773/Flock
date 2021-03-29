@@ -1,209 +1,42 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import '../modulesCSS/ManagementModule.css';
 import Accordion from '../components/Accordion';
 import AccordionHeader from '../components/AccordionHeader';
-import Form from '../components/Form';
-
-const formInputs = [
-    {
-        label: "Enter your name",
-        id: "name"
-    },
-    {
-        label: "Enter your surname",
-        id: "surname"
-    },
-];
-
-const items = [
-    {
-        title: "Stefanos",
-        content: <Form
-
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "1"
-    },
-    {
-        title: "Thanos",
-        content: <Form
-            label="Basic Form Exampol"
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "2"
-    },
-    {
-        title: "Kwstas",
-        content: <Form
-            label="Basic Form Exampol"
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "3"
-    },
-    {
-        title: "Stratos",
-        content: <Form
-            label="Basic Form Exampol"
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "4"
-    },
-    {
-        title: "Stavros",
-        content: <Form
-            label="Basic Form Exampol"
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "5"
-    },
-    {
-        title: "Kwsths",
-        content: <Form
-            label="Basic Form Exampol"
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "6"
-    },
-    {
-        title: "Kwstantinos",
-        content: <Form
-            label="Basic Form Exampol"
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "7"
-    },
-    {
-        title: "Thanasis",
-        content: <Form
-            label="Basic Form Exampol"
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "8"
-    },
-    {
-        title: "Stelios",
-        content: <Form
-            label="Basic Form Exampol"
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "9"
-    },
-    {
-        title: "Stefanos1",
-        content: <Form
-
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "10"
-    },
-    {
-        title: "Thanos1",
-        content: <Form
-            label="Basic Form Exampol"
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "11"
-    },
-    {
-        title: "Kwstas",
-        content: <Form
-            label="Basic Form Exampol"
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "12"
-    },
-    {
-        title: "Stratos1",
-        content: <Form
-            label="Basic Form Exampol"
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "13"
-    },
-    {
-        title: "Stavros1",
-        content: <Form
-            label="Basic Form Exampol"
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "14"
-    },
-    {
-        title: "Kwsths1",
-        content: <Form
-            label="Basic Form Exampol"
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "15"
-    },
-    {
-        title: "Kwstantinos1",
-        content: <Form
-            label="Basic Form Exampol"
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "16"
-    },
-    {
-        title: "Thanasis1",
-        content: <Form
-            label="Basic Form Exampol"
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "17"
-    },
-    {
-        title: "Stelios",
-        content: <Form
-            label="Basic Form Exampol"
-            inputs={formInputs}
-            submit={{ label: "submit", onClick: (s) => console.log(s) }}
-        />,
-        id: "18"
-    },
-]
+import getContacts from '../dataFetching/getContacts';
 
 
 const ManagementModule = () => {
 
     const [searchValue, setSearchValue] = useState("");
-    console.log("rerender");
+    const [items, setItems] = useState([]);
+    const [pageNum, setPageNum] = useState(1);
 
-    const accordionItems = items.reduce((accumulator, { title, content, id }) => {
+    const maxPage = 2;
 
-        var regex = new RegExp(searchValue, "i");
-        const n = title.search(regex);
-        //console.log(n);
-        if (n != 0) return accumulator;
+    const changePage = (newPage) => {
+        if (newPage > maxPage || newPage < 1)
+            return;
+        setPageNum(newPage);
+    }
 
-        const alteredValue = {
-            header: <AccordionHeader title={title} onDelete={() => console.log("deleted")} />,
-            content: content,
-            id: id
+    const accordionItems = items.map(({ title, content, id }) => {
+        return (
+            {
+                header: <AccordionHeader title={title} onDelete={() => console.log("deleted")} />,
+                content: content,
+                id: id
+            }
+        )
 
-        };
+    });
 
-        accumulator.push(alteredValue);
-        return accumulator;
+    useEffect(
+        () => {
+             setItems(getContacts(pageNum));
+        }
+        , [pageNum]);
 
-    }, []);
+  
 
 
     return (
@@ -230,8 +63,13 @@ const ManagementModule = () => {
                     <div className="column-titles">name tags date</div>
                     <Accordion items={accordionItems} />
                 </div>
-
+                <div className="page-controlls">
+                    <button onClick={() => changePage(pageNum-1)}>Previous</button>
+                    |
+                    <button onClick={() => changePage(pageNum+1)}>Next</button>
+                </div>
             </div>
+
         </div>
 
 
