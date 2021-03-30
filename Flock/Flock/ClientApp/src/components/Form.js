@@ -5,18 +5,20 @@ import '../componentCSS/Form.css';
  * If the optional objects are present it will create buttons with the provided label(buttonLabel) and the provided event handler method
  * Submit event handler passes all input values as parameter
  * The Form will by default call the onSubmit event handler if the  enter key is pressed by the user
- * The Form creates input fields based on the inputs array prop (every {label:"",id:"", type:""} object is rendered as one input). 
- * Type describes the type attribute of the rendered input and it defaults to "text"
+ * The Form creates input fields based on the inputs array prop (every {label:"",id:"", type:"",value:""} object is rendered as one input field). 
+ * Type describes the type attribute of the rendered input and it defaults to "text" if not provided.
+ * Value describes the default value of the input field and it defaults to "" if not provided
  * Example use
  * inputs= [
  *       {
             label: "label1",
             id:"1",
-            type:"password"
+            type:"password" //optional
         },
         {
             label: "label2",
-            id: "2"
+            id: "2",
+            value:"default value" //optional
         },
         ...
  * ]
@@ -33,7 +35,17 @@ import '../componentCSS/Form.css';
 const Form = ({ label, cancel, submit, inputs, children}) => {
 
     //every field's value is stored as state in the values state object
-    const [values, setValues] = useState({});
+    const [values, setValues] = useState(() => {
+
+        let defaultValues;
+
+        for (var input of inputs) {
+            defaultValues = { ...defaultValues, [input.id]: input.value}
+        }
+
+        return defaultValues;
+
+    });
     const handleFieldChange = (id, value) => {
         setValues({ ...values, [id]: value });
     };
@@ -51,13 +63,12 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
             }
         )
 
-    },[]);
+    }, []);
+
 
     //when submit button or enter key are pressed the onClick function of the submit object provided is 
     //triggered with the values of the inputs as a parameter
     const onSubmit = (e) => {
-        
-        
         e.preventDefault();
         const { onClick } = submit;
         onClick(values);
@@ -90,13 +101,14 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
     const items = inputs.map(
         (input) => {
             const val = values[input.id];
+            
             return (
                 <React.Fragment key={input.id}>
                     <label>{input.label}</label>
                     <input
                         type={input.type ? input.type : "text"}
                         onChange={(e) => handleFieldChange(input.id, e.target.value)}
-                        value={val || ''}
+                        value={val || input.value || ''}
                         className={input.type}
                     />
                 </React.Fragment>

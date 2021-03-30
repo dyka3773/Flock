@@ -2,10 +2,29 @@
 import '../modulesCSS/ManagementModule.css';
 import Accordion from '../components/Accordion';
 import AccordionHeader from '../components/AccordionHeader';
-import getContacts from '../dataFetching/getContacts';
+import Form from '../components/Form';
+import editContact from '../dataRequests/editContact';
 
 
-const ManagementModule = ({getItems,listTitle,columnTitles,addNewForm}) => {
+
+/* Params:
+ *  -getItems: the function it will use to retrieve the items that will be managed in the module. These items will fill the accordion component.
+ *      E.g if its used to manage contacts then pass getContacts and the component will fill all the accordion items with the contacts. For each accordion item
+ *      there is a header where the item is described with its basic information and the details which is a form that is used to edit the details of the item 
+ *      (eg the name, surname and email of a contact). The form is prefilled with the existing details of the item.
+ * 
+ *  -editItems: The function that is called when the form of a specific accordion item is submited. It passes the values of the form as a parameter. A function 
+ *      that updates a specific item in the database can be passed as editItems
+ *      
+ *  -listTitle: The displayed title that describes the contents of the accordion
+ *  
+ *  -columnTitles:
+ *  
+ *  -addNewForm:
+ * */
+
+
+const ManagementModule = ({getItems,editItems,listTitle,columnTitles,addNewForm}) => {
 
     const [searchValue, setSearchValue] = useState("");
     const [items, setItems] = useState([]);
@@ -19,11 +38,25 @@ const ManagementModule = ({getItems,listTitle,columnTitles,addNewForm}) => {
         setPageNum(newPage);
     }
 
-    const accordionItems = items.map(({ title, content, id }) => {
+    const accordionItems = items.map(({ title, details, id }) => {
+
+        const inputs = Object.keys(details).map((cont) => {
+            return {
+                label: cont,
+                id: cont,
+                value:details[cont]
+            }
+        });
+
+        
         return (
             {
                 header: <AccordionHeader title={title} onDelete={() => console.log("deleted")} />,
-                content: content,
+                details:<Form
+                    inputs={inputs}
+                    submit={{ label: "submit", onClick: (details) =>  editItems({ id: id, details: details }) }}
+                />
+                ,
                 id: id
             }
         )

@@ -46,7 +46,7 @@ const Accordion = (props) => {
                         {item.header}
                     </div>
                     <div className={`content ${activeIndex === index ? 'active' : ''}`}>
-                       {item.content}
+                       {item.details}
                     </div>
                 </div>
             );
