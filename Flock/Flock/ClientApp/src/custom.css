@@ -4,6 +4,11 @@ html, body, #app, #root {
    
 }
 
+#app {
+    height: 95vh;
+    overflow: hidden;
+}
+
 
 #main-navbar {
     height:5vh;

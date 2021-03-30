@@ -1,9 +1,8 @@
 ﻿import React, { useState, useEffect } from 'react';
 import '../modulesCSS/ManagementModule.css';
 import Accordion from '../components/Accordion';
-import AccordionHeader from '../components/AccordionHeader';
-import Form from '../components/Form';
-import editContact from '../dataRequests/editContact';
+import dataToAccordionConvert from '../usefulFunctions/dataToAccordionItemsConvert'
+
 
 
 
@@ -38,31 +37,9 @@ const ManagementModule = ({getItems,editItems,listTitle,columnTitles,addNewForm}
         setPageNum(newPage);
     }
 
-    const accordionItems = items.map(({ title, details, id }) => {
 
-        const inputs = Object.keys(details).map((cont) => {
-            return {
-                label: cont,
-                id: cont,
-                value:details[cont]
-            }
-        });
-
-        
-        return (
-            {
-                header: <AccordionHeader title={title} onDelete={() => console.log("deleted")} />,
-                details:<Form
-                    inputs={inputs}
-                    submit={{ label: "submit", onClick: (details) =>  editItems({ id: id, details: details }) }}
-                />
-                ,
-                id: id
-            }
-        )
-
-    });
-
+    const accordionItems = dataToAccordionConvert(items,editItems);
+    
     useEffect(
         () => {
              setItems(getItems(pageNum));

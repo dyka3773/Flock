@@ -1,0 +1,18 @@
+﻿body {
+}
+
+.Dashboard {
+
+}
+
+    .Dashboard .import {
+        height:20vh;
+    }
+
+    .Dashboard .grid {
+        height: 80vh;
+    }
+
+        .Dashboard .grid .column {
+            height:60vh;
+        }

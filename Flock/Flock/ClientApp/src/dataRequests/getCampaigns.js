@@ -248,7 +248,7 @@ const items2 = [
 ];
 const itemsAr = [items, items2];
 
-const getContacts = (pageNum) => {
+const getCampaigns = (pageNum) => {
 
     
     console.log(itemsAr[pageNum - 1]);
@@ -256,4 +256,4 @@ const getContacts = (pageNum) => {
 
 }
 
-export default getContacts;
+export default getCampaigns;

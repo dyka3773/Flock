@@ -3,12 +3,10 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link,
     NavLink
 } from "react-router-dom";
 
-import Page1 from './modules/page1';
-import ManagementModule from './modules/ManagementModule';
+import Dashboard from './modules/Dashboard';
 import ContactManagement from './modules/ContactManagement';
 import CampaignManagement from './modules/CampaignManagement';
 
@@ -40,7 +38,7 @@ const App = () => {
                         <ContactManagement />
                     </Route>
                     <Route path="/">
-                        <Page1 />
+                        <Dashboard />
                     </Route>
                 </Switch>
             </div>
