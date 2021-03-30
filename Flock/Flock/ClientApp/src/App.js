@@ -1,6 +1,4 @@
 import React from 'react';
-import Page1 from './modules/page1';
-import ManagementModule from './modules/ManagementModule';
 import {
     BrowserRouter as Router,
     Switch,
@@ -9,6 +7,10 @@ import {
     NavLink
 } from "react-router-dom";
 
+import Page1 from './modules/page1';
+import ManagementModule from './modules/ManagementModule';
+import ContactManagement from './modules/ContactManagement';
+import CampaignManagement from './modules/CampaignManagement';
 
 const App = () => {
 
@@ -23,19 +25,19 @@ const App = () => {
 
                     <NavLink className="item" activeClassName="active" to="/" exact>Home</NavLink>
 
-                    <NavLink className="item" activeClassName="active" to="/campaign-management">Contact List</NavLink>
+                    <NavLink className="item" activeClassName="active" to="/campaign-management">Campaigns</NavLink>
 
-                    <NavLink className="item" activeClassName="active" to="/contact-management">Campaigns</NavLink>
+                    <NavLink className="item" activeClassName="active" to="/contact-management">Contact List</NavLink>
                 </div>
 
                 {/* A <Switch> looks through its children <Route>s and
               renders the first one that matches the current URL. */}
                 <Switch>
                     <Route path="/campaign-management">
-                        <ManagementModule />
+                        <CampaignManagement />
                     </Route>
                     <Route path="/contact-management">
-                        <ManagementModule />
+                        <ContactManagement />
                     </Route>
                     <Route path="/">
                         <Page1 />

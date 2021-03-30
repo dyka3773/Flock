@@ -5,7 +5,7 @@ import AccordionHeader from '../components/AccordionHeader';
 import getContacts from '../dataFetching/getContacts';
 
 
-const ManagementModule = () => {
+const ManagementModule = ({getItems,listTitle,columnTitles,addNewForm}) => {
 
     const [searchValue, setSearchValue] = useState("");
     const [items, setItems] = useState([]);
@@ -32,7 +32,7 @@ const ManagementModule = () => {
 
     useEffect(
         () => {
-             setItems(getContacts(pageNum));
+             setItems(getItems(pageNum));
         }
         , [pageNum]);
 
@@ -58,9 +58,9 @@ const ManagementModule = () => {
 
             </div>
             <div className="thirteen wide column list" >
-                <h1 className="ui top attached header">Contact List</h1>
+                <h1 className="ui top attached header">{listTitle}</h1>
                 <div className="ui scroll-container attached segment">
-                    <div className="column-titles">name tags date</div>
+                    <div className="column-titles">{columnTitles}</div>
                     <Accordion items={accordionItems} />
                 </div>
                 <div className="page-controlls">

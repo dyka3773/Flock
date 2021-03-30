@@ -13,7 +13,7 @@ const formInputs = [
 
 const items = [
     {
-        title: "Stefanos",
+        title: "Camp",
         content: <Form
 
             inputs={formInputs}
@@ -31,7 +31,7 @@ const items = [
         id: "2"
     },
     {
-        title: "Kwstas",
+        title: "Camp",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
@@ -58,7 +58,7 @@ const items = [
         id: "5"
     },
     {
-        title: "Kwsths",
+        title: "Camp",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
@@ -85,7 +85,7 @@ const items = [
         id: "8"
     },
     {
-        title: "Stelios",
+        title: "Camp",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
@@ -121,7 +121,7 @@ const items = [
         id: "12"
     },
     {
-        title: "Stratos1",
+        title: "Camp",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
@@ -130,7 +130,7 @@ const items = [
         id: "13"
     },
     {
-        title: "Stavros1",
+        title: "Camp",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
@@ -139,7 +139,7 @@ const items = [
         id: "14"
     },
     {
-        title: "Kwsths1",
+        title: "Camp",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
@@ -148,7 +148,7 @@ const items = [
         id: "15"
     },
     {
-        title: "StefanosAA",
+        title: "Camp",
         content: <Form
 
             inputs={formInputs}
@@ -157,7 +157,7 @@ const items = [
         id: "1111"
     },
     {
-        title: "ThanosAAA",
+        title: "Camp",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
@@ -166,7 +166,7 @@ const items = [
         id: "2111"
     },
     {
-        title: "KwstasAA",
+        title: "Camp",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
@@ -175,7 +175,7 @@ const items = [
         id: "3111"
     },
     {
-        title: "StratosAA",
+        title: "Camp",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
@@ -184,7 +184,7 @@ const items = [
         id: "411"
     },
     {
-        title: "StavrosAA",
+        title: "Camp",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
@@ -192,7 +192,7 @@ const items = [
         />,
         id: "5111"
     }, {
-        title: "KwsthsAA",
+        title: "Camp",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
@@ -201,7 +201,7 @@ const items = [
         id: "61111"
     },
     {
-        title: "KwstantinosAA",
+        title: "Camp",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
@@ -210,7 +210,7 @@ const items = [
         id: "71111"
     },
     {
-        title: "ThanasisAA",
+        title: "Camp",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
@@ -219,7 +219,7 @@ const items = [
         id: "811"
     },
     {
-        title: "SteliosAA",
+        title: "Camp",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
@@ -230,10 +230,10 @@ const items = [
 ];
 
 const items2 = [
-    
-    
+
+
     {
-        title: "Stefanos1AA",
+        title: "Camp",
         content: <Form
 
             inputs={formInputs}
@@ -242,7 +242,7 @@ const items2 = [
         id: "10"
     },
     {
-        title: "Thanos1AA",
+        title: "Camp",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
@@ -251,7 +251,7 @@ const items2 = [
         id: "11"
     },
     {
-        title: "KwstasAA",
+        title: "Camp",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
@@ -260,7 +260,7 @@ const items2 = [
         id: "12"
     },
     {
-        title: "Stratos1AA",
+        title: "Camp",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
@@ -269,7 +269,7 @@ const items2 = [
         id: "13"
     },
     {
-        title: "Stavros1AA",
+        title: "Camp",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
@@ -278,7 +278,7 @@ const items2 = [
         id: "14"
     },
     {
-        title: "Kwsths1AA",
+        title: "Camp",
         content: <Form
             label="Basic Form Exampol"
             inputs={formInputs}
@@ -293,7 +293,7 @@ const getContacts = (pageNum) => {
 
     //
     console.log(itemsAr[pageNum - 1]);
-    return(itemsAr[pageNum-1]);
+    return (itemsAr[pageNum - 1]);
 
 }
 
