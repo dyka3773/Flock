@@ -102,7 +102,9 @@ const ManagementModule = ({getItems,editItems,listTitle,columnTitles,addNewForm}
                 </div>
                 </div>
             </div>
-            <Modal ref={ref} onClose={closeAddNew}/>
+            <Modal ref={ref} onClose={closeAddNew}>
+                <p>AAAAAAAAAAAAAA</p>
+            </Modal>
         </>
 
     );

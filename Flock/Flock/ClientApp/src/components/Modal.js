@@ -1,7 +1,7 @@
-﻿import React from 'react';
+﻿import React, { Children } from 'react';
 import '../componentCSS/Modal.css';
 
-const Modal = React.forwardRef(({onClose}, ref) => {
+const Modal = React.forwardRef(({onClose,children}, ref) => {
 
 
 
@@ -11,12 +11,7 @@ const Modal = React.forwardRef(({onClose}, ref) => {
                 <button className="ui basic button close" onClick={onClose}>
                     X
                 </button>
-                <div class="header">Header</div>
-                <div class="content">
-                    <p>asdasd</p>
-                    <p>asdasd</p>
-                    <p>asdasd</p>
-                </div>
+                {children}
             </div>
         </div>
         );
