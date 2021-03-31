@@ -5,11 +5,11 @@ html, body, #app, #root {
 }
 
 #app {
-    height: 95vh;
-    overflow: hidden;
+   
 }
 
 
 #main-navbar {
-    height:5vh;
+    height: 5vh;
+    font-size:16px;
 }

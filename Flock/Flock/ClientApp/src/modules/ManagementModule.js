@@ -1,6 +1,7 @@
-﻿import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import '../modulesCSS/ManagementModule.css';
 import Accordion from '../components/Accordion';
+import Modal from '../components/Modal';
 import dataToAccordionConvert from '../usefulFunctions/dataToAccordionItemsConvert'
 
 
@@ -29,6 +30,14 @@ const ManagementModule = ({getItems,editItems,listTitle,columnTitles,addNewForm}
     const [items, setItems] = useState([]);
     const [pageNum, setPageNum] = useState(1);
 
+    useEffect(
+        () => {
+            setItems(getItems(pageNum));
+        }
+        , [pageNum]);
+
+    const ref = useRef();
+
     const maxPage = 2;
 
     const changePage = (newPage) => {
@@ -40,17 +49,29 @@ const ManagementModule = ({getItems,editItems,listTitle,columnTitles,addNewForm}
 
     const accordionItems = dataToAccordionConvert(items,editItems);
     
-    useEffect(
-        () => {
-             setItems(getItems(pageNum));
-        }
-        , [pageNum]);
+    
 
-  
+    const openAddNew = () => {
+        //console.log(ref.current);
+        ref.current.style.display = "block";
+       
+    }
+
+    const closeAddNew = (e) => {
+        //console.log(ref.current);
+
+        
+        
+        if (ref.current.firstChild.contains(e.target) && !(e.target.className.includes("close")))
+            return;
+
+        ref.current.style.display = "none";
+        
+    }
 
 
     return (
-
+        <>
         <div className="ui grid management-module" >
             <div className="three wide column sidebar">
 
@@ -64,7 +85,8 @@ const ManagementModule = ({getItems,editItems,listTitle,columnTitles,addNewForm}
                             onChange={(e) => setSearchValue(e.target.value)} />
                         <i className="search icon"></i>
                     </div>
-                </div>
+                    </div>
+                    <button className="ui button primary" onClick={openAddNew}>Add New</button>
 
             </div>
             <div className="thirteen wide column list" >
@@ -74,14 +96,14 @@ const ManagementModule = ({getItems,editItems,listTitle,columnTitles,addNewForm}
                     <Accordion items={accordionItems} />
                 </div>
                 <div className="page-controlls">
-                    <button onClick={() => changePage(pageNum-1)}>Previous</button>
+                    <button className="ui button"  onClick={() => changePage(pageNum-1)}>Previous</button>
                     |
-                    <button onClick={() => changePage(pageNum+1)}>Next</button>
+                    <button className="ui button"  onClick={() => changePage(pageNum+1)}>Next</button>
+                </div>
                 </div>
             </div>
-
-        </div>
-
+            <Modal ref={ref} onClose={closeAddNew}/>
+        </>
 
     );
 }

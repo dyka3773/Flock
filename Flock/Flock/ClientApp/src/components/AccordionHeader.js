@@ -12,7 +12,7 @@ const AccordionHeader = ({title, onDelete}) => {
         <div className="campaign-header">
             <h4>{title}</h4>
             <div className="buttons">
-                <button onClick={onClick}>delete</button>
+                <button className="ui button"  onClick={onClick}>delete</button>
             </div>
             
             

@@ -1,5 +1,6 @@
 ﻿.management-module {
-   
+    height: 95vh;
+    overflow: hidden;
 }
 
     .management-module .list {
@@ -13,8 +14,14 @@
 
     .management-module .sidebar {
         background-color: rgba(0,0,0,0.1);
+        display:block;
     }
 
+    @media screen and (max-width: 768px) {
+        .management-module .column.sidebar {
+            display:none ;
+        }
+    }
     
 
     .management-module .scroll-container {

@@ -25,19 +25,29 @@ const Dashboard = () => {
 
     return (
         <div className="Dashboard">
-            <div className="import">
-                <div className="ui segment">Signed up for the first time?<button>Import Contacts</button></div>
-            </div>
-            <div class="ui grid">
-                <div class="eight wide column ui segment">
-                    <h1>Basic Information</h1>
-                    <div>Number of Contacts: {contactNum}</div>
-                    <div>Active campaigns: {campaignsNum}</div>
-                    <div>E-mails sent: {emailsNum}</div>
+            <div className="ui stackable  two column grid">
+                <div className="import sixteen wide column">
+                    <div className="ui segment">
+                        <h1>Signed up for the first time?</h1>
+                        <br />
+                        <button className="ui button" >Import Contacts</button>
+                    </div>
                 </div>
-                <div class="eight wide column ui segment">
-                    <h1>Campaign Information</h1>
-                    <Accordion items={accordion}/>
+                <div className="eight wide column ">
+                    <div className="ui segment">
+                        <h1>Basic Information</h1>
+                        <div>Number of Contacts: {contactNum}</div>
+                        <div>Active campaigns: {campaignsNum}</div>
+                        <div>E-mails sent: {emailsNum}</div>
+
+                    </div>
+                </div>
+                <div class="eight wide column">
+                    <div className="ui segment">
+                        <h1>Campaign Information</h1>
+                        <Accordion items={accordion} />
+                        <button className="ui button">New Campaign</button>
+                    </div>
                 </div>
             </div>
 
