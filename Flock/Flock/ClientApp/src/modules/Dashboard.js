@@ -3,6 +3,7 @@ import getCampaigns from '../dataRequests/getCampaigns';
 import dataToAccordionConvert from '../usefulFunctions/dataToAccordionItemsConvert';
 import editCampaign from '../dataRequests/editCampaign';
 import Accordion from '../components/Accordion';
+import axios from 'axios';
 
 import '../modulesCSS/Dashboard.css'
 
@@ -21,6 +22,11 @@ const Dashboard = () => {
     const campaignsNum = 10;
     const emailsNum = 250;
 
+    const doParsing = async () => {
+        const resp = await axios.get('/api/csvParse');
+        console.log(resp.data);
+    }
+
 
 
     return (
@@ -30,7 +36,12 @@ const Dashboard = () => {
                     <div className="ui segment">
                         <h1>Signed up for the first time?</h1>
                         <br />
-                        <button className="ui button" >Import Contacts</button>
+                        <button
+                            className="ui button"
+                            onClick={doParsing}        
+                        >
+                            Import Contacts
+                        </button>
                     </div>
                 </div>
                 <div className="eight wide column ">
