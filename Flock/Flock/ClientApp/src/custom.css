@@ -1,7 +1,6 @@
-/* Provide sufficient contrast against white background */
 html, body, #app, #root {
     height: 100vh;
-   
+    background-color: #EBE9E9;
 }
 
 #app {
@@ -11,5 +10,18 @@ html, body, #app, #root {
 
 #main-navbar {
     height: 5vh;
-    font-size:16px;
+    font-size: 16px;
+    background-color: #2ba7db;
+   
+}
+
+
+    #main-navbar .item {
+        border: 0;
+        color: white;
+    }
+
+
+h1, h2, h3,.ui.header {
+    color: #2C92DB;
 }

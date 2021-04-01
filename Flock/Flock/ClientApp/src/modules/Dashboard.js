@@ -3,9 +3,35 @@ import getCampaigns from '../dataRequests/getCampaigns';
 import dataToAccordionConvert from '../usefulFunctions/dataToAccordionItemsConvert';
 import editCampaign from '../dataRequests/editCampaign';
 import Accordion from '../components/Accordion';
-import axios from 'axios';
+import csvToJson from '../usefulFunctions/csvToJson';
+import Form from '../components/Form';
 
 import '../modulesCSS/Dashboard.css'
+
+const inputs = 
+    [
+    {
+        label: "name",
+        id: "1",
+    },
+    {
+        label: "name",
+        id: "2",
+    }
+    ,
+    {
+        label: "name",
+        id: "3",
+    },
+    {
+        label: "name",
+        id: "4",
+    }
+]        
+
+
+
+
 
 const Dashboard = () => {
 
@@ -22,29 +48,28 @@ const Dashboard = () => {
     const campaignsNum = 10;
     const emailsNum = 250;
 
-    const doParsing = async () => {
-        const resp = await axios.get('/api/csvParse');
-        console.log(resp.data);
+    const createContacts = () => {
+        
+        if (document.querySelector("#import").files[0])
+           csvToJson(document.querySelector("#import").files[0]);
+
     }
-
-
 
     return (
         <div className="Dashboard">
             <div className="ui stackable  two column grid">
                 <div className="import sixteen wide column">
                     <div className="ui segment">
-                        <h1>Signed up for the first time?</h1>
+                        <h1>Hello again **username**</h1>
                         <br />
-                        <button
-                            className="ui button"
-                            onClick={doParsing}        
-                        >
-                            Import Contacts
-                        </button>
+                        <label class="custom-file-upload">
+                            <input type="file" id="import" />
+                            Custom Upload
+                        </label>
+                        <button onClick={createContacts}>AAA</button>
                     </div>
                 </div>
-                <div className="eight wide column ">
+                <div className="five wide column ">
                     <div className="ui segment">
                         <h1>Basic Information</h1>
                         <div>Number of Contacts: {contactNum}</div>
@@ -53,13 +78,20 @@ const Dashboard = () => {
 
                     </div>
                 </div>
-                <div class="eight wide column">
+                <div class="five wide column">
+                    <div className="ui segment">
+                        <h1>Add a new contact!</h1>
+                        <Form inputs={inputs} submit={{ label: "submit", onClick:() => console.log("submited") }}/>
+                    </div>
+                </div>
+                <div class="five wide column">
                     <div className="ui segment">
                         <h1>Campaign Information</h1>
                         <Accordion items={accordion} />
                         <button className="ui button">New Campaign</button>
                     </div>
                 </div>
+               
             </div>
 
         </div>

@@ -9,6 +9,7 @@ import {
 import Dashboard from './modules/Dashboard';
 import ContactManagement from './modules/ContactManagement';
 import CampaignManagement from './modules/CampaignManagement';
+import Page1 from './modules/page1';
 
 const App = () => {
 
@@ -26,6 +27,8 @@ const App = () => {
                     <NavLink className="item" activeClassName="active" to="/campaign-management">Campaigns</NavLink>
 
                     <NavLink className="item" activeClassName="active" to="/contact-management">Contact List</NavLink>
+
+                    <NavLink className="item" activeClassName="active" to="/test">test</NavLink>
                 </div>
 
                 {/* A <Switch> looks through its children <Route>s and
@@ -37,9 +40,13 @@ const App = () => {
                     <Route path="/contact-management">
                         <ContactManagement />
                     </Route>
+                    <Route path="/test">
+                        <Page1 />
+                    </Route>
                     <Route path="/">
                         <Dashboard />
                     </Route>
+                    
                 </Switch>
             </div>
         </Router >
