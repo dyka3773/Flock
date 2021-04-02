@@ -1,5 +1,6 @@
 ﻿
 
+
 const editContact = (newDetails) => {
     console.log("edit contact");
     console.log(newDetails);
