@@ -1,34 +1,26 @@
 ﻿.management-module {
-    height: 95vh;
-    overflow: hidden;
+   
+    background-color:white;
 }
 
-    .management-module .list {
-    }
+    
 
-        .management-module .list .header {
-            height: auto;
-            top:2vh;
-            text-align: center;
-        }
+        
 
     .management-module .sidebar {
         background-color: rgba(0,0,0,0.1);
-        display:block;
+        position:fixed;
+        height:100%;
+        width:5rem;
     }
 
-    @media screen and (max-width: 768px) {
-        .management-module .column.sidebar {
-            display:none ;
-        }
+    .management-module .list {
+       margin-left:5rem;
+       padding:20px;
     }
     
 
-    .management-module .scroll-container {
-        height:85vh;
-        overflow:auto;
     
-    }
 
     .management-module .page-controlls {
         text-align:center;

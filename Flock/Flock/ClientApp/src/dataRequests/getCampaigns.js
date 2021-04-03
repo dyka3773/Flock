@@ -4,7 +4,7 @@ const jsonPrototype = {
     title: "10",
     details: {
         name: "10",
-        startDate: "10"
+        startDate: [1,500]
     },
     id: "id"
 }
@@ -12,7 +12,7 @@ const jsonPrototype = {
 
 
 
-const itemsAr = [dummyJsonGenerator(jsonPrototype, 50, 0), dummyJsonGenerator(jsonPrototype, 50, 50), dummyJsonGenerator(jsonPrototype, 50, 100)];
+const itemsAr = [dummyJsonGenerator(jsonPrototype, 50, 0), dummyJsonGenerator(jsonPrototype, 50, 50), dummyJsonGenerator(jsonPrototype, 20, 100)];
 
 const getCampaigns = (pageNum) => {
 

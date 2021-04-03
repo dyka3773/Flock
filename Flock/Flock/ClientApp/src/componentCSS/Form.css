@@ -9,3 +9,12 @@
 .form input:valid {
     border: 2px solid black;
 }
+
+.ui.form.segment input{
+    margin-bottom:15px;
+    
+}
+
+.ui.form.segment .inputs {
+   padding:10px;
+}

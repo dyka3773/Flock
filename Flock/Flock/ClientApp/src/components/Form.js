@@ -110,6 +110,7 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
                         onChange={(e) => handleFieldChange(input.id, e.target.value)}
                         value={val || input.value || ''}
                         className={input.type}
+                        
                     />
                 </React.Fragment>
             )
@@ -120,7 +121,7 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
 
             {label ? <h4 className="ui dividing header">{label}</h4> : <></>}
 
-            <div>{items}</div>
+            <div className="inputs">{items}</div>
 
             {children ? children : <></>}
 

@@ -1,6 +1,16 @@
 ﻿
-
-
+/**const jsonPrototype = {
+    title: "10",
+    details: {
+        name: "10",
+        startDate: [1,500]
+    },
+    id: "id"
+}
+ * 
+ * 
+ * 
+ */
 
 
 const randomNum = (values) => {
@@ -22,11 +32,7 @@ const randomString = (length) => {
     return newString.join('');
 }
 
-
-
 const recursive = (prototype, entry, id) => {
-
-    //const propVal = prototype[prop];
     let newVal;
 
 
@@ -39,7 +45,7 @@ const recursive = (prototype, entry, id) => {
         } else if (typeof prototype[prop] === "string") {
             if (prototype[prop] === "id")
                 newVal = id;
-            else if (prototype[prop] === "10")
+            else if (prototype[prop].match(/\d+/g))
                 newVal = randomString(parseInt(prototype[prop]));
         } else {
             newVal = recursive(prototype[prop], {}, id);

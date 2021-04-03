@@ -57,13 +57,23 @@ const accordionItems = [
 
 
 const jsonPrototype = {
-    title: "10",
+    title: "20",
     details: {
         name: "10",
         startDate: {
             day: [1, 31],
-            month: [1, 12],
-            year:[2000, 3000]
+            month: {
+                monthA: "10"
+            },
+            year: [2000, 3000]
+        }
+    },
+    ultraNestedField: {
+        field1: {
+            field2: [1,5],
+            field3: {
+                field4: "name"
+            }
         }
     },
     id: "id"
@@ -86,8 +96,6 @@ const Page1 = () => {
         console.log(value.getMonth()+1);
         console.log(value.getFullYear());
     }
-
-
 
 
     console.log(dummyJsonGenerator(jsonPrototype,10,0));

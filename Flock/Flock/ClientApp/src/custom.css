@@ -1,26 +1,36 @@
 html, body, #app, #root {
-    height: 100vh;
+    
     background-color: #EBE9E9;
-}
-
-#app {
    
 }
+
 
 
 #main-navbar {
-    height: 5vh;
+    height: 3rem;
     font-size: 16px;
     background-color: #2ba7db;
-   
+    width: 100%;
+    z-index: 999;
+    position: sticky;
+    top: 0;
 }
 
 
     #main-navbar .item {
         border: 0;
         color: white;
+        position:relative;
     }
 
+        #main-navbar .right{
+            position:absolute;
+            right:0;
+
+        }
+    #main-navbar .right .item{
+        display:inline-block;
+    }
 
 h1, h2, h3,.ui.header {
     color: #2C92DB;

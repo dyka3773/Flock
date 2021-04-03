@@ -28,40 +28,42 @@ const ManagementModule = ({getItems,editItems,listTitle,columnTitles,addNewForm}
 
     const [searchValue, setSearchValue] = useState("");
     const [items, setItems] = useState([]);
-    const [pageNum, setPageNum] = useState({ prev: 1, cur: 1 }); //previous page, current page
-    const scrollRef = useRef()
+    const [pageNum, setPageNum] = useState(1); 
     const ref = useRef();
-   
+    
 
     useEffect(
         () => {
-            const { prev, cur } = pageNum;
-            setItems(getItems(cur));
-            scrollRef.current.scrollTop = 100;
-            
+           
+            setItems(getItems(pageNum));
+            window.scrollTo(0, 0);
         }
         , [pageNum]);
 
-    useEffect(
-        () => {
-
-            const scrollCont = scrollRef.current;
-            const { prev, cur } = pageNum;
-            prev < cur ?
-                scrollCont.scrollTop = 2
-                :
-                scrollCont.scrollTop = scrollCont.scrollHeight - scrollCont.clientHeight - 2
 
 
-        }
-        , [items]);
+    const previousPage = () => {
+        const { current } = pageNum;
 
+        const goToPrevPage = pageNum - 1;
+        if (goToPrevPage < 1) return;
 
-    
+        setPageNum(goToPrevPage);
+        
+
+    } 
+
+    const nextPage = () => {
+        
+
+        const goToNextPage = pageNum + 1;
+        if (goToNextPage > maxPage) return;
+
+        setPageNum(goToNextPage);
+        
+    } 
 
     const maxPage = 3;
-
-    
 
    
     const accordionItems = dataToAccordionConvert(items,editItems);
@@ -79,46 +81,16 @@ const ManagementModule = ({getItems,editItems,listTitle,columnTitles,addNewForm}
         
         if (ref.current.firstChild.contains(e.target) && !(e.target.className.includes("close")))
             return;
-
         ref.current.style.display = "none";   
     }
 
-    const checkPosition = (e) => {
-        
-        
-        if ((e.target.clientHeight + e.target.scrollTop) === e.target.scrollHeight) {
+   
 
-            console.log("in 1");
-
-            const { cur } = pageNum;
-            const newPage = cur + 1;
-            if (newPage > maxPage )
-                return;
-            setPageNum({ prev: cur, cur: newPage });
-           
-        }
-
-        if (e.target.scrollTop === 0) {
-
-            console.log("in 2");
-
-            const { cur } = pageNum;
-            const newPage = cur - 1;
-            if (newPage < 1)
-                return;
-            setPageNum({ prev: cur, cur: newPage });
-            
-        }
-            
-        
-
-       
-    };
 
     return (
         <>
-        <div className="ui grid management-module" >
-            <div className="three wide column sidebar">
+        <div className="management-module" >
+            <div className="sidebar">
 
                 <div className="ui search ">
                     <div className="ui icon input fluid">
@@ -134,12 +106,14 @@ const ManagementModule = ({getItems,editItems,listTitle,columnTitles,addNewForm}
                     <button className="ui button primary" onClick={openAddNew}>Add New</button>
 
             </div>
-            <div className="thirteen wide column list" >
-                    <h1 className="ui top attached header">{listTitle}</h1>
-                    <div className="ui scroll-container attached segment" onScroll={checkPosition} ref={scrollRef}>
-                    <div className="column-titles">{columnTitles}</div>
-                    <Accordion items={accordionItems} />
-                </div>
+                <div className="list" >
+                        <h1>{listTitle}</h1>
+                   
+                        <div className="column-titles">{columnTitles}</div>
+                        
+                        <Accordion items={accordionItems} />
+                        <button onClick={previousPage}>previous page</button>
+                        <button onClick={nextPage}>next page</button>
                 
                 </div>
             </div>
