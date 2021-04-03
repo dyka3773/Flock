@@ -6,7 +6,7 @@ import Form from '../components/Form';
 import Accordion from '../components/Accordion';
 import AccordionHeader from '../components/AccordionHeader';
 import MarkdownEditView from './MarkdownEditView';
-
+import dummyJsonGenerator from '../usefulFunctions/dummyJsonGenerator'
 
 
 const formInputs = [
@@ -35,6 +35,8 @@ const formInputs = [
     }
 ];
 
+
+
 const accordionItems = [
     {
         header: <AccordionHeader title="title1" onDelete={() => console.log("deleted")}/>,
@@ -54,6 +56,21 @@ const accordionItems = [
 ]
 
 
+const jsonPrototype = {
+    title: "10",
+    details: {
+        name: "10",
+        startDate: {
+            day: [1, 31],
+            month: [1, 12],
+            year:[2000, 3000]
+        }
+    },
+    id: "id"
+}
+
+
+
 const Page1 = () => {
 
     const [value, onChange] = useState(new Date());
@@ -69,7 +86,12 @@ const Page1 = () => {
         console.log(value.getMonth()+1);
         console.log(value.getFullYear());
     }
-    
+
+
+
+
+    console.log(dummyJsonGenerator(jsonPrototype,10,0));
+
 
     return (
         

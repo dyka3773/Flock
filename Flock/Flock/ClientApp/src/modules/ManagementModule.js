@@ -35,14 +35,9 @@ const ManagementModule = ({getItems,editItems,listTitle,columnTitles,addNewForm}
 
     useEffect(
         () => {
-            
-
-            
             const { prev, cur } = pageNum;
             setItems(getItems(cur));
             scrollRef.current.scrollTop = 100;
-           
-          
             
         }
         , [pageNum]);
@@ -68,7 +63,7 @@ const ManagementModule = ({getItems,editItems,listTitle,columnTitles,addNewForm}
 
     
 
-    console.log("rerenfer");
+   
     const accordionItems = dataToAccordionConvert(items,editItems);
     
     

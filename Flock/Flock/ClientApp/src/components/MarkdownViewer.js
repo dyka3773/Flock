@@ -10,7 +10,7 @@ const MarkdownViewer = ({value}) => {
         },
 
     }
-    console.log(<ReactMarkdown children={value} skipHtml renderers={renderers} />);
+    
     return (
         <div class="ui segment markdown-viewer">
            
