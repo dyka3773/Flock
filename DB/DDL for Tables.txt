@@ -1,0 +1,56 @@
+drop table if exists `Flock`.`Business_Personal`;
+drop table if exists `Flock`.`Company`;
+drop table if exists `Flock`.`Contacts`;
+drop table if exists `Flock`.`Campaign`;
+
+
+CREATE TABLE IF NOT EXISTS `Flock`.`Business_Personal` (
+  `BPID` int(11) NOT NULL,
+  `F_Name` varchar(45) NOT NULL,
+  `L_Name` varchar(45) NOT NULL,
+  `Email` varchar(45) NOT NULL,
+  `Phone` int(11) NOT NULL,
+  `Gender` varchar(45) NOT NULL,
+  `Country` varchar(45) NOT NULL,
+  `ZIP` varchar(45) NOT NULL,
+  `Passwd` varchar(45) NOT NULL,
+  `Num_of_Camps` int(10) unsigned zerofill NOT NULL,
+  `Num_of_Conts` int(10) unsigned zerofill NOT NULL,
+  `Num_of_Sent` int(10) unsigned zerofill NOT NULL,
+  PRIMARY KEY (`BPID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `Flock`.`Company` (
+  `COID` INT NOT NULL,
+  `C_Name` VARCHAR(45) NOT NULL,
+  `Email` VARCHAR(45) NOT NULL,
+  `Phone` INT NOT NULL,
+  `Country` VARCHAR(45) NOT NULL,
+  `ZIP` VARCHAR(45) NOT NULL,
+  `Phy_Address` VARCHAR(45) NOT NULL,
+  `Passwd` VARCHAR(45) NOT NULL,
+  `Num_of_Camps` int(10) unsigned zerofill NOT NULL,
+  `Num_of_Conts` int(10) unsigned zerofill NOT NULL,
+  `Num_of_Sent` int(10) unsigned zerofill NOT NULL,
+  PRIMARY KEY (`COID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `Flock`.`Contacts` (
+  `CID` INT NOT NULL,
+  `Full_Name` VARCHAR(45) NOT NULL,
+  `Email` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`CID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `Flock`.`Campaign` (
+  `CAID` INT NOT NULL,
+  `Subject` VARCHAR(100) NOT NULL,
+  `Text` VARCHAR(45000) NULL,
+  `Start_Date` DATE NOT NULL,
+  `End_Date` DATE NULL,
+  `Creation_Date` DATETIME NOT NULL,
+  `C_Name` VARCHAR(45) NOT NULL,
+  `Frequency` VARCHAR(45) NOT NULL,
+  `Num_of_Conts` INT NOT NULL,
+  PRIMARY KEY (`CAID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
