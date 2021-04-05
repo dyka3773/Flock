@@ -1,0 +1,91 @@
+drop table if exists `Flock`.`Business_Personal`;
+drop table if exists `Flock`.`Company`;
+drop table if exists `Flock`.`Contacts_in_Groups`;
+drop table if exists `Flock`.`Contacts`;
+drop table if exists `Flock`.`Campaign`;
+drop table if exists `Flock`.`Groups`;
+drop table if exists `Flock`.`Accounts`;
+
+
+CREATE TABLE IF NOT EXISTS `Flock`.`Accounts` (
+  `AID` INT NOT NULL,
+  `Email` VARCHAR(45) NOT NULL,
+  `Passwd` VARCHAR(45) NOT NULL,
+  `Type` INT NOT NULL,
+  `Num_of_Camps` int(10) unsigned zerofill NOT NULL,
+  `Num_of_Conts` int(10) unsigned zerofill NOT NULL,
+  `Num_of_Sent` int(10) unsigned zerofill NOT NULL,
+  PRIMARY KEY (`AID`))
+COMMENT = '// If type = 0 then Account is Personal\n// If type = 1 then Account is Company';
+
+CREATE TABLE IF NOT EXISTS `Flock`.`Business_Personal` (
+  `AID` int(11) NOT NULL,
+  `F_Name` varchar(45) NOT NULL,
+  `L_Name` varchar(45) NOT NULL,
+  `Phone` int(11) NOT NULL,
+  `Gender` varchar(45) NOT NULL,
+  `Country` varchar(45) NOT NULL,
+  `ZIP` varchar(45) NOT NULL,
+  PRIMARY KEY (`AID`),
+  CONSTRAINT `fk_AID_from_Business_Personal` FOREIGN KEY (`AID`) REFERENCES `Accounts` (`AID`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `Flock`.`Company` (
+  `AID` int(11) NOT NULL,
+  `C_Name` varchar(45) NOT NULL,
+  `Phone` int(11) NOT NULL,
+  `Country` varchar(45) NOT NULL,
+  `ZIP` varchar(45) NOT NULL,
+  `Phy_Address` varchar(45) NOT NULL,
+  PRIMARY KEY (`AID`),
+  CONSTRAINT `fk_AID_from_Company` FOREIGN KEY (`AID`) REFERENCES `Accounts` (`AID`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `Flock`.`Contacts` (
+  `CID` INT NOT NULL,
+  `Full_Name` VARCHAR(45) NOT NULL,
+  `Email` VARCHAR(45) NOT NULL,
+  `AID` int(11) NOT NULL,
+  PRIMARY KEY (`CID`),
+  CONSTRAINT `fk_AID_from_Contacts` FOREIGN KEY (`AID`) REFERENCES `Accounts` (`AID`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `Flock`.`Groups` (
+  `GID` int(11) NOT NULL,
+  `Group_Name` varchar(45) NOT NULL,
+  `AID` int(11) NOT NULL,
+  PRIMARY KEY (`GID`),
+  CONSTRAINT `fk_AID_from_Groups` FOREIGN KEY (`AID`) REFERENCES `Accounts` (`AID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `Flock`.`Campaign` (
+  `CAID` int(11) NOT NULL,
+  `Subject` varchar(100) NOT NULL,
+  `Text` mediumtext,
+  `Start_Date` date NOT NULL,
+  `End_Date` date DEFAULT NULL,
+  `Creation_Date` datetime NOT NULL,
+  `C_Name` varchar(45) NOT NULL,
+  `Frequency` varchar(45) NOT NULL,
+  `Num_of_Conts` int(11) unsigned zerofill NOT NULL,
+  `AID` int(11) NOT NULL,
+  `GID` int(11) NOT NULL,
+  PRIMARY KEY (`CAID`),
+  CONSTRAINT `fk_AID_from_Camps` FOREIGN KEY (`AID`) REFERENCES `Accounts` (`AID`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fk_GID_from_Camps` FOREIGN KEY (`GID`) REFERENCES `Groups` (`GID`) ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `Flock`.`Contacts_in_Groups` (
+  `CID` INT NOT NULL,
+  `GID` INT NOT NULL,
+  PRIMARY KEY (`GID`, `CID`),
+  CONSTRAINT `fk_GID_from_CiG`
+    FOREIGN KEY (`GID`)
+    REFERENCES `Flock`.`Groups` (`GID`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_CID_from_CiG`
+    FOREIGN KEY (`CID`)
+    REFERENCES `Flock`.`Contacts` (`CID`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION);
