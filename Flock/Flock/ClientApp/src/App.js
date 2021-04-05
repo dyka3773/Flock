@@ -11,10 +11,11 @@ import ContactManagement from './modules/ContactManagement';
 import CampaignManagement from './modules/CampaignManagement';
 import Page1 from './modules/page1';
 import LogIn from './modules/LogIn';
+import SignUp from './modules/SignUp';
 
 const App = () => {
 
-    const loggedIn = true;
+    const loggedIn = false;
 
     const layout = loggedIn ?
         <>
@@ -59,7 +60,7 @@ const App = () => {
                 <NavLink className="item" activeClassName="active" to="/" exact>Home</NavLink>
                 <span className="right">
                     <NavLink className="item" to="/log-in">Log In</NavLink>
-                    <NavLink className="item" to="/">Sign Up</NavLink>
+                    <NavLink className="item" to="/sign-up">Sign Up</NavLink>
                 </span>
             </div>
 
@@ -69,6 +70,9 @@ const App = () => {
             <Switch>
                 <Route path="/log-in">
                     <LogIn />
+                </Route>
+                <Route path="/sign-up">
+                    <SignUp />
                 </Route>
                 <Route path="/campaign-management">
                     <CampaignManagement />

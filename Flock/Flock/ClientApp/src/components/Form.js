@@ -51,7 +51,7 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
     };
 
     useEffect(() => {
-        Array.from(document.getElementsByClassName("email")).forEach(
+       Array.from(document.getElementsByClassName("email")).forEach(
             inp => {
                 inp.addEventListener("input", (event) => {
                     if (inp.validity.typeMismatch) {
@@ -110,7 +110,7 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
                         onChange={(e) => handleFieldChange(input.id, e.target.value)}
                         value={val || input.value || ''}
                         className={input.type}
-                        
+                        required
                     />
                 </React.Fragment>
             )
