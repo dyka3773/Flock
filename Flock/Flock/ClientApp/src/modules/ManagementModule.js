@@ -107,14 +107,15 @@ const ManagementModule = ({getItems,editItems,listTitle,columnTitles,addNewForm}
 
             </div>
                 <div className="list" >
+                    <div className="head">
                         <h1>{listTitle}</h1>
-                   
                         <div className="column-titles">{columnTitles}</div>
-                        
+                    </div>
+                    <div className="list-items">
                         <Accordion items={accordionItems} />
                         <button onClick={previousPage}>previous page</button>
                         <button onClick={nextPage}>next page</button>
-                
+                    </div>
                 </div>
             </div>
             <Modal ref={ref} onClose={closeAddNew}>

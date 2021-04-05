@@ -72,7 +72,7 @@ const jsonPrototype = {
         field1: {
             field2: [1,5],
             field3: {
-                field4: "name"
+                field4: "10"
             }
         }
     },
@@ -83,18 +83,19 @@ const jsonPrototype = {
 
 const Page1 = () => {
 
-    const [value, onChange] = useState(new Date());
+    const [date, onDateChange] = useState(new Date());
 
 
     const onCancel = () => {
-        console.log("canceled");
+        console.log("cancelled");
     }
 
-    const onSubmit = (values) => {
-        console.log(values);
-        console.log(value.getDate());
-        console.log(value.getMonth()+1);
-        console.log(value.getFullYear());
+    const onSubmit = (inputValues) => {
+        console.log(inputValues);
+        console.log(date);
+        console.log("start date",`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()}`); //start date
+       //console.log("creation date", `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`);
+       
     }
 
 
@@ -114,8 +115,8 @@ const Page1 = () => {
                 <div className="ui segment">
                     <Calendar
                         className="react-calendar"
-                        onChange={onChange}
-                        value={value}
+                        onChange={onDateChange}
+                        value={date}
                     />
                 </div>
             </Form>

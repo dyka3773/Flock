@@ -14,6 +14,7 @@ html, body, #app, #root {
     z-index: 999;
     position: sticky;
     top: 0;
+    margin:0;
 }
 
 

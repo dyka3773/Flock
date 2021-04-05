@@ -15,7 +15,7 @@ import SignUp from './modules/SignUp';
 
 const App = () => {
 
-    const loggedIn = false;
+    const loggedIn = true;
 
     const layout = loggedIn ?
         <>

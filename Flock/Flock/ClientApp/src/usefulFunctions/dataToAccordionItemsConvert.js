@@ -30,10 +30,14 @@ const dataToAccordionConvert = (items,editItems) => {
     const accordionItems = items.map(({ title, details, id }) => {
 
         const inputs = Object.keys(details).map((cont) => {
+
+            const type = cont === "email" ? "email" : "text";
+
             return {
                 label: cont,
                 id: cont,
-                value: details[cont]
+                value: details[cont],
+                type:type
             }
         });
 

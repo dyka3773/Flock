@@ -71,10 +71,6 @@ const personalInputs = [
         type: "number"
     },
     {
-        label: "Physical Address",
-        id: "address",
-    },
-    {
         label: "Password",
         id: "password",
         type: "password" //optional
@@ -114,7 +110,7 @@ const SignUp = () => {
             </div>
             <Form
                 label="Sign Up"
-                inputs={accountType ? personalInputs : companyInputs}
+                inputs={accountType ? companyInputs : personalInputs}
                 cancel={{ label: "cancel", onClick: () => console.log("cancel") }}
                 submit={{ label: "submit", onClick: (submitions) => console.log(submitions) }}
             />
