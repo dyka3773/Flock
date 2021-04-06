@@ -99,11 +99,11 @@ const SignUp = () => {
     return (
         <div className="sign-up">
             <div className="radios">
-                <span className="radio">
+                <span className="ui radio checkbox">
                     <input type="radio" id="personal" name="account" onInput={() => setAccountType(0)} />
                     <label for="personal">Personal/Business</label>
                 </span>
-                <span className="radio">
+                <span className="ui radio checkbox">
                     <input type="radio" id="company" name="account" onInput={() => setAccountType(1) }/>
                     <label for="company">Company</label>
                 </span>

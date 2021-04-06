@@ -1,6 +1,5 @@
 ﻿.management-module {
     background-color: white;
-    
 }
 
 
@@ -8,36 +7,82 @@
 
 
     .management-module .sidebar {
-        height: 100%; /* Full-height: remove this if you want "auto" height */
-        width: 5rem; /* Set the width of the sidebar */
+        width: 20rem; /* Set the width of the sidebar */
         position: fixed; /* Fixed Sidebar (stay in place on scroll) */
         z-index: 1; /* Stay on top */
         top: 3rem; /* Stay at the top */
         left: 0;
-        background-color: rgba(0,0,0,0.1); /* Black */
+        bottom: 0;
+        background-color: #e6e6e6; /* Black */
         overflow-x: hidden; /* Disable horizontal scroll */
-        background-color: rgba(0,0,0,0.1);
-
-        
-       
-       
+        background-color: #e6e6e6;
+        overflow-y: auto;
+        display: flex;
+        padding: 2rem;
+        flex-direction: column;
     }
+
+    .management-module .sidebar-toggle {
+        position: fixed;
+        top: 5rem;
+        left: 0;
+        display: none;
+    }
+
+    .management-module .sidebar .ui.segment.groups {
+        overflow-y: auto;
+    }
+
+    .management-module .sidebar .ui.primary.button {
+        margin: 1rem;
+    }
+
+    .management-module .sidebar .basic.button {
+        display: none;
+        top: 1rem;
+        right: 1rem;
+        position: absolute;
+        padding: 5px;
+    }
+
 
     .management-module .list {
-        margin-left: 5rem;
-        padding:20px;
-        
+        margin-left: 20rem;
+        padding: 20px;
     }
 
-    .management-module .list .head{
-            
-    }
-        
 
         .management-module .list .list-items {
-           padding:20px;
+            padding: 20px;
         }
 
     .management-module .page-controlls {
         text-align: center;
     }
+
+
+
+@media screen and (max-width: 768px) {
+    .management-module .sidebar {
+        display: none;
+    }
+
+        .management-module .sidebar.toggled {
+            display: flex;
+        }
+
+    .management-module .list {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .management-module .sidebar-toggle {
+        display: block;
+    }
+
+    .management-module .sidebar .basic.button {
+        display: block;
+    }
+}
+
+
