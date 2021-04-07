@@ -31,7 +31,7 @@ const CampaignManagement = () => {
                 submit={{ label: "submit", onClick: (sub) => console.log(sub)}}
             />
             <div>Or:</div>
-            <button> Import Contacts From CSV</button>
+            <button className="ui button"> Import Contacts From CSV</button>
 
         </>
         )

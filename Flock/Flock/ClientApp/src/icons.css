@@ -1,0 +1,34 @@
+﻿.iconF {
+    height: 15px;
+    width: 15px;
+    display: block;
+
+}
+
+    .iconF.add {
+        background-image: url('images/icons/Add.png');
+    }
+
+    .iconF.blank {
+        background-image: url('images/icons/Blank.png');
+    }
+    .iconF.next {
+        background-image: url('images/icons/Next.png');
+    }
+    .iconF.previous {
+        background-image: url('images/icons/Previous.png');
+    }
+    .iconF.trash-can-black {
+        background-image: url('images/icons/TrashCanBlack.png');
+    }
+    .iconF.trash-can-white {
+        background-image: url('images/icons/TrashCanWhite.png');
+    }
+
+    .iconF.upload {
+        background-image: url('images/icons/Upload.png');
+    }
+
+    .iconF.x {
+        background-image: url('images/icons/X.png');
+    }

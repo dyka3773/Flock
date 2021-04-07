@@ -13,6 +13,8 @@ import Page1 from './modules/page1';
 import LogIn from './modules/LogIn';
 import SignUp from './modules/SignUp';
 
+import logo from "./images/logo.png";
+
 const App = () => {
 
     const loggedIn = true;
@@ -20,7 +22,11 @@ const App = () => {
     const layout = loggedIn ?
         <>
             <div className="ui menu" id="main-navbar">
-                <span className="item"> Flock </span>
+                <span className="item ">
+                    
+                        <img className="logo" src={logo} />
+                    
+                </span>
 
                 <NavLink className="item" activeClassName="active" to="/" exact>Home</NavLink>
 
@@ -55,7 +61,9 @@ const App = () => {
         :
         <>
             <div className="ui menu" id="main-navbar">
-                <span className="item"> Flock </span>
+                <span className="item">
+                    <img src={logo} />
+                </span>
 
                 <NavLink className="item" activeClassName="active" to="/" exact>Home</NavLink>
                 <span className="right">

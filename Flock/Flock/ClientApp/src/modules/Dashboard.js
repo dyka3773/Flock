@@ -6,6 +6,7 @@ import Accordion from '../components/Accordion';
 import csvToJson from '../usefulFunctions/csvToJson';
 import Form from '../components/Form';
 
+
 import '../modulesCSS/Dashboard.css'
 
 const inputs =
@@ -62,6 +63,7 @@ const Dashboard = () => {
             <div className="ui segment import">
                 <h1>Hello again **username**</h1>
                 <label class="custom-file-upload">
+                    
                     <input type="file" id="import" />
                             Custom Upload
                         </label>

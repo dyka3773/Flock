@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import '../componentCSS/AccordionHeader.css';
 
-const AccordionHeader = ({details, onDelete}) => {
+const AccordionHeader = ({title, details, onDelete}) => {
 
     const onClick = (e) => {
         e.preventDefault();
@@ -10,10 +10,12 @@ const AccordionHeader = ({details, onDelete}) => {
 
     let i = 0;
 
-    const accordionTitles = Object.values(details).map((det) => {
+    const items = title ? title : details;
+
+    const accordionTitles = Object.values(items).map((it) => {
         i++;
         return (
-            <div className={`title${i}`} key={det}>{det}</div>
+            <div className={`title${i}`} key={it}>{it}</div>
         )
         
     })

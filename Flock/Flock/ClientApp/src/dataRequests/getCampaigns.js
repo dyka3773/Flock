@@ -1,7 +1,6 @@
 ﻿import dummyJsonGenerator from '../usefulFunctions/dummyJsonGenerator';
 
 const jsonPrototype = {
-    title: "10",
     details: {
         name: "10",
         startDate: [1, 500],
