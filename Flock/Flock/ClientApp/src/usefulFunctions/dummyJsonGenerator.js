@@ -32,6 +32,22 @@ const randomString = (length) => {
     return newString.join('');
 }
 
+const randomEmail = () => {
+    const emailConstructor = [];
+
+    emailConstructor.push(randomString(10));
+    emailConstructor.push("@");
+
+   
+    emailConstructor.push(["gmail", "outlook", "yahoo", "hotmail", "flock"][randomNum([0, 4])]);
+    
+
+    emailConstructor.push(".com");
+
+    return emailConstructor.join('');
+    
+}
+
 const recursive = (prototype, entry, id) => {
     let newVal;
 
@@ -47,6 +63,8 @@ const recursive = (prototype, entry, id) => {
                 newVal = id;
             else if (prototype[prop].match(/\d+/g))
                 newVal = randomString(parseInt(prototype[prop]));
+            else if (prototype[prop] === "email")
+                newVal = randomEmail();
         } else {
             newVal = recursive(prototype[prop], {}, id);
         }

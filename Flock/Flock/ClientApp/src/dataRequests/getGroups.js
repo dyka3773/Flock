@@ -7,7 +7,7 @@ const jsonPrototype = {
 
 
 const getGroups = () => {
-    return dummyJsonGenerator(jsonPrototype, 50, 0);
+    return dummyJsonGenerator(jsonPrototype, 10, 0);
 }
 
 export default getGroups;

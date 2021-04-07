@@ -5,7 +5,7 @@ const jsonPrototype = {
     details: {
         name: "10",
         surname: "10",
-        email: "20"
+        email: "email"
     },
     id: "id"
 }

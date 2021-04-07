@@ -60,6 +60,10 @@
         text-align: center;
     }
 
+    .management-module .list .list-items .accordion-descriptor {
+        font-weight:bold;
+    
+    }
 
 
 @media screen and (max-width: 768px) {

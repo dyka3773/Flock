@@ -4,7 +4,8 @@ const jsonPrototype = {
     title: "10",
     details: {
         name: "10",
-        startDate: [1,500]
+        startDate: [1, 500],
+        group: "10"
     },
     id: "id"
 }

@@ -27,11 +27,11 @@ import React from 'react';
 
 const dataToAccordionConvert = (items,editItems) => {
 
-    const accordionItems = items.map(({ title, details, id }) => {
+    const accordionItems = items.map(({details, id }) => {
 
         const inputs = Object.keys(details).map((cont) => {
 
-            const type = cont === "email" ? "email" : "text";
+            const type = cont === "email" ? "email" : "text"; //used for validation
 
             return {
                 label: cont,
@@ -44,7 +44,7 @@ const dataToAccordionConvert = (items,editItems) => {
 
         return (
             {
-                header: <AccordionHeader title={title} onDelete={() => console.log("deleted")} />,
+                header: <AccordionHeader details={details} onDelete={() => console.log("deleted")} />,
                 details: <Form
                     inputs={inputs}
                     submit={{ label: "edit", onClick: (details) => editItems({ id: id, details: details }) }}

@@ -1,11 +1,13 @@
 ﻿import React, { useState, useEffect, useRef } from 'react';
-import '../modulesCSS/ManagementModule.css';
+
 import Accordion from '../components/Accordion';
+import AccordionHeader from '../components/AccordionHeader';
 import Modal from '../components/Modal';
+
 import dataToAccordionConvert from '../usefulFunctions/dataToAccordionItemsConvert'
 import getGroups from '../dataRequests/getGroups';
 
-
+import '../modulesCSS/ManagementModule.css';
 
 /* Params:
  *  -getItems: the function it will use to retrieve the items that will be managed in the module. These items will fill the accordion component.
@@ -40,7 +42,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, columnTitles, modalC
         }
         , [pageNum]);
 
-    const handleSelect = (id, isSelected = true) => {
+    const handleSelect = (id) => {
 
         selectedGroupsRef.current[id] ?
             selectedGroupsRef.current = (
@@ -52,6 +54,13 @@ const ManagementModule = ({ getItems, editItems, listTitle, columnTitles, modalC
             )
 
         console.log(selectedGroupsRef.current);
+    }
+
+    const initSelect = (id) => {
+        selectedGroupsRef.current = (
+            { ...selectedGroupsRef.current, [id]: false }
+        )
+
     }
 
     const toggleSidebar = () => {
@@ -95,7 +104,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, columnTitles, modalC
     const accordionItems = dataToAccordionConvert(items, editItems);
 
     const groups = getGroups().map(({ name, id }) => {
-        handleSelect(id, false);//initialize selectedGroupsRef to be false 
+        initSelect(id, false);//initialize selectedGroupsRef to be false 
         return (
             <div className="field" key={id}>
                 <div className="ui checkbox">
@@ -106,6 +115,11 @@ const ManagementModule = ({ getItems, editItems, listTitle, columnTitles, modalC
             );
     });
 
+    const accordionDescriptor = () => {
+        if (!items[0]) return;
+        const keys = Object.keys(items[0].details);
+        return <AccordionHeader details={keys} />;
+    }
 
     return (
         <>
@@ -135,10 +149,13 @@ const ManagementModule = ({ getItems, editItems, listTitle, columnTitles, modalC
                 <div className="list" >
                     <div className="head">
                         <h1>{listTitle}</h1>
-                        <div className="column-titles">{columnTitles}</div>
                     </div>
                     <div className="list-items">
+                        <div className="accordion-descriptor">
+                            {accordionDescriptor()}
+                        </div>
                         <Accordion items={accordionItems} />
+                        
                         <button onClick={previousPage}>previous page</button>
                         <button onClick={nextPage}>next page</button>
                     </div>
