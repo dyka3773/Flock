@@ -15,7 +15,7 @@ const MarkdownEditor = ({value, onChange}) => {
                 <textarea
                     onChange={handleChange}
                     value={value}
-                />
+                ></textarea>
             </div>
         </div>
         );
@@ -24,3 +24,6 @@ const MarkdownEditor = ({value, onChange}) => {
 }
 
 export default MarkdownEditor;
+
+
+

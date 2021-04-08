@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     BrowserRouter as Router,
     Switch,
@@ -12,12 +12,36 @@ import CampaignManagement from './modules/CampaignManagement';
 import Page1 from './modules/page1';
 import LogIn from './modules/LogIn';
 import SignUp from './modules/SignUp';
-
+import axios from 'axios';
 import logo from "./images/logo.png";
+
+
 
 const App = () => {
 
     const loggedIn = true;
+    useEffect(() => {
+        
+        axios.get('/apis/Contacts')
+            .then((re) => { console.log("Contacts"); console.log(re.data); });
+
+        
+        axios.get('/apis/Groups')
+            .then((re) => { console.log("Groups"); console.log(re.data); });
+
+        
+        axios.get('/apis/Companies')
+            .then((re) => { console.log("Companies"); console.log(re.data); });
+
+       
+        axios.get('/apis/Campaigns')
+            .then((re) => { console.log("Campaigns"); console.log(re.data); });
+
+        
+        axios.get('/apis/BusinessPersonals')
+            .then((re) => { console.log("BusinesPersonals"); console.log(re.data); });
+    })
+    
 
     const layout = loggedIn ?
         <>
@@ -34,8 +58,6 @@ const App = () => {
 
                 <NavLink className="item" activeClassName="active" to="/contact-management">Contact List</NavLink>
 
-                <NavLink className="item" activeClassName="active" to="/test">test</NavLink>
-
                 <NavLink className="item right" to="/test">Log Out</NavLink>
             </div>
 
@@ -43,14 +65,14 @@ const App = () => {
               renders the first one that matches the current URL. */}
 
             <Switch>
+                <Route path="/test">
+                    <Page1 />
+                </Route>
                 <Route path="/campaign-management">
                     <CampaignManagement />
                 </Route>
                 <Route path="/contact-management">
                     <ContactManagement />
-                </Route>
-                <Route path="/test">
-                    <Page1 />
                 </Route>
                 <Route path="/">
                     <Dashboard />
@@ -82,17 +104,8 @@ const App = () => {
                 <Route path="/sign-up">
                     <SignUp />
                 </Route>
-                <Route path="/campaign-management">
-                    <CampaignManagement />
-                </Route>
-                <Route path="/contact-management">
-                    <ContactManagement />
-                </Route>
-                <Route path="/test">
-                    <Page1 />
-                </Route>
                 <Route path="/">
-                    <Dashboard />
+                    <div>Homepage under construction!</div>
                 </Route>
 
             </Switch>

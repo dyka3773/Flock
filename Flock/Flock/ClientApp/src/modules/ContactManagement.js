@@ -2,6 +2,7 @@
 import ManagementModule from './ManagementModule';
 import getContacts from '../dataRequests/getContacts'
 import editContact from '../dataRequests/editContact';
+import Form from '../components/Form';
 
 const ContactManagement = () => {
 
@@ -29,6 +30,7 @@ const ContactManagement = () => {
                 inputs={inputs}
                 submit={{ label: "submit", onClick: (sub) => console.log(sub) }}
             />
+            <button className="ui button"> Import Contacts From CSV</button>
         </>
     )
 

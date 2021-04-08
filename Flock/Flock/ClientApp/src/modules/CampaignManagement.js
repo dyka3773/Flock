@@ -1,16 +1,16 @@
 ﻿import React from 'react';
 import ManagementModule from './ManagementModule';
-import getCampaigns from '../dataRequests/getCampaigns'
-import editCampaign from '../dataRequests/editCampaign'
-import Form from '../components/Form'
+import getCampaigns from '../dataRequests/getCampaigns';
+import editCampaign from '../dataRequests/editCampaign';
+import Form from '../components/Form';
 
 const CampaignManagement = () => {
 
    const inputs=[
-  {
+        {
             label: "Name (First and Last)",
             id: "name"
-        },
+       },
         {
             label: "E-mail",
             id: "email",
