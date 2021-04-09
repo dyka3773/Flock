@@ -21,25 +21,25 @@ const App = () => {
 
     const loggedIn = true;
     useEffect(() => {
+        const func = async () => {
+
+            const re1 = await axios.get('/apis/Contacts');
+
+            console.log(re1.data);
+
+
+            const re = await axios.post('/apis/Contacts', {
+                id: 69, fullName: "69696969", email: "696969@gmail.com"
+            })
+            
+            console.log(re.data);
+        }
         
-        axios.get('/apis/Contacts')
-            .then((re) => { console.log("Contacts"); console.log(re.data); });
+
+        func();
+        
 
         
-        axios.get('/apis/Groups')
-            .then((re) => { console.log("Groups"); console.log(re.data); });
-
-        
-        axios.get('/apis/Companies')
-            .then((re) => { console.log("Companies"); console.log(re.data); });
-
-       
-        axios.get('/apis/Campaigns')
-            .then((re) => { console.log("Campaigns"); console.log(re.data); });
-
-        
-        axios.get('/apis/BusinessPersonals')
-            .then((re) => { console.log("BusinesPersonals"); console.log(re.data); });
     })
     
 

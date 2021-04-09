@@ -40,8 +40,10 @@ namespace Flock.Controllers
 
         // POST api/<ContacsController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public List<Contact> Post(Contact cont)
         {
+            contacts.Add(cont);
+            return contacts;
         }
 
         // PUT api/<ContacsController>/5
