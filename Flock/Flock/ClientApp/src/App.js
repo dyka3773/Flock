@@ -19,7 +19,7 @@ import logo from "./images/logo.png";
 
 const App = () => {
 
-    const loggedIn = true;
+    const loggedIn = false;
     useEffect(() => {
         const func = async () => {
 
@@ -58,7 +58,10 @@ const App = () => {
 
                 <NavLink className="item" activeClassName="active" to="/contact-management">Contact List</NavLink>
 
-                <NavLink className="item right" to="/test">Log Out</NavLink>
+                <span className="right">
+                    <NavLink className="item" to="/">Account Settings</NavLink>
+                    <NavLink className="item" to="/test">Log Out</NavLink>
+                </span>
             </div>
 
             {/* A <Switch> looks through its children <Route>s and

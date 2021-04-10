@@ -18,7 +18,8 @@ import '../componentCSS/Form.css';
         {
             label: "label2",
             id: "2",
-            value:"default value" //optional
+            value:"default value" //optional,
+            readOnly:true //optional
         },
         ...
  * ]
@@ -110,6 +111,7 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
                         onChange={(e) => handleFieldChange(input.id, e.target.value)}
                         value={val || input.value || ''}
                         className={input.type}
+                        readOnly={input.readOnly ? true : false}
                         required
                     />
                 </React.Fragment>
@@ -119,7 +121,7 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
     return (
         <form className="ui form segment" onSubmit={onSubmit}>
 
-            {label ? <h4 className="ui dividing header">{label}</h4> : <></>}
+            {label ? <h1 className="ui dividing header">{label}</h1> : <></>}
 
             <div className="inputs">{items}</div>
 

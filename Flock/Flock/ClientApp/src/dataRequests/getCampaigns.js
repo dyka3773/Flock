@@ -9,6 +9,15 @@ const jsonPrototype = {
     id: "id"
 }
 
+const itemsDashboard = dummyJsonGenerator(jsonPrototype, 12, 0);
+
+export const getDashboardCampaigns = (pageNum) => {
+
+
+    //console.log(itemsAr[pageNum - 1]);
+    return itemsDashboard;
+
+}
 
 
 
