@@ -31,22 +31,15 @@ import '../componentCSS/Form.css';
         submit={{ label: "submit", onClick: onSubmit}}
             />
  *
+ * 
+ * WARNING Form returns only the altered values
+ * 
  * */
 
 const Form = ({ label, cancel, submit, inputs, children}) => {
 
     //every field's value is stored as state in the values state object
-    const [values, setValues] = useState(() => {
-
-        let defaultValues;
-
-        for (var input of inputs) {
-            defaultValues = { ...defaultValues, [input.id]: input.value}
-        }
-
-        return defaultValues;
-
-    });
+    const [values, setValues] = useState([]);
     const handleFieldChange = (id, value) => {
         setValues({ ...values, [id]: value });
     };
@@ -98,9 +91,11 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
         }
 
     };
-
+   
     const items = inputs.map(
+        
         (input) => {
+            
             const val = values[input.id];
             
             return (
@@ -123,7 +118,7 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
 
             {label ? <h1 className="ui dividing header">{label}</h1> : <></>}
 
-            <div className="inputs">{items}</div>
+            <div className="inputs">{items ? items : "Loading..."}</div>
 
             {children ? children : <></>}
 

@@ -5,6 +5,7 @@ import {
     Route,
     NavLink
 } from "react-router-dom";
+import axios from 'axios';
 
 import Dashboard from './modules/Dashboard';
 import ContactManagement from './modules/ContactManagement';
@@ -12,14 +13,15 @@ import CampaignManagement from './modules/CampaignManagement';
 import Page1 from './modules/page1';
 import LogIn from './modules/LogIn';
 import SignUp from './modules/SignUp';
-import axios from 'axios';
+import AccountSettings from './modules/AccountSettings';
+
 import logo from "./images/logo.png";
 
 
 
 const App = () => {
 
-    const loggedIn = false;
+    const loggedIn = true;
     useEffect(() => {
         const func = async () => {
 
@@ -59,7 +61,7 @@ const App = () => {
                 <NavLink className="item" activeClassName="active" to="/contact-management">Contact List</NavLink>
 
                 <span className="right">
-                    <NavLink className="item" to="/">Account Settings</NavLink>
+                    <NavLink className="item" to="/account-settings">Account Settings</NavLink>
                     <NavLink className="item" to="/test">Log Out</NavLink>
                 </span>
             </div>
@@ -68,6 +70,9 @@ const App = () => {
               renders the first one that matches the current URL. */}
 
             <Switch>
+                <Route path="/account-settings">
+                    <AccountSettings />
+                </Route>
                 <Route path="/test">
                     <Page1 />
                 </Route>

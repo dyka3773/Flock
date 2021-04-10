@@ -1,11 +1,16 @@
 ﻿import React, { useEffect, useState } from 'react';
+
 import getCampaigns, { getDashboardCampaigns } from '../dataRequests/getCampaigns';
-import dataToAccordionConvert from '../usefulFunctions/dataToAccordionItemsConvert';
+import getAccount from '../dataRequests/getAccount';
 import editCampaign from '../dataRequests/editCampaign';
-import Accordion from '../components/Accordion';
-import csvToJson from '../usefulFunctions/csvToJson';
+
+import dataToAccordionConvert from '../usefulFunctions/dataToAccordionItemsConvert';
 import { newContactFormInputs } from '../usefulFunctions/formInputs';
+import csvToJson from '../usefulFunctions/csvToJson';
+
+import Accordion from '../components/Accordion';
 import Form from '../components/Form';
+
 import '../modulesCSS/Dashboard.css'
 
 const inputsBasicInfo =
@@ -32,11 +37,41 @@ const inputsBasicInfo =
 const Dashboard = () => {
 
     const [campaigns, setCampaigns] = useState([]);
+    const [basicInfo, setBasicInfo] = useState({
+        numOfConts: 0,
+        numOfCamps: 0,
+        numOfSent: 0
+    })
 
     useEffect(() => {
         setCampaigns(getDashboardCampaigns());
+        setBasicInfo(() => {
+            const { numOfConts, numOfCamps, numOfSent } = getAccount();
+            return { numOfConts, numOfCamps, numOfSent };
+        });
+    },[])
 
-    })
+    const inputsBasicInfo =
+        [
+            {
+                label: "Number of contacts",
+                id: "contacts",
+                readOnly: true,
+                value: basicInfo["numOfConts"]
+            },
+            {
+                label: "Emails sent",
+                id: "emails",
+                readOnly: true,
+                value: basicInfo["numOfCamps"]
+            },
+            {
+                label: "Active campaigns",
+                id: "campaigns",
+                readOnly: true,
+                value: basicInfo["numOfSent"]
+            }
+        ]
 
     const accordion = dataToAccordionConvert(campaigns, editCampaign);
 
