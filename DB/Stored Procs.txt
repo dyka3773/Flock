@@ -8,8 +8,88 @@ drop procedure if exists `Flock`.`addContact`;
 drop procedure if exists `Flock`.`addCampaign`;
 drop procedure if exists `Flock`.`addGroup`;
 drop procedure if exists `Flock`.`addContactToGroup`;
+drop procedure if exists `Flock`.`deleteContact`;
+drop procedure if exists `Flock`.`deleteManyContacts`;
+drop procedure if exists `Flock`.`deleteCamp`;
+drop procedure if exists `Flock`.`deleteManyCamps`;
+drop procedure if exists `Flock`.`deleteGroup`;
+drop procedure if exists `Flock`.`getCampsInGroup`;
+drop procedure if exists `Flock`.`getContactsInGroup`;
+drop procedure if exists `Flock`.`editContact`;
+drop procedure if exists `Flock`.`editCampaign`;
 
 DELIMITER $$
+
+CREATE PROCEDURE `Flock`.`editCampaign` ()
+BEGIN
+	-- to create later
+END$$
+
+CREATE PROCEDURE `Flock`.`editContact` ()
+BEGIN
+	-- to create later
+END$$
+
+CREATE PROCEDURE `Flock`.`getContactsInGroup` ()
+BEGIN
+	-- to create later
+END$$
+
+CREATE PROCEDURE `Flock`.`getCampsInGroup` ()
+BEGIN
+	-- to create later
+END$$
+
+CREATE PROCEDURE `Flock`.`deleteGroup` (
+in giid int, in aiid int)
+BEGIN
+	delete from `Flock`.Groups
+    where GID=giid and AID=aiid;
+END$$
+
+CREATE PROCEDURE `Flock`.`deleteManyCamps` (
+in caids varchar(1000), in aiid int)
+BEGIN
+	-- Αναγκαστικά θα γίνει με φουλ μπακάλικο τρόπο αυτό για να μην έχω 354654 κλήσεις στη βάση
+    while (locate('|',caids)>0) 		-- cids is something like '65|98|23|12|1'
+    do
+		set @value = elt(1, caids);
+        set caids = substring(caids, locate('|',caids)+1);
+        
+        delete from Campaign
+		where CAID= cast(@value as unsigned integer)
+        and AID=aiid;
+	end while;
+END$$
+
+CREATE PROCEDURE `Flock`.`deleteCamp` (
+in caiid int, in aiid int)
+BEGIN
+	delete from Campaign
+    where CAID=caiid and AID=aiid;
+END$$
+
+CREATE PROCEDURE `Flock`.`deleteManyContacts` (
+in cids varchar(1000), in aiid int)
+BEGIN
+	-- Αναγκαστικά θα γίνει με φουλ μπακάλικο τρόπο αυτό για να μην έχω 354654 κλήσεις στη βάση
+    while (locate('|',cids)>0) 		-- cids is something like '65|98|23|12|1'
+    do
+		set @value = elt(1, cids);
+        set cids = substring(cids, locate('|',cids)+1);
+        
+        delete from Contacts
+		where CID= cast(@value as unsigned integer)
+        and AID=aiid;
+	end while;
+END$$
+
+CREATE PROCEDURE `Flock`.`deleteContact` (
+in ciid int, in aiid int)
+BEGIN
+	delete from Contacts 
+    where CID=ciid and AID=aiid;
+END$$
 
 CREATE PROCEDURE `Flock`.`addContactToGroup` ()
 BEGIN
