@@ -13,24 +13,7 @@ import Form from '../components/Form';
 
 import '../modulesCSS/Dashboard.css'
 
-const inputsBasicInfo =
-    [
-        {
-            label: "Number of contacts",
-            id: "contacts",
-            readOnly: true
-        },
-        {
-            label: "Emails sent",
-            id: "emails",
-            readOnly: true
-        },
-        {
-            label: "Active campaigns",
-            id: "campaigns",
-            readOnly: true
-        }
-    ]
+
 
 
 
@@ -130,7 +113,7 @@ const Dashboard = () => {
                     className="flex-item"
                     label="Add a new contact!"
                     inputs={newContactFormInputs}
-                    submit={{ label: "submit", onClick: () => console.log("submited") }}
+                    submit={{ label: "submit", onClick: (sub) => console.log("submited", sub) }}
                 />
 
 

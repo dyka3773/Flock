@@ -69,7 +69,7 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
         let ar = {};
         const { onClick } = submit;
         for (let i of inputs) {
-            ar = { ...ar, [i.id]: i.value }
+                ar = { ...ar, [i.id]: i.value }
         }
 
         for (let i of Object.keys(values)) {
