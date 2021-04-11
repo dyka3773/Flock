@@ -6,39 +6,45 @@ const companyInputs = [
     {
         label: "Company Name",
         id: "companyName",
+        required: true
     },
     {
         label: "E-Mail",
         id: "email",
-        type: "email" //optional
+        type: "email", //optional
+        required: true
     },
     {
         label: "Phone Number",
-        id: "phone",
-        type: "number" //optional
+        id: "phone", 
+        required: true
     },
     {
         label: "Country",
-        id: "country",
+        id: "country", 
+        required: true
     },
     {
         label: "Zip Code",
         id: "zip",
-        type: "number"
+        required: true
     },
     {
         label: "Physical Address",
         id: "address",
+        required: true
     },
     {
         label: "Password",
         id: "password",
-        type: "password" //optional
+        type: "password",
+        required: true
     },
     {
         label: "Confirm Password",
         id: "confirmPassword",
-        type: "password" //optional
+        type: "password",
+        required: true
     }
 ]
 
@@ -46,39 +52,45 @@ const personalInputs = [
     {
         label: "First Name",
         id: "name",
+        required: true
     },
     {
         label: "Last Name",
         id: "surname",
+        required: true
     },
     {
         label: "E-Mail",
         id: "email",
-        type: "email" //optional
+        type: "email",
+        required: true
     },
     {
         label: "Phone Number",
         id: "phone",
-        type: "number" //optional
+        required: true
     },
     {
         label: "Country",
         id: "country",
+        required: true
     },
     {
         label: "Zip Code",
         id: "zip",
-        type: "number"
+        required: true
     },
     {
         label: "Password",
         id: "password",
-        type: "password" //optional
+        type: "password",
+        required: true
     },
     {
         label: "Confirm Password",
         id: "confirmPassword",
-        type: "password" //optional
+        type: "password",
+        required: true
     }
 ]
 

@@ -16,7 +16,7 @@ namespace Flock.Controllers
         List<Contact> contacts = new List<Contact>();
 
         public ContactsController() {
-            contacts.Add(new Contact { id=1,fullName="Petros Petras", email="petraras@gmail.com"});
+            contacts.Add(new Contact { id = 1,fullName="Petros Petras", email="petraras@gmail.com"});
             contacts.Add(new Contact { id = 2, fullName = "Makhs Makos", email = "makarena69@gmail.com" });
             contacts.Add(new Contact { id = 3, fullName = "Anastashs Anastasiadis", email = "anastasi@gmail.com" });
             contacts.Add(new Contact { id = 4, fullName = "AAAAAAAAAA", email = "petrawwadwaras@gmail.com" });
@@ -40,7 +40,7 @@ namespace Flock.Controllers
 
         // POST api/<ContacsController>
         [HttpPost]
-        public List<Contact> Post(Contact cont)
+        public List<Contact> Post(Contact cont) 
         {
             contacts.Add(cont);
             return contacts;

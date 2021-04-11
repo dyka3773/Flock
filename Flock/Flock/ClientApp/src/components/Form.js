@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useMemo } from 'react'; 
+﻿import React, { useState, useEffect, useRef } from 'react'; 
 import '../componentCSS/Form.css';
 
 /* Form expects a label prop , inputs Array prop and optinally a cancel and submit object prop.
@@ -13,7 +13,8 @@ import '../componentCSS/Form.css';
  *       {
             label: "label1",
             id:"1",
-            type:"password" //optional
+            type:"password", //optional
+            
         },
         {
             label: "label2",
@@ -30,19 +31,20 @@ import '../componentCSS/Form.css';
         cancel={{ label:"cancel", onClick: onCancel}}
         submit={{ label: "submit", onClick: onSubmit}}
             />
- *
- * 
- * WARNING Form returns only the altered values
+*
+ * Form returns altered values + default values on submit
  * 
  * */
-
 const Form = ({ label, cancel, submit, inputs, children}) => {
 
     //every field's value is stored as state in the values state object
-    const [values, setValues] = useState([]);
+    const [values, setValues] = useState({});
+
     const handleFieldChange = (id, value) => {
         setValues({ ...values, [id]: value });
     };
+
+    
 
     useEffect(() => {
        Array.from(document.getElementsByClassName("email")).forEach(
@@ -64,8 +66,17 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
     //triggered with the values of the inputs as a parameter
     const onSubmit = (e) => {
         e.preventDefault();
+        let ar = {};
         const { onClick } = submit;
-        onClick(values);
+        for (let i of inputs) {
+            ar = { ...ar, [i.id]: i.value }
+        }
+
+        for (let i of Object.keys(values)) {
+            ar = {...ar, [i]:values[i]}
+        }
+
+        onClick(ar);
     }
 
     //when cancel button is pressed the onClick function of the cancel object provided is triggered
@@ -86,6 +97,7 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
 
     const submitBtn = () => {
         if (submit) {
+
             const { label } = submit;
             return <input className="ui primary button" type="submit" value={label}/>;
         }
@@ -97,18 +109,28 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
         (input) => {
             
             const val = values[input.id];
-            
+
+            const inputField = input.readOnly ? <input
+                value={input.value}
+                className={input.type}
+                readOnly={input.readOnly ? true : false}
+                />
+                :
+                <input
+                    type={input.type ? input.type : "text"}
+                    onChange={(e) => handleFieldChange(input.id, e.target.value)}
+                    value={val || ''}
+                    className={input.type}
+                    readOnly={input.readOnly ? true : false}
+                    placeholder={input.value}
+                    required={input.required ? true : false}
+                />
+
+
             return (
                 <React.Fragment key={input.id}>
                     <label>{input.label}</label>
-                    <input
-                        type={input.type ? input.type : "text"}
-                        onChange={(e) => handleFieldChange(input.id, e.target.value)}
-                        value={val || input.value || ''}
-                        className={input.type}
-                        readOnly={input.readOnly ? true : false}
-                        required
-                    />
+                    {inputField}
                 </React.Fragment>
             )
         });
