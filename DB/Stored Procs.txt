@@ -1,0 +1,83 @@
+drop procedure if exists `Flock`.`getContacts`;
+drop procedure if exists `Flock`.`getCamps`;
+drop procedure if exists `Flock`.`getAllGroups`;
+drop procedure if exists `Flock`.`exists`;
+drop procedure if exists `Flock`.`addCompany`;
+drop procedure if exists `Flock`.`addBusiness_Personal`;
+drop procedure if exists `Flock`.`addContact`;
+drop procedure if exists `Flock`.`addCampaign`;
+drop procedure if exists `Flock`.`addGroup`;
+drop procedure if exists `Flock`.`addContactToGroup`;
+
+DELIMITER $$
+
+CREATE PROCEDURE `Flock`.`addContactToGroup` ()
+BEGIN
+	-- to create later
+END$$
+
+CREATE PROCEDURE `Flock`.`addGroup` ()
+BEGIN
+	-- to create later
+END$$
+
+CREATE PROCEDURE `Flock`.`addCampaign` ()
+BEGIN
+	-- to create later
+END$$
+
+CREATE PROCEDURE `Flock`.`addContact` ()
+BEGIN
+	-- to create later
+END$$
+
+CREATE PROCEDURE `Flock`.`addBusiness_Personal` ()
+BEGIN
+	-- to create later
+END$$
+
+CREATE PROCEDURE `Flock`.`addCompany` ()
+BEGIN
+	-- to create later
+END$$
+
+CREATE PROCEDURE `Flock`.`exists` (
+IN username varchar(45), in passwrd varchar(45))
+BEGIN
+	select AID 
+    from Accounts A 
+    where A.Email=username
+    and A.Passwd=passwrd;
+END$$
+
+CREATE PROCEDURE `Flock`.`getAllGroups` (
+IN AIID int)
+BEGIN
+	select * from Groups G where G.AID=AIID;
+END$$
+
+CREATE PROCEDURE `Flock`.`getContacts` (
+IN AIID int, IN keyword varchar(45))
+BEGIN
+IF keyword IS NULL THEN
+	select * from Contacts C where C.AID=AIID;
+ELSE
+	select * 
+    from Contacts C
+    where (C.AID=AIID) 
+    and ( C.Full_Name LIKE CONCAT('%',keyword,'%') or C.Email LIKE CONCAT('%',keyword,'%'));
+END IF;
+END$$
+
+create procedure `Flock`.`getCamps` (
+IN AIID int, IN keyword varchar(45))
+begin
+IF keyword IS NULL THEN
+	select * from Campaign C where C.AID=AIID;
+ELSE
+	select * 
+    from Campaign C
+    where (C.AID=AIID) 
+    and ( C.C_Name LIKE CONCAT('%',keyword,'%'));
+END IF;
+end$$
