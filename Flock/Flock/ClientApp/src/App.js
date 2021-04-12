@@ -33,38 +33,54 @@ const App = () => {
             const re = await axios.post('/apis/Contacts', {
                 id: 69, fullName: "69696969", email: "696969@gmail.com"
             })
-            
+
             console.log(re.data);
         }
-        
+
 
         func();
-        
 
-        
+
+
     })
-    
+
+    const toggleCollapse = () => {
+        const items = document.getElementsByClassName("hide");
+        
+        for (let i of items) {
+            i.classList.contains("hidden") ?
+                i.classList.remove("hidden")
+                :
+                i.classList.add("hidden");
+        }
+    }
+
 
     const layout = loggedIn ?
         <>
-            <div className="ui menu" id="main-navbar">
-                <span className="item ">
-                    
-                        <img className="logo" src={logo} />
-                    
+            <div className="ui stackable menu" id="main-navbar">
+
+
+                <span className="item">
+                    <img className="logo" src={logo}  />
+                    <button id="unhide" onClick={toggleCollapse}>\/</button>
                 </span>
+                <NavLink className="hide item" activeClassName="active" to="/" exact>Home</NavLink>
 
-                <NavLink className="item" activeClassName="active" to="/" exact>Home</NavLink>
+                <NavLink className="hide item" activeClassName="active" to="/campaign-management">Campaigns</NavLink>
 
-                <NavLink className="item" activeClassName="active" to="/campaign-management">Campaigns</NavLink>
+                <NavLink className="hide item" activeClassName="active" to="/contact-management">Contact List</NavLink>
 
-                <NavLink className="item" activeClassName="active" to="/contact-management">Contact List</NavLink>
 
-                <span className="right">
-                    <NavLink className="item" to="/account-settings">Account Settings</NavLink>
-                    <NavLink className="item" to="/test">Log Out</NavLink>
-                </span>
+
+                <NavLink className="hide right item " to="/account-settings">Account Settings</NavLink>
+
+                <NavLink className="hide item" to="/test">Log Out</NavLink>
+
+
             </div>
+
+            
 
             {/* A <Switch> looks through its children <Route>s and
               renders the first one that matches the current URL. */}

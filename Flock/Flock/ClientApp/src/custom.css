@@ -4,43 +4,53 @@ html, body, #app, #root {
    
 }
 
-
-
-
-#main-navbar {
-    height: 4rem;
+#main-navbar{
     font-size: 16px;
     background-color: #2ba7db;
-    width: 100%;
     z-index: 999;
     position: sticky;
     top: 0;
     margin: 0;
-    
 }
 
 
-    #main-navbar .item {
-        border: 0;
+
+    #main-navbar .item{
         color: white;
-        position:relative;
     }
+
+        #main-navbar .item #unhide {
+            position:absolute;
+            right:1rem;
+            display:none;
+        }
+       
 
     #main-navbar .item .logo {
        height:3.5rem;
        width:3.5rem;
     }
 
-        #main-navbar .right{
-            position:absolute;
-            right:0;
 
-        }
-    #main-navbar .right .item{
-        display:inline-block;
-    }
+    
 
 h1, h2, h3,.ui.header {
     color: #2C92DB;
 }
 
+@media screen and (max-width: 768px) {
+
+    #main-navbar>.item.hide {
+        display: none;
+    }
+
+    #main-navbar>.item.hide.hidden {
+        display: block;
+    }
+    
+
+    #main-navbar .item #unhide {
+        display: block;
+    }
+
+}
