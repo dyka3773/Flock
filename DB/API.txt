@@ -20,6 +20,7 @@ getCampsInGroup(AID, Group_Name)
 getContactsInGroup(AID, Group_Name)
 editContact(...)
 editCampaign(...)
+editAccountDetails(...)
 
 =============================================================================================================================================================================================
 												C#
@@ -29,5 +30,5 @@ editCampaign(...)
 	- Single line Data Insertion (for loop in C#)
 - Search Results 50 for each page
 	- getCamps(keyword,num_of_page) returns Results, Num_of_Pages;
-- When user/campaign is deleted delete them from Results and call `getCamps`
+- When user/campaign is deleted, delete them from Results and call `getCamps`
 - 

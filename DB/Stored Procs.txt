@@ -17,27 +17,50 @@ drop procedure if exists `Flock`.`getCampsInGroup`;
 drop procedure if exists `Flock`.`getContactsInGroup`;
 drop procedure if exists `Flock`.`editContact`;
 drop procedure if exists `Flock`.`editCampaign`;
+drop procedure if exists `Flock`.`editAccountDetails`;
 
 DELIMITER $$
 
-CREATE PROCEDURE `Flock`.`editCampaign` ()
+CREATE PROCEDURE `Flock`.`editAccountDetails` ()
 BEGIN
 	-- to create later
 END$$
 
-CREATE PROCEDURE `Flock`.`editContact` ()
+CREATE PROCEDURE `Flock`.`editCampaign` (
+in caiid int, in cname varchar(45), in aid int)
 BEGIN
-	-- to create later
+	-- needs editing
+	update Campaign
+    set C_Name = cname
+    where CAID=caiid and AID=aid;
 END$$
 
-CREATE PROCEDURE `Flock`.`getContactsInGroup` ()
+CREATE PROCEDURE `Flock`.`editContact` (
+in cid int, in aid int, in fullname varchar(45), in email varchar(45))
 BEGIN
-	-- to create later
+	update Contacts
+    set Full_Name = fullname, Email = email
+    where CID=cid and AID=aid;
 END$$
 
-CREATE PROCEDURE `Flock`.`getCampsInGroup` ()
+CREATE PROCEDURE `Flock`.`getContactsInGroup` (
+in aid int, in groupname varchar(45))
 BEGIN
-	-- to create later
+	select C.CID, C.Full_Name, C.Email, C.AID
+    from Contacts C join Contacts_in_Groups CiG on (C.CID=CiG.CID)
+    join Groups G on (CiG.GID=G.GID)
+    where G.AID=aid and G.Group_Name=groupname and G.AID=C.AID;
+END$$
+
+CREATE PROCEDURE `Flock`.`getCampsInGroup` (
+in aid int, in groupname varchar(45))
+BEGIN
+	select *
+    from Campaign C
+    where C.AID=aid and C.GID =(select G.GID
+								from Groups G
+								where G.Group_Name=groupname and G.AID=aid
+	);
 END$$
 
 CREATE PROCEDURE `Flock`.`deleteGroup` (
