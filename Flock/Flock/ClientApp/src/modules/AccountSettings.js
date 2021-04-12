@@ -2,9 +2,11 @@
 
 import getAccount from '../dataRequests/getAccount';
 
-import { idToLabel } from '../usefulFunctions/formInputs';
+import { keysToLabel } from '../usefulFunctions/formInputs';
 
 import Form from '../components/Form';
+
+import '../modulesCSS/AccountSettings.css'
 
 const passwordInputs = [
     {
@@ -31,11 +33,17 @@ const AccountSettings = () => {
         const accInputs = [];
         for (let key of Object.keys(acc)) {
 
-            if (idToLabel[key])
+            //cant see password as placeholder in input and becomes type password
+            const { type, value } = key === "password" ? { type: key, value: "" } : { type: "text", value: acc[key] } 
+
+            //uses idToLabel object to transform keys of incoming object into form inputs with proper labels
+            if (keysToLabel[key])
                 accInputs.push({
-                    label: idToLabel[key],
+                    label: keysToLabel[key],
                     id: key,
-                    value:acc[key]
+                    value: value,
+                    type:type
+
                 });
         }
 
@@ -45,7 +53,7 @@ const AccountSettings = () => {
     
     console.log(accountSettingsFormInputs);
     return (
-        <div className="flex">
+        <div className="account-settings">
             <Form label="Account Settings" inputs={accountSettingsFormInputs} submit={{ label: "Save Changes", onClick: (sub) => console.log(sub) }}/>
             <Form label="Change Password" inputs={passwordInputs} submit={{ label: "Change Password", onClick: (sub) => console.log(sub)}}/>
         </div>
