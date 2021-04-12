@@ -3,14 +3,17 @@
 }
 
 
-
+    .management-module #add-new{
+        height:4rem;
+        
+    }
 
 
     .management-module .sidebar {
         width: 20rem; /* Set the width of the sidebar */
         position: fixed; /* Fixed Sidebar (stay in place on scroll) */
         z-index: 1; /* Stay on top */
-        top: 3rem; /* Stay at the top */
+        top: 5rem; /* Stay at the top */
         left: 0;
         bottom: 0;
         background-color: #e6e6e6; /* Black */

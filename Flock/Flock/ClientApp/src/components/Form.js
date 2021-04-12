@@ -44,24 +44,6 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
         setValues({ ...values, [id]: value });
     };
 
-    
-
-    useEffect(() => {
-       Array.from(document.getElementsByClassName("email")).forEach(
-            inp => {
-                inp.addEventListener("input", (event) => {
-                    if (inp.validity.typeMismatch) {
-                        inp.setCustomValidity("I am expecting an e-mail address!");
-                    } else {
-                        inp.setCustomValidity("");
-                    }
-                });
-            }
-        )
-
-    }, []);
-
-
     //when submit button or enter key are pressed the onClick function of the submit object provided is 
     //triggered with the values of the inputs as a parameter
     const onSubmit = (e) => {

@@ -128,7 +128,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, columnTitles, modalC
                     <button className="ui basic button close" onClick={toggleSidebar}>
                         X
                     </button>
-                    <button className="ui button primary" onClick={openAddNew}>Add New</button>
+                    <button className="ui button primary" id="add-new" onClick={openAddNew}>Add New</button>
                     <div className="ui search ">
                         <div className="ui icon input fluid">
                             <input

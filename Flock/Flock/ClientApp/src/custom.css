@@ -5,6 +5,7 @@ html, body, #app, #root {
 }
 
 #main-navbar{
+    
     font-size: 16px;
     background-color: #2ba7db;
     z-index: 999;

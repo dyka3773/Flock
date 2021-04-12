@@ -10,6 +10,7 @@ import csvToJson from '../usefulFunctions/csvToJson';
 
 import Accordion from '../components/Accordion';
 import Form from '../components/Form';
+import ImportContacts from '../components/ImportContacts';
 
 import '../modulesCSS/Dashboard.css'
 
@@ -62,12 +63,7 @@ const Dashboard = () => {
     const campaignsNum = 10;
     const emailsNum = 250;
 
-    const createContacts = () => {
-
-        if (document.querySelector("#import").files[0])
-            csvToJson(document.querySelector("#import").files[0]);
-
-    }
+    
 
     return (
         <div className="Dashboard">
@@ -75,11 +71,7 @@ const Dashboard = () => {
             <div className="flex-item">
                 <div className="ui segment import ">
                     <h1>Hello again **username**</h1>
-                    <label className="custom-file-upload">
-                        <input type="file" id="import" />
-                            Custom Upload
-                        </label>
-                    <button onClick={createContacts}>AAA</button>
+                    <ImportContacts />
                     
                 </div>
             </div>
