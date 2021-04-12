@@ -134,14 +134,28 @@ BEGIN
 	-- to create later
 END$$
 
-CREATE PROCEDURE `Flock`.`addBusiness_Personal` ()
+CREATE PROCEDURE `Flock`.`addBusiness_Personal` (
+in email varchar(45), in passwrd int, in firstname varchar(45), in lastaname varchar(45), in phone int(14), in gender varchar(45), in country varchar(45), in zip varchar(45))
 BEGIN
-	-- to create later
+	insert into Accounts (Email,Passwd,Type,Num_of_Camps,Num_of_Conts,Num_of_Sent)
+    values(email, passwrd, 0, 0,0,0);
+    
+    set @aiid = LAST_INSERT_ID();
+    
+    insert into Business_Personal(AID,F_Name,L_Name,Phone,Gender,Country,ZIP)
+    values(@aiid, firstname, lastaname, phone, gender, country, zip);
 END$$
 
-CREATE PROCEDURE `Flock`.`addCompany` ()
+CREATE PROCEDURE `Flock`.`addCompany` (
+in email varchar(45), in passwrd int, in cname varchar(45), in phone int(14), in country varchar(45), in zip varchar(45), in address varchar(45))
 BEGIN
-	-- to create later
+	insert into Accounts (Email,Passwd,Type,Num_of_Camps,Num_of_Conts,Num_of_Sent)
+    values(email, passwrd, 0, 0,0,0);
+    
+    set @aiid = LAST_INSERT_ID();
+    
+    insert into Company (AID,C_Name,Phone,Country,ZIP,Phy_Address)
+    values(@aiid, cname, phone, country, zip, address);
 END$$
 
 CREATE PROCEDURE `Flock`.`exists` (

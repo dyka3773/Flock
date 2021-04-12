@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `Flock`.`Business_Personal` (
   `AID` int(11) NOT NULL,
   `F_Name` varchar(45) NOT NULL,
   `L_Name` varchar(45) NOT NULL,
-  `Phone` int(11) NOT NULL,
+  `Phone` int(14) NOT NULL,
   `Gender` varchar(45) NOT NULL,
   `Country` varchar(45) NOT NULL,
   `ZIP` varchar(45) NOT NULL,
