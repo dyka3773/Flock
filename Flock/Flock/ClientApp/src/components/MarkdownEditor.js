@@ -9,8 +9,8 @@ const MarkdownEditor = ({value, onChange}) => {
     };
 
     return (
-        <div class="ui form markdown-editor">
-            <div class="field">
+        <div className="ui form markdown-editor">
+            <div className="field">
                 <label>Text</label>
                 <textarea
                     onChange={handleChange}

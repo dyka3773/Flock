@@ -11,27 +11,30 @@ import dummyJsonGenerator from '../usefulFunctions/dummyJsonGenerator'
 
 const formInputs = [
     {
-        label: "Enter your name",
+        label: "Name",
         id: "name",
         type:"password"
     },
     {
-        label: "Enter your surname",
+        label: "Groups",
         id: "surname",
-        type:"email"
+        required: true
     },
     {
-        label: "Enter your address",
-        id: "address"
+        label: "item3",
+        id: "it3",
+        value:"placeholder"
     },
     {
-        label: "Enter your darkest secret",
-        id: "secret",
+        label: "item4",
+        id: "it4",
         type: "email"
     },
     {
-        label: "Who's your daddy?",
-        id: "daddy"
+        label: "read only",
+        id: "read",
+        value: "readOnlyValue",
+        readOnly:true
     }
 ];
 
@@ -63,7 +66,7 @@ const jsonPrototype = {
         startDate: {
             day: [1, 31],
             month: {
-                monthA: "10"
+                email: "email"
             },
             year: [2000, 3000]
         }
@@ -121,7 +124,6 @@ const Page1 = () => {
                 </div>
             </Form>
             <br/>
-            <Accordion items={accordionItems} />
             <br />
             <br />
             <MarkdownEditView />

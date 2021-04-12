@@ -12,7 +12,7 @@ const MarkdownViewer = ({value}) => {
     }
     
     return (
-        <div class="ui segment markdown-viewer">
+        <div className="ui segment markdown-viewer">
            
             <ReactMarkdown children={value} skipHtml plugins={[gfm]} renderer={renderers}/> 
         </div>

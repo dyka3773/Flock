@@ -24,7 +24,7 @@ const Accordion = (props) => {
 
     const onClick = (event, index) => {
         //ensures that clicking on a button or anchor element inside an AccordionItem will not trigger the opening or closing of the item
-        if (event.target.tagName === 'BUTTON' || event.target.tagName === 'A')
+        if (event.target.tagName === 'BUTTON' || event.target.tagName === 'A' || event.target.tagName === 'INPUT')
             return;
 
         if (index === activeIndex)

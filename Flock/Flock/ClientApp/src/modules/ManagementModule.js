@@ -84,7 +84,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, columnTitles, modalC
         setPageNum(goToNextPage);
     }
 
-    const maxPage = 3;
+    const maxPage = 5;
 
 
 

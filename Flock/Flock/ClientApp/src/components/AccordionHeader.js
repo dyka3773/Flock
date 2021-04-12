@@ -27,7 +27,7 @@ const AccordionHeader = ({title, details, onDelete}) => {
             <div className="titles">
                 {accordionTitles}
                 <div className="buttons">
-                    { onDelete ? <button className="ui button"  onClick={onClick}>D</button> : <></>}
+                    { onDelete ? <input className="ui button" type="checkbox" onClick={onClick}/> : <></>}
                 </div>
             </div>
             

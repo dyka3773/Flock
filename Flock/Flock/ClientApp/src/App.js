@@ -75,7 +75,7 @@ const App = () => {
 
                 <NavLink className="hide right item " to="/account-settings">Account Settings</NavLink>
 
-                <NavLink className="hide item" to="/test">Log Out</NavLink>
+                <NavLink className="hide item" to="/">Log Out</NavLink>
 
 
             </div>
