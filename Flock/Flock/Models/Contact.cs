@@ -12,5 +12,8 @@ namespace Flock.Models
         public String fullName { get; set; }
 
         public String email { get; set; }
+
+        //public getEditable List(return editableFields);
+
     }
 }

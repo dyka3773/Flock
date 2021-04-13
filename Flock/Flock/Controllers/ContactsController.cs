@@ -66,8 +66,11 @@ namespace Flock.Controllers
 
         // PUT api/<ContacsController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(Contact cont)
         {
+            //cont.getEditable();
+            //cmd.CommandText = "editContact(" cont.id + cont[0] + cont[1] + cont[2]")";
+
         }
 
         // DELETE api/<ContacsController>/5
