@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Flock.Models;
+using MySql.Data.MySqlClient;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -26,9 +27,18 @@ namespace Flock.Controllers
 
         // GET: api/<ContacsController>
         [HttpGet]
-        public List<Contact> Get()
+        public MySqlDataReader Get()
         {
-            return contacts;
+            using var cmd = new MySqlCommand();
+            cmd.Connection = new DBConnection().connect();
+            cmd.Connection.Open();
+
+            cmd.CommandText = "getContacts()";
+
+            var resultset = cmd.ExecuteReader();
+
+            cmd.Connection.Close();
+            return resultset;
         }
 
         // GET api/<ContacsController>/5
