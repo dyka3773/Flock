@@ -114,24 +114,74 @@ BEGIN
     where CID=ciid and AID=aiid;
 END$$
 
-CREATE PROCEDURE `Flock`.`addContactToGroup` ()
+CREATE PROCEDURE `Flock`.`addContactToGroup` (
+in cid int, in gid int)
 BEGIN
-	-- to create later
+	INSERT INTO `Flock`.`Contacts_in_Groups`
+	(`CID`,
+	`GID`)
+	VALUES
+	(cid,
+	gid);
+
 END$$
 
-CREATE PROCEDURE `Flock`.`addGroup` ()
+CREATE PROCEDURE `Flock`.`addGroup` (
+in aid int, in groupname varchar(45))
 BEGIN
-	-- to create later
+	INSERT INTO `Flock`.`Groups`
+	(`Group_Name`,
+	`AID`)
+	VALUES
+	(groupname,
+	aid);
+
 END$$
 
-CREATE PROCEDURE `Flock`.`addCampaign` ()
+CREATE PROCEDURE `Flock`.`addCampaign` (
+in sub varchar(100), in text mediumtext, in start date, in end date, in cname varchar(45), in frequency varchar(45), in aid int, in gid int)
 BEGIN
-	-- to create later
+	INSERT INTO `Flock`.`Campaign`
+	(`Subject`,
+	`Text`,
+	`Start_Date`,
+	`End_Date`,
+	`Creation_Date`,
+	`C_Name`,
+	`Frequency`,
+	`Num_of_Conts`,
+	`AID`,
+	`GID`)
+	VALUES
+	(sub,
+	text,
+	start,
+	end,
+	current_date(),
+	cname,
+	frequency,
+	0,
+	aid,
+	gid);
+
 END$$
 
-CREATE PROCEDURE `Flock`.`addContact` ()
+CREATE PROCEDURE `Flock`.`addContact` (
+in fname varchar(45), in email varchar(45), in aid int, in gid int)
 BEGIN
-	-- to create later
+	INSERT INTO `Flock`.`Contacts`
+	(`Full_Name`,
+	`Email`,
+	`AID`)
+	VALUES
+	(fname,
+	email,
+	aid);
+    
+    if gid is null then
+		set @ciid = LAST_INSERT_ID();
+		call addContactToGroup(@ciid,gid);
+	end if;
 END$$
 
 CREATE PROCEDURE `Flock`.`addBusiness_Personal` (
