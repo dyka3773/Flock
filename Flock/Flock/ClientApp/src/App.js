@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     BrowserRouter as Router,
     Switch,
@@ -20,39 +20,18 @@ import logo from "./images/logo.png";
 
 
 const App = () => {
-
+    const [hidden, setHidden] = useState("");
+    
     const loggedIn = true;
-    useEffect(() => {
-        const func = async () => {
-
-            const re1 = await axios.get('/apis/Contacts');
-
-            console.log(re1.data);
-
-
-            const re = await axios.post('/apis/Contacts', {
-                id: 69, fullName: "69696969", email: "696969@gmail.com"
-            })
-
-            console.log(re.data);
-        }
-
-
-        func();
-
-
-
-    })
 
     const toggleCollapse = () => {
-        const items = document.getElementsByClassName("hide");
+
+        hidden === "" ?
+            setHidden("hidden")
+            :
+            setHidden("")
         
-        for (let i of items) {
-            i.classList.contains("hidden") ?
-                i.classList.remove("hidden")
-                :
-                i.classList.add("hidden");
-        }
+        
     }
 
 
@@ -61,23 +40,24 @@ const App = () => {
             <div className="ui stackable menu" id="main-navbar">
 
 
-                <span className="item">
-                    <img className="logo" src={logo}  />
-                    <button id="unhide" onClick={toggleCollapse}>\/</button>
+                <span className="header item">
+                    <img className="logo" src={logo} />
+                    <button className="item ui basic primary button" id="unhide" onClick={toggleCollapse}>\/</button>
                 </span>
-                <NavLink className="hide item" activeClassName="active" to="/" exact>Home</NavLink>
 
-                <NavLink className="hide item" activeClassName="active" to="/campaign-management">Campaigns</NavLink>
+                <NavLink className={`hide item ${hidden}`} to="/" exact>Home</NavLink>
 
-                <NavLink className="hide item" activeClassName="active" to="/contact-management">Contact List</NavLink>
+                <NavLink className={`hide item ${hidden}`}  to="/campaign-management">Campaigns</NavLink>
 
-
-
-                <NavLink className="hide right item " to="/account-settings">Account Settings</NavLink>
-
-                <NavLink className="hide item" to="/">Log Out</NavLink>
+                <NavLink className={`hide item ${hidden}`}  to="/contact-management">Contact List</NavLink>
 
 
+
+                <NavLink className={`hide right item ${hidden}`} to="/account-settings">Account Settings</NavLink>
+
+                <NavLink className={`hide item ${hidden}`} to="/">Log Out</NavLink>
+                
+                
             </div>
 
             

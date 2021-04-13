@@ -20,9 +20,8 @@ html, body, #app, #root {
         color: white;
     }
 
-        #main-navbar .item #unhide {
-            position:absolute;
-            right:1rem;
+       #unhide {
+            
             display:none;
         }
        
@@ -41,17 +40,18 @@ h1, h2, h3,.ui.header {
 
 @media screen and (max-width: 768px) {
 
-    #main-navbar>.item.hide {
+    #main-navbar>.hide.item{
         display: none;
     }
 
-    #main-navbar>.item.hide.hidden {
+        #main-navbar >.hide.item.hidden {
+            display: block;
+        }
+
+    #unhide {
+        
         display: block;
     }
     
-
-    #main-navbar .item #unhide {
-        display: block;
-    }
 
 }
