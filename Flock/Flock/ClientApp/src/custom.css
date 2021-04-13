@@ -1,1 +1,57 @@
-/* Provide sufficient contrast against white background */
+html, body, #app, #root {
+    
+    background-color: #EBE9E9;
+   
+}
+
+#main-navbar{
+    
+    font-size: 16px;
+    background-color: #2ba7db;
+    z-index: 999;
+    position: sticky;
+    top: 0;
+    margin: 0;
+}
+
+
+
+    #main-navbar .item{
+        color: white;
+    }
+
+        #main-navbar .item #unhide {
+            position:absolute;
+            right:1rem;
+            display:none;
+        }
+       
+
+    #main-navbar .item .logo {
+       height:3.5rem;
+       width:3.5rem;
+    }
+
+
+    
+
+h1, h2, h3,.ui.header {
+    color: #2C92DB;
+}
+
+@media screen and (max-width: 768px) {
+
+    #main-navbar>.item.hide {
+        display: none;
+    }
+
+    #main-navbar>.item.hide.hidden {
+        display: block;
+    }
+    
+
+    #main-navbar .item #unhide {
+        display: block;
+    }
+
+}

@@ -1,0 +1,66 @@
+﻿.Dashboard {
+   
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:1rem;
+}
+
+    .Dashboard .ui.segment.import {
+        width:50rem;
+        margin: 1rem;
+        text-align:center;
+    }
+
+    .Dashboard .inner-flex {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+        .Dashboard .inner-flex>.flex-item,.inner-flex>.form {
+            width: 40rem;
+            margin: 1rem;
+        }
+        
+
+        .Dashboard .inner-flex .inner-inner-flex {
+            display: flex;
+            flex-direction: column;
+            justify-content:space-around;
+            
+        }
+
+            .Dashboard .inner-flex .inner-inner-flex .new-group {
+                flex:1;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                flex-direction:column;
+            }
+            .Dashboard .inner-flex .inner-inner-flex .basic-info {
+                flex:2;
+            }
+            
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+
+@media screen and (max-width: 768px) {
+    .Dashboard .inner-flex>.flex-item,.inner-flex>.form {
+        width: 100%;
+        
+    }
+    .Dashboard .ui.segment.import {
+        width: 100%;
+    }
+}
