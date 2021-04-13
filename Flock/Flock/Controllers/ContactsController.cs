@@ -14,46 +14,54 @@ namespace Flock.Controllers
     [ApiController]
     public class ContactsController : ControllerBase
     {
-        List<Contact> contacts = new List<Contact>();
+        
 
         public ContactsController() {
-            contacts.Add(new Contact { id = 1,fullName="Petros Petras", email="petraras@gmail.com"});
+            /*contacts.Add(new Contact { id = 1,fullName="Petros Petras", email="petraras@gmail.com"});
             contacts.Add(new Contact { id = 2, fullName = "Makhs Makos", email = "makarena69@gmail.com" });
             contacts.Add(new Contact { id = 3, fullName = "Anastashs Anastasiadis", email = "anastasi@gmail.com" });
             contacts.Add(new Contact { id = 4, fullName = "AAAAAAAAAA", email = "petrawwadwaras@gmail.com" });
-            contacts.Add(new Contact { id = 5, fullName = "BBBBBBBBBB", email = "AAAAAAAAAA@gmail.com" });
+            contacts.Add(new Contact { id = 5, fullName = "BBBBBBBBBB", email = "AAAAAAAAAA@gmail.com" });*/
         }
+
 
 
         // GET: api/<ContacsController>
         [HttpGet]
-        public MySqlDataReader Get()
+        public List<Contact> Get()
         {
-            using var cmd = new MySqlCommand();
-            cmd.Connection = new DBConnection().connect();
-            cmd.Connection.Open();
-
-            cmd.CommandText = "getContacts()";
-
-            var resultset = cmd.ExecuteReader();
-
-            cmd.Connection.Close();
-            return resultset;
+            return null;
         }
 
         // GET api/<ContacsController>/5
         [HttpGet("{id}")]
-        public Contact Get(int id)
+        public List<Contact> Get(int id)
         {
-            return contacts.Where(x => x.id == id).FirstOrDefault();
+            List<Contact> contacts = new List<Contact>();
+            using var cmd = new MySqlCommand();
+            cmd.Connection = new DBConnection().connect();
+            cmd.Connection.Open();
+
+            cmd.CommandText = "getContacts("+id+",NULL)";
+
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+
+                contacts.Add(new Contact { id = (int)reader.GetValue(0), fullName = reader.GetValue(1).ToString(), email = reader.GetValue(2).ToString() });
+
+            }
+
+            cmd.Connection.Close();
+            return contacts;
         }
 
         // POST api/<ContacsController>
         [HttpPost]
         public List<Contact> Post(Contact cont) 
         {
-            contacts.Add(cont);
-            return contacts;
+            return null;
         }
 
         // PUT api/<ContacsController>/5

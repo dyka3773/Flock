@@ -25,16 +25,14 @@ const App = () => {
     useEffect(() => {
         const func = async () => {
 
-            const re1 = await axios.get('/apis/Contacts');
+            const re1 = await axios.get('/apis/Contacts/1');
 
             console.log(re1.data);
 
 
-            const re = await axios.post('/apis/Contacts', {
-                id: 69, fullName: "69696969", email: "696969@gmail.com"
-            })
+          
 
-            console.log(re.data);
+            
         }
 
 
