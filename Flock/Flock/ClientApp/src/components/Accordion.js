@@ -1,5 +1,6 @@
 ﻿import React, { useState } from 'react';
 import '../componentCSS/Accordion.css';
+import dataToSelectAccordionConvert from '../usefulFunctions/dataToSelectAccordionItemsConvert'
 /*Accordion receives an array of objects following the below structure
  * const accordionItems = [
     {
@@ -19,8 +20,9 @@ for each array item one accordion item is rendered
 */
 
 
-const Accordion = (props) => {
+const Accordion = ({ items, editItems, onSelect, selectedItems }) => {
     const [activeIndex, setActiveIndex] = useState(null);
+    
 
     const onClick = (event, index) => {
         //ensures that clicking on a button or anchor element inside an AccordionItem will not trigger the opening or closing of the item
@@ -34,8 +36,10 @@ const Accordion = (props) => {
 
     }
 
+   
+    
 
-    const items = props.items.map(
+    const accordionItems = dataToSelectAccordionConvert(items, editItems, onSelect, selectedItems).map(
         (item, index) => {
             return (
                 <div className="accordion-item" key={item.id}>
@@ -55,7 +59,7 @@ const Accordion = (props) => {
 
     return (
         <div className="ui fluid accordion">
-            {items}
+            {accordionItems}
         </div>
     );
 

@@ -25,7 +25,9 @@ import Form from '../components/Form';
 import React from 'react';
 
 
-const dataToAccordionConvert = (items,editItems) => {
+const dataToSelectAccordionConvert = (items, editItems, onSelect, selectedItems) => {
+
+    
 
     const accordionItems = items.map(({details, id }) => {
 
@@ -44,7 +46,7 @@ const dataToAccordionConvert = (items,editItems) => {
 
         return (
             {
-                header: <AccordionHeader details={details} />,
+                header: <AccordionHeader details={details} onSelect={() => onSelect(id)} isSelected={selectedItems[id]} />,
                 details: <Form
                     inputs={inputs}
                     submit={{ label: "edit", onClick: (details) => editItems({ id: id, details: details }) }}
@@ -60,4 +62,4 @@ const dataToAccordionConvert = (items,editItems) => {
 
 }
 
-export default dataToAccordionConvert;
+export default dataToSelectAccordionConvert;

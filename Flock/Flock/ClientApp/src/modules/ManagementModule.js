@@ -4,7 +4,7 @@ import Accordion from '../components/Accordion';
 import AccordionHeader from '../components/AccordionHeader';
 import Modal from '../components/Modal';
 
-import dataToAccordionConvert from '../usefulFunctions/dataToAccordionItemsConvert'
+
 import getGroups from '../dataRequests/getGroups';
 
 import '../modulesCSS/ManagementModule.css';
@@ -28,21 +28,27 @@ import '../modulesCSS/ManagementModule.css';
 
 const ManagementModule = ({ getItems, editItems, listTitle, columnTitles, modalContents}) => {
 
+    
     const [searchValue, setSearchValue] = useState("");
     const [items, setItems] = useState([]);
     const [pageNum, setPageNum] = useState(1);
     const selectedGroupsRef = useRef({});
+    const selectedItemsRef = useRef({});
     const ref = useRef();
+    
 
-
+   
+  
     useEffect(
         () => {
             setItems(getItems(pageNum));
             window.scrollTo(0, 0);
+           
         }
         , [pageNum]);
 
-    const handleSelect = (id) => {
+    //console.log(items)
+    const handleSelectGroups = (id) => {
 
         selectedGroupsRef.current[id] ?
             selectedGroupsRef.current = (
@@ -56,10 +62,17 @@ const ManagementModule = ({ getItems, editItems, listTitle, columnTitles, modalC
         console.log(selectedGroupsRef.current);
     }
 
-    const initSelect = (id) => {
-        selectedGroupsRef.current = (
-            { ...selectedGroupsRef.current, [id]: false }
-        )
+
+    const handleSelectItems = (id) => {
+
+        selectedItemsRef.current[id] ?
+            selectedItemsRef.current = (
+                { ...selectedItemsRef.current, [id]: !selectedItemsRef.current[id] }
+            )
+            :
+            selectedItemsRef.current = (
+                { ...selectedItemsRef.current, [id]: true }
+            )
 
     }
 
@@ -101,14 +114,14 @@ const ManagementModule = ({ getItems, editItems, listTitle, columnTitles, modalC
         ref.current.style.display = "none";
     }
 
-    const accordionItems = dataToAccordionConvert(items, editItems);
+    
 
     const groups = getGroups().map(({ name, id }) => {
-        initSelect(id, false);//initialize selectedGroupsRef to be false 
+       
         return (
             <div className="field" key={id}>
                 <div className="ui checkbox">
-                    <input type="checkbox" id={id} onInput={() => handleSelect(id)}/>
+                    <input type="checkbox" id={id} onInput={() => handleSelectGroups(id)}/>
                     <label htmlFor={id}>{name}</label>
                 </div>
             </div>
@@ -147,14 +160,15 @@ const ManagementModule = ({ getItems, editItems, listTitle, columnTitles, modalC
                 </div>
                 <button className="sidebar-toggle" onClick={toggleSidebar}>{'>>'}</button>
                 <div className="list" >
-                    <div className="head">
+                    <div id="head">
                         <h1>{listTitle}</h1>
+                        <button className="ui red button" onClick={() => console.log(selectedItemsRef.current)}>Delete</button>
                     </div>
                     <div className="list-items">
                         <div className="accordion-descriptor">
                             {accordionDescriptor()}
                         </div>
-                        <Accordion items={accordionItems} />
+                        <Accordion items={items} selectedItems={selectedItemsRef.current} editItems={editItems} onSelect={handleSelectItems} />
                         
                         <button onClick={previousPage}>previous page</button>
                         <button onClick={nextPage}>next page</button>
