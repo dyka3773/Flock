@@ -18,3 +18,14 @@
 .ui.form.segment .inputs {
    padding:10px;
 }
+
+.ui.form.segment #form-children {
+    display:flex;
+    flex-direction:row;
+    flex-wrap: wrap;
+   justify-content:space-evenly;
+}
+
+.ui.form.segment #form-children>div {
+    margin:5px;
+}

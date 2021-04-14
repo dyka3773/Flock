@@ -4,12 +4,12 @@
 .custom-modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 3; /* Sit on top */
     left: 0;
-    top: 3rem;
+    top: 0;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
+    
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.2); /* Black w/ opacity */
     align-items:center;
@@ -17,14 +17,14 @@
 }
 
 
-    .custom-modal .ui.segment {
-        position:relative;
+    .custom-modal>.ui.segment {
+        position: relative;
+        overflow: auto; /* Enable scroll if needed */
+        max-width: 95%;
+        max-height: 95%;
+        display: flex;
+        flex-direction: column;
         
-        height:75%;
-        display:flex;
-        flex-direction:column;
-        justify-content:space-evenly;
-        align-items:center;
        
     }
 

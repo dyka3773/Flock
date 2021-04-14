@@ -1,6 +1,9 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import '../componentCSS/Accordion.css';
-import dataToSelectAccordionConvert from '../usefulFunctions/dataToSelectAccordionItemsConvert'
+import dataToFormInputs from '../usefulFunctions/dataToFormInputs';
+import AccordionHeader from '../components/AccordionHeader';
+import Form from '../components/Form';
+
 /*Accordion receives an array of objects following the below structure
  * const accordionItems = [
     {
@@ -20,7 +23,7 @@ for each array item one accordion item is rendered
 */
 
 
-const Accordion = ({ items, editItems, onSelect, selectedItems }) => {
+const Accordion = ({ items, editItems, onSelect, selectedItems, pageNum }) => {
     const [activeIndex, setActiveIndex] = useState(null);
     
 
@@ -36,21 +39,47 @@ const Accordion = ({ items, editItems, onSelect, selectedItems }) => {
 
     }
 
-   
+    useEffect(() => { setActiveIndex(null) }, [pageNum])
     
+    
+   
+        
 
-    const accordionItems = dataToSelectAccordionConvert(items, editItems, onSelect, selectedItems).map(
+    const accordionItems = items.map(
         (item, index) => {
+
+            const inputs = dataToFormInputs(item.details);
+
+            const accordionHeader = onSelect && selectedItems ? 
+                <AccordionHeader
+                    details={item.details}
+                    onSelect={() => onSelect(item.id)}
+                    isSelected={selectedItems[item.id]}
+                />
+                :
+                <AccordionHeader
+                    details={item.details}
+                />
+
             return (
                 <div className="accordion-item" key={item.id}>
+
                     <div
                         className={`title ${activeIndex === index ? 'active' : ''}`}
                         onClick={(e) => onClick(e,index)}
                     >
-                        {item.header}
+
+                        {accordionHeader}
+
                     </div>
+
                     <div className={`content ${activeIndex === index ? 'active' : ''}`}>
-                       {item.details}
+
+                        <Form
+                            inputs={inputs}
+                            submit={{ label: "edit", onClick: (details) => editItems({ id: item.id, details: details }) }}
+                        />
+
                     </div>
                 </div>
             );

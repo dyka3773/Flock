@@ -26,12 +26,13 @@ import '../modulesCSS/ManagementModule.css';
  * */
 
 
-const ManagementModule = ({ getItems, editItems, listTitle, columnTitles, modalContents}) => {
+const ManagementModule = ({ getItems, editItems, listTitle, modalContents}) => {
 
     
     const [searchValue, setSearchValue] = useState("");
     const [items, setItems] = useState([]);
     const [pageNum, setPageNum] = useState(1);
+
     const selectedGroupsRef = useRef({});
     const selectedItemsRef = useRef({});
     const ref = useRef();
@@ -168,7 +169,8 @@ const ManagementModule = ({ getItems, editItems, listTitle, columnTitles, modalC
                         <div className="accordion-descriptor">
                             {accordionDescriptor()}
                         </div>
-                        <Accordion items={items} selectedItems={selectedItemsRef.current} editItems={editItems} onSelect={handleSelectItems} />
+
+                        <Accordion items={items} selectedItems={selectedItemsRef.current} editItems={editItems} onSelect={handleSelectItems} pageNum={pageNum}/>
                         
                         <button onClick={previousPage}>previous page</button>
                         <button onClick={nextPage}>next page</button>

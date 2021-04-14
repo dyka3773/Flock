@@ -5,7 +5,7 @@ const AccordionHeader = ({ title, details, onSelect, isSelected}) => {
 
     const [selected, setSelected] = useState(isSelected ? isSelected : false);
    
-    const onClick = (e) => {
+    const onCheckClick = (e) => {
         
         onSelect();
         setSelected(!selected);
@@ -32,7 +32,7 @@ const AccordionHeader = ({ title, details, onSelect, isSelected}) => {
             <div className={`titles ${selected ? "selected" : "" }`} >
                 {accordionTitles}
                 <div className="buttons">
-                    {onSelect ? <input className="ui button" type="checkbox" onChange={onClick} checked={selected} /> : <></>}
+                    {onSelect ? <input className="ui button" type="checkbox" onChange={onCheckClick} checked={selected} /> : <></>}
                 </div>
             </div>
             

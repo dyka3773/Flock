@@ -4,7 +4,7 @@
 
 
     .management-module #add-new{
-        height:4rem;
+        min-height:2rem;
         
     }
 

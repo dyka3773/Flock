@@ -123,9 +123,9 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
             {label ? <h1 className="ui dividing header">{label}</h1> : <></>}
 
             <div className="inputs">{items ? items : "Loading..."}</div>
-
-            {children ? children : <></>}
-
+            <div className="ui segment" id="form-children">
+                {children ? children : <></>}
+            </div>
             {submitBtn()}{cancelBtn()}
             
         </form>
