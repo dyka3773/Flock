@@ -71,7 +71,7 @@ const NewCampaignCreation = () => {
                 </div>
                 <div>
                     <h3>Frequency:</h3>
-                    <select id="selection" value={frequency} onChange={(e) => setFrequency(e.target.value)}>
+                    <select className="ui selection dropdown" value={frequency} onChange={(e) => setFrequency(e.target.value)}>
                         <option value="Once">Once</option>
                         <option value="Every Day">Every Day</option>
                         <option value="Every Week">Every Week</option>
