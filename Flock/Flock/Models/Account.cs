@@ -7,18 +7,18 @@ namespace Flock.Models
 {
     public class Account
     {
-        public int id { get; set; }
+        public int id { get; set; } //non editable
 
-        public String email { get; set; }
+        public String email { get; set; } //non editable
 
         public String password { get; set; }
 
-        public int type { get; set; }
+        public int type { get; set; } //non editable
 
-        public int numOfCamps {get; set;}
+        public int numOfCamps {get; set; } //non editable
 
-        public int numOfConts { get; set; }
+        public int numOfConts { get; set; } //non editable
 
-        public int numOfSent { get; set; }
+        public int numOfSent { get; set; } //non editable
     }
 }

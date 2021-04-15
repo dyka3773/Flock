@@ -7,9 +7,9 @@ namespace Flock.Models
 {
     public class BusinessPersonal : Account
     {
-        public String fName { get; set; }
+        public String fName { get; set; } 
 
-        public String lName { get; set; }
+        public String lName { get; set; } 
 
         public long phone { get; set; }
 
@@ -17,6 +17,6 @@ namespace Flock.Models
 
         public String country { get; set; }
 
-        public String zip { get; set; }
+        public String zip { get; set; } 
     }
 }
