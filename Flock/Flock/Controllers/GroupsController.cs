@@ -38,7 +38,7 @@ namespace Flock.Controllers
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = "getCompany(" + id + ",NULL)";
+            cmd.CommandText = "getAllGroups(" + id + ")";
 
             MySqlDataReader reader = cmd.ExecuteReader();
 
