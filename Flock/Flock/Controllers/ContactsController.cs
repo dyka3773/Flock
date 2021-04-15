@@ -42,14 +42,18 @@ namespace Flock.Controllers
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = "getContacts("+id+",NULL)";
+            cmd.CommandText = "getContacts(" + id + ",NULL)";
 
             MySqlDataReader reader = cmd.ExecuteReader();
 
             while (reader.Read())
             {
 
-                contacts.Add(new Contact { id = (int)reader.GetValue(0), fullName = reader.GetValue(1).ToString(), email = reader.GetValue(2).ToString() });
+                contacts.Add(new Contact { id = (int)reader.GetValue(0), 
+                                           fullName = reader.GetValue(1).ToString(),
+                                           email = reader.GetValue(2).ToString() });
+
+
 
             }
 

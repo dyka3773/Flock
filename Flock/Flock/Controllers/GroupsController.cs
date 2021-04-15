@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Flock.Models;
+using MySql.Data.MySqlClient;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,26 +15,46 @@ namespace Flock.Controllers
     [ApiController]
     public class GroupsController : ControllerBase
     {
-        List<Group> groups = new List<Group>();
 
         public GroupsController() {
-            groups.Add(new Group { id=1, name="group1"});
+            /*groups.Add(new Group { id=1, name="group1"});
             groups.Add(new Group { id = 2, name = "group2" });
             groups.Add(new Group { id = 3, name = "group3" });
             groups.Add(new Group { id = 4, name = "group4" });
-            groups.Add(new Group { id = 5, name = "group5" });
+            groups.Add(new Group { id = 5, name = "group5" });*/
         }
         [HttpGet]
         public List<Group> Get()
         {
-            return groups;
+            return null;
         }
 
         // GET apis/<GroupsController>/5
         [HttpGet("{id}")]
-        public Group Get(int id)
+        public List<Group> Get(int id)
         {
-            return groups.Where(x => x.id == id).FirstOrDefault();
+            List<Group> group = new List<Group>();
+            using var cmd = new MySqlCommand();
+            cmd.Connection = new DBConnection().connect();
+            cmd.Connection.Open();
+
+            cmd.CommandText = "getCompany(" + id + ",NULL)";
+
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+
+                group.Add(new Group
+                {
+                    id = (int)reader.GetValue(0),
+                    name = reader.GetValue(1).ToString()
+                });
+
+            }
+
+            cmd.Connection.Close();
+            return group;
         }
 
         // POST apis/<GroupsController>
