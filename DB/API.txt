@@ -18,10 +18,11 @@ deleteManyCamps(...)
 deleteGroup(...)
 getCampsInGroup(AID, Group_Name)
 getContactsInGroup(AID, Group_Name)
-***editContact(...)
-***editCampaign(...)
-***editAccountDetails(...)
-***getAccDetails(...)
+editContact(...)
+editCampaign(...)
+editCompany(...)
+editBP(...)
+getAccDetails(...)
 
 =============================================================================================================================================================================================
 												C#
