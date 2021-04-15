@@ -23,6 +23,15 @@ drop procedure if exists `Flock`.`getAccDetails`;
 
 DELIMITER $$
 
+CREATE PROCEDURE `Flock`.`exists` (
+IN username varchar(45), in passwrd varchar(45))
+BEGIN
+	select AID 
+    from Accounts A 
+    where A.Email=username
+    and A.Passwd=passwrd;
+END$$
+
 CREATE PROCEDURE `Flock`.`getAccDetails` (
 IN AIID int)
 BEGIN
@@ -229,7 +238,7 @@ BEGIN
 END$$
 
 CREATE PROCEDURE `Flock`.`addBusiness_Personal` (
-in email varchar(45), in passwrd int, in firstname varchar(45), in lastaname varchar(45), in phone int(14), in gender varchar(45), in country varchar(45), in zip varchar(45))
+in email varchar(45), in passwrd int, in firstname varchar(45), in lastname varchar(45), in phone int(14), in gender varchar(45), in country varchar(45), in zip varchar(45))
 BEGIN
 	insert into Accounts (Email,Passwd,Type,Num_of_Camps,Num_of_Conts,Num_of_Sent)
     values(email, passwrd, 0, 0,0,0);
@@ -237,7 +246,9 @@ BEGIN
     set @aiid = LAST_INSERT_ID();
     
     insert into Business_Personal(AID,F_Name,L_Name,Phone,Gender,Country,ZIP)
-    values(@aiid, firstname, lastaname, phone, gender, country, zip);
+    values(@aiid, firstname, lastname, phone, gender, country, zip);
+    
+    call `Flock`.`exists`(email, passwrd);
 END$$
 
 CREATE PROCEDURE `Flock`.`addCompany` (
@@ -250,15 +261,8 @@ BEGIN
     
     insert into Company (AID,C_Name,Phone,Country,ZIP,Phy_Address)
     values(@aiid, cname, phone, country, zip, address);
-END$$
-
-CREATE PROCEDURE `Flock`.`exists` (
-IN username varchar(45), in passwrd varchar(45))
-BEGIN
-	select AID 
-    from Accounts A 
-    where A.Email=username
-    and A.Passwd=passwrd;
+    
+    call `Flock`.`exists`(email, passwrd);
 END$$
 
 CREATE PROCEDURE `Flock`.`getAllGroups` (

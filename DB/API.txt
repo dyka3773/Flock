@@ -10,7 +10,7 @@ addBusiness_Personal(...)
 addContact(...)			returns CID
 addCampaign(...)		[Creation_Date is CURRENT]
 addGroup(...)
-addContactToGroup(CID, AID, GID)
+addContactToGroup(CID, GID)
 deleteContact(...)
 deleteManyContacts(...)
 deleteCamp(...)
