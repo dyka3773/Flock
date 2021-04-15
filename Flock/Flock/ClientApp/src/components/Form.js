@@ -72,7 +72,7 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
     const cancelBtn = () => {
         if (cancel) {
             const { label } = cancel;
-            return <input className="ui button" type="button" value={label} onClick={onCancel} />;
+            return <input className="ui button cancel-button"  type="button" value={label} onClick={onCancel} />;
         }
        
     };
@@ -81,7 +81,7 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
         if (submit) {
 
             const { label } = submit;
-            return <input className="ui primary button" type="submit" value={label}/>;
+            return <input className="ui primary button submit-button" type="submit" value={label}/>;
         }
 
     };
@@ -123,11 +123,12 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
             {label ? <h1 className="ui dividing header">{label}</h1> : <></>}
 
             <div className="inputs">{items ? items : "Loading..."}</div>
-            <div className="ui segment" id="form-children">
+            <div className="form-children">
                 {children ? children : <></>}
             </div>
-            {submitBtn()}{cancelBtn()}
-            
+            <div className="buttons">
+                {submitBtn()}{cancelBtn()}
+            </div>
         </form>
     );
 

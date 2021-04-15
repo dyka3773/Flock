@@ -4,17 +4,12 @@ import gfm from 'remark-gfm';
 
 const MarkdownViewer = ({value}) => {
 
-    const renderers = {
-        name: () => {
-            return <h1>awwwwww</h1>
-        },
-
-    }
+    
     
     return (
-        <div className="ui segment markdown-viewer">
+        <div className="ui segment" id="markdown-viewer">
            
-            <ReactMarkdown children={value} skipHtml plugins={[gfm]} renderer={renderers}/> 
+            <ReactMarkdown children={value} skipHtml plugins={[gfm]}/> 
         </div>
         );
 

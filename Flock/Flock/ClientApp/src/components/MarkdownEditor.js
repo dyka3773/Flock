@@ -9,7 +9,7 @@ const MarkdownEditor = ({value, onChange}) => {
     };
 
     return (
-        <div className="ui form markdown-editor">
+        <div className="ui form" id="markdown-editor">
             <div className="field">
                 <label>Text</label>
                 <textarea

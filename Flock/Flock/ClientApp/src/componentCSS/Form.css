@@ -1,31 +1,31 @@
 ﻿body {
 }
 
-.form input:invalid {
-    border: 2px dashed red;
-}
 
-
-.form input:valid {
-    border: 2px solid black;
-}
 
 .ui.form.segment input{
     margin-bottom:15px;
     
 }
 
-.ui.form.segment .inputs {
+.ui.form.segment>.inputs {
    padding:10px;
 }
 
-.ui.form.segment #form-children {
-    display:flex;
-    flex-direction:row;
+.ui.form.segment > .form-children {
+    display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
-   justify-content:space-evenly;
+    justify-content: space-evenly;
+    padding: 10px;
 }
 
-.ui.form.segment #form-children>div {
+.ui.form.segment .form-children>div {
     margin:5px;
 }
+
+.ui.form.segment>.buttons{
+    padding:10px;
+    text-align:right;
+}
+

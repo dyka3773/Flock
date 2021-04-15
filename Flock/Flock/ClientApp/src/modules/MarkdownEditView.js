@@ -2,20 +2,21 @@
 import MarkdownEditor from '../components/MarkdownEditor';
 import MarkdownViewer from '../components/MarkdownViewer';
 
-const MarkdownEditView = () => {
+import '../modulesCSS/MarkdownEditView.css'
 
-    const [editorValue, setEditorValue] = useState("");
+const MarkdownEditView = ({ editorValue, setEditorValue }) => {
+
     
-    const get = document.getElementsByClassName("markdown-viewer") ?
-                    document.getElementsByClassName("markdown-viewer")[0]
+    
+    const get = document.getElementById("markdown-viewer") ?
+                    document.getElementById("markdown-viewer")
                     :
                     <div></div>
     
     console.log(get);
     
     return (
-        <div>
-            <h1>Markdown Editor/Viewer</h1>
+        <div id="markdown-edit-view">
             <MarkdownEditor value={editorValue} onChange={setEditorValue}/>
             <MarkdownViewer value={editorValue} />
         </div>

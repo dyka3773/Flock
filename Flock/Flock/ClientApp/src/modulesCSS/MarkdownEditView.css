@@ -1,0 +1,14 @@
+﻿#markdown-edit-view {
+   
+}
+
+    #markdown-edit-view #markdown-editor.ui.form {
+        
+    }
+
+
+    #markdown-edit-view #markdown-viewer.ui.segment {
+        overflow: auto;
+        
+        word-wrap: break-word;
+    }
