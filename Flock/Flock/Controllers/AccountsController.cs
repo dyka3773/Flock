@@ -97,10 +97,10 @@ namespace Flock.Controllers
                     numOfConts = (int)reader.GetValue(4),
                     numOfSent = (int)reader.GetValue(5),
                     name = reader.GetValue(6).ToString(),
-                    phone = reader.GetValue(7).ToString(),
-                    country = reader.GetValue(8).ToString(),
-                    zip = reader.GetValue(9).ToString(),
-                    phyAddress = reader.GetValue(10).ToString(),
+                    phone = reader.GetValue(8).ToString(),
+                    country = reader.GetValue(7).ToString(),
+                    zip = reader.GetValue(10).ToString(),
+                    phyAddress = reader.GetValue(9).ToString(),
                     id = id,
                 };
 

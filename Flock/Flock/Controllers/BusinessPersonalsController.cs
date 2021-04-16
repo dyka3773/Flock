@@ -36,42 +36,8 @@ namespace Flock.Controllers
 
         // GET api/<BusinessPersonalController>/5
         [HttpGet("{id}")]
-        public List<BusinessPersonal> Get(int id)
+        public void Get(int id)
         {
-            List<BusinessPersonal> bp = new List<BusinessPersonal>();
-            using var cmd = new MySqlCommand();
-            cmd.Connection = new DBConnection().connect();
-            cmd.Connection.Open();
-
-            cmd.CommandText = "getAccDetails(" + id + ")";
-
-            MySqlDataReader reader = cmd.ExecuteReader();
-
-            while (reader.Read())
-            {
-
-                bp.Add(new BusinessPersonal
-                {
-                    email = reader.GetValue(0).ToString(),
-                    password = reader.GetValue(1).ToString(),
-                    type = (int)reader.GetValue(2),
-                    numOfCamps = (int)reader.GetValue(3),
-                    numOfConts = (int)reader.GetValue(4),
-                    numOfSent = (int)reader.GetValue(5),
-                    fName = reader.GetValue(7).ToString(),
-                    id = (int)reader.GetValue(6),
-                    lName = reader.GetValue(8).ToString(),
-                    phone = reader.GetValue(9).ToString(),
-                    gender = reader.GetValue(10).ToString(),
-                    country = reader.GetValue(11).ToString(),
-                    zip = reader.GetValue(12).ToString()
-                    
-                });
-
-            }
-
-            cmd.Connection.Close();
-            return bp;
         }
 
         // POST api/<BusinessPersonalController>

@@ -32,38 +32,8 @@ namespace Flock.Controllers
 
         // GET apis/<CompanyController>/5
         [HttpGet("{id}")]
-        public List<Company> Get(int id)
+        public void Get(int id)
         {
-            List<Company> companies = new List<Company>();
-            using var cmd = new MySqlCommand();
-            cmd.Connection = new DBConnection().connect();
-            cmd.Connection.Open();
-
-            cmd.CommandText = "getAccDetails(" + id + ")";
-
-            MySqlDataReader reader = cmd.ExecuteReader();
-
-            while (reader.Read())
-            {
-
-                companies.Add(new Company { email = reader.GetValue(0).ToString(),
-                                            password = reader.GetValue(1).ToString(),
-                                            type = (int)reader.GetValue(2),
-                                            numOfCamps = (int)reader.GetValue(3),
-                                            numOfConts = (int)reader.GetValue(4),
-                                            numOfSent = (int)reader.GetValue(5),
-                                            id = (int)reader.GetValue(6),
-                                            name = reader.GetValue(7).ToString(),
-                                            phone = reader.GetValue(8).ToString(),
-                                            country = reader.GetValue(9).ToString(),
-                                            zip = reader.GetValue(10).ToString(),
-                                            phyAddress = reader.GetValue(11).ToString()
-                });
-
-            }
-
-            cmd.Connection.Close();
-            return companies;
         }
 
         // POST api/<CompanyController>
