@@ -4,15 +4,14 @@
 .import-contacts {
     display:flex;
     justify-content:center;
-    align-items:flex-end;
+    align-items:center;
 }
 
-    .import-contacts label {
-       display:block
-    }
+    
 
-    .import-contacts>div{
-        padding:5px;
+    .import-contacts>form>*{
+        margin:5px;
+       
     }
 
     .import-contacts input[type="file"] {
