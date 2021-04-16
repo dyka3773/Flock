@@ -7,7 +7,7 @@ namespace Flock.Models
 {
     public class Contact
     {
-        public int id { get; set; }
+        public int id { get; set; } //non editable
 
         public String fullName { get; set; }
 

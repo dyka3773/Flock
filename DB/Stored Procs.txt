@@ -17,21 +17,72 @@ drop procedure if exists `Flock`.`getCampsInGroup`;
 drop procedure if exists `Flock`.`getContactsInGroup`;
 drop procedure if exists `Flock`.`editContact`;
 drop procedure if exists `Flock`.`editCampaign`;
-drop procedure if exists `Flock`.`editAccountDetails`;
+drop procedure if exists `Flock`.`editCompany`;
+drop procedure if exists `Flock`.`editBP`;
+drop procedure if exists `Flock`.`getAccDetails`;
 
 DELIMITER $$
 
-CREATE PROCEDURE `Flock`.`editAccountDetails` ()
+CREATE PROCEDURE `Flock`.`exists` (
+IN username varchar(45), in passwrd varchar(45))
 BEGIN
-	-- to create later
+	select AID 
+    from Accounts A 
+    where A.Email=username
+    and A.Passwd=passwrd;
+END$$
+
+CREATE PROCEDURE `Flock`.`getAccDetails` (
+IN AIID int)
+BEGIN
+	
+    select @accType=type from Accounts where AID=AIID;
+	
+    if @accType=0 then
+		select A.Email, A.Passwd, A.Type, A.Num_of_Camps, A.Num_of_Conts, 
+				A.Num_of_Sent, BP.F_Name, BP.L_Name, BP.Phone, BP.Gender, BP.Country, BP.ZIP
+		from Accounts A join Business_Personal BP on (A.AID=BP.AID)
+		where A.AID=AIID;
+	else
+		select A.Email, A.Passwd, A.Type, A.Num_of_Camps, A.Num_of_Conts, 
+				A.Num_of_Sent,  C.C_Name, C.Country, C.Phone, C.Phy_Address, C.ZIP
+		from Accounts A join Company C on (A.AID=C.AID)
+		where A.AID=AIID;
+    end if;
+    
+END$$
+
+CREATE PROCEDURE `Flock`.`editCompany` (
+in aid int , in password varchar(45), in name varchar(45),  in phone int(14), in country varchar(45), in zip varchar(45), in phyAddress varchar(45))
+BEGIN
+	
+    update Accounts
+    set Passwd = password
+    where AID = aid;
+
+	update Company
+    set C_Name = name, Phone = phone, Country = country, ZIP = zip, Phy_Address = phyAddress
+    where AID = aid;
+END$$
+
+CREATE PROCEDURE `Flock`.`editBP` (
+in aid int , in password varchar(45), in fName varchar(45), in lName varchar(45), in phone int(14), in gender varchar(45), in country varchar(45), in zip varchar(45))
+BEGIN
+
+	update Accounts
+    set Passwd = password
+    where AID = aid;
+
+	update Business_Personal
+    set F_Name = fName, L_Name = lName, Phone = phone, Gender = gender, Country = country, ZIP = zip
+    where AID = aid;
 END$$
 
 CREATE PROCEDURE `Flock`.`editCampaign` (
-in caiid int, in cname varchar(45), in aid int)
+in caiid int, in cname varchar(45), in aid int , in subject varchar(100), in text mediumtext, in endDate date, in frequency varchar(45))
 BEGIN
-	-- needs editing
 	update Campaign
-    set C_Name = cname
+    set C_Name = cname, Subject = subject, Text = text, End_Date = endDate, Frequency = frequency
     where CAID=caiid and AID=aid;
 END$$
 
@@ -139,7 +190,7 @@ BEGIN
 END$$
 
 CREATE PROCEDURE `Flock`.`addCampaign` (
-in sub varchar(100), in text mediumtext, in start date, in end date, in cname varchar(45), in frequency varchar(45), in aid int, in gid int)
+in sub varchar(100), in text mediumtext, in start date, in end date, in cname varchar(45), in frequency varchar(45), in attachment blob, in aid int, in gid int)
 BEGIN
 	INSERT INTO `Flock`.`Campaign`
 	(`Subject`,
@@ -150,6 +201,7 @@ BEGIN
 	`C_Name`,
 	`Frequency`,
 	`Num_of_Conts`,
+    `Attachment`,
 	`AID`,
 	`GID`)
 	VALUES
@@ -161,6 +213,7 @@ BEGIN
 	cname,
 	frequency,
 	0,
+    attachment,
 	aid,
 	gid);
 
@@ -185,7 +238,7 @@ BEGIN
 END$$
 
 CREATE PROCEDURE `Flock`.`addBusiness_Personal` (
-in email varchar(45), in passwrd int, in firstname varchar(45), in lastaname varchar(45), in phone int(14), in gender varchar(45), in country varchar(45), in zip varchar(45))
+in email varchar(45), in passwrd int, in firstname varchar(45), in lastname varchar(45), in phone int(14), in gender varchar(45), in country varchar(45), in zip varchar(45))
 BEGIN
 	insert into Accounts (Email,Passwd,Type,Num_of_Camps,Num_of_Conts,Num_of_Sent)
     values(email, passwrd, 0, 0,0,0);
@@ -193,28 +246,23 @@ BEGIN
     set @aiid = LAST_INSERT_ID();
     
     insert into Business_Personal(AID,F_Name,L_Name,Phone,Gender,Country,ZIP)
-    values(@aiid, firstname, lastaname, phone, gender, country, zip);
+    values(@aiid, firstname, lastname, phone, gender, country, zip);
+    
+    call `Flock`.`exists`(email, passwrd);
 END$$
 
 CREATE PROCEDURE `Flock`.`addCompany` (
 in email varchar(45), in passwrd int, in cname varchar(45), in phone int(14), in country varchar(45), in zip varchar(45), in address varchar(45))
 BEGIN
 	insert into Accounts (Email,Passwd,Type,Num_of_Camps,Num_of_Conts,Num_of_Sent)
-    values(email, passwrd, 0, 0,0,0);
+    values(email, passwrd, 1, 0,0,0);
     
     set @aiid = LAST_INSERT_ID();
     
     insert into Company (AID,C_Name,Phone,Country,ZIP,Phy_Address)
     values(@aiid, cname, phone, country, zip, address);
-END$$
-
-CREATE PROCEDURE `Flock`.`exists` (
-IN username varchar(45), in passwrd varchar(45))
-BEGIN
-	select AID 
-    from Accounts A 
-    where A.Email=username
-    and A.Passwd=passwrd;
+    
+    call `Flock`.`exists`(email, passwrd);
 END$$
 
 CREATE PROCEDURE `Flock`.`getAllGroups` (
