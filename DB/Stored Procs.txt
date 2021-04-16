@@ -36,7 +36,10 @@ CREATE PROCEDURE `Flock`.`getAccDetails` (
 IN AIID int)
 BEGIN
 	
-    select @accType=type from Accounts where AID=AIID;
+    set @accType =0;
+    -- Fix Type handling
+    
+    -- select @accType=type from Accounts where AID=AIID;
 	
     if @accType=0 then
 		select A.Email, A.Passwd, A.Type, A.Num_of_Camps, A.Num_of_Conts, 
@@ -238,7 +241,7 @@ BEGIN
 END$$
 
 CREATE PROCEDURE `Flock`.`addBusiness_Personal` (
-in email varchar(45), in passwrd int, in firstname varchar(45), in lastname varchar(45), in phone int(14), in gender varchar(45), in country varchar(45), in zip varchar(45))
+in email varchar(45), in passwrd int, in firstname varchar(45), in lastname varchar(45), in phone varchar(45), in gender varchar(45), in country varchar(45), in zip varchar(45))
 BEGIN
 	insert into Accounts (Email,Passwd,Type,Num_of_Camps,Num_of_Conts,Num_of_Sent)
     values(email, passwrd, 0, 0,0,0);
@@ -252,7 +255,7 @@ BEGIN
 END$$
 
 CREATE PROCEDURE `Flock`.`addCompany` (
-in email varchar(45), in passwrd int, in cname varchar(45), in phone int(14), in country varchar(45), in zip varchar(45), in address varchar(45))
+in email varchar(45), in passwrd int, in cname varchar(45), in phone varchar(45), in country varchar(45), in zip varchar(45), in address varchar(45))
 BEGIN
 	insert into Accounts (Email,Passwd,Type,Num_of_Camps,Num_of_Conts,Num_of_Sent)
     values(email, passwrd, 1, 0,0,0);
