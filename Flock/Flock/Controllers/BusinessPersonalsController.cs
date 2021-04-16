@@ -52,13 +52,19 @@ namespace Flock.Controllers
 
                 bp.Add(new BusinessPersonal
                 {
-                    id = (int)reader.GetValue(0),
-                    fName = reader.GetValue(1).ToString(),
-                    lName = reader.GetValue(2).ToString(),
-                    phone = (long)reader.GetValue(3),
-                    gender = reader.GetValue(4).ToString(),
-                    country = reader.GetValue(5).ToString(),
-                    zip = reader.GetValue(6).ToString()
+                    email = reader.GetValue(0).ToString(),
+                    password = reader.GetValue(1).ToString(),
+                    type = (int)reader.GetValue(2),
+                    numOfCamps = (int)reader.GetValue(3),
+                    numOfConts = (int)reader.GetValue(4),
+                    numOfSent = (int)reader.GetValue(5),
+                    id = (int)reader.GetValue(6),
+                    fName = reader.GetValue(7).ToString(),
+                    lName = reader.GetValue(8).ToString(),
+                    phone = (long)reader.GetValue(9),
+                    gender = reader.GetValue(10).ToString(),
+                    country = reader.GetValue(11).ToString(),
+                    zip = reader.GetValue(12).ToString()
                     
                 });
 

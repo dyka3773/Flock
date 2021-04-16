@@ -46,12 +46,18 @@ namespace Flock.Controllers
             while (reader.Read())
             {
 
-                companies.Add(new Company { id = (int)reader.GetValue(0),
-                                            name = reader.GetValue(1).ToString(),
-                                            phone = (long)reader.GetValue(2),
-                                            country = reader.GetValue(3).ToString(),
-                                            zip = reader.GetValue(4).ToString(),
-                                            phyAddress = reader.GetValue(5).ToString()
+                companies.Add(new Company { email = reader.GetValue(0).ToString(),
+                                            password = reader.GetValue(1).ToString(),
+                                            type = (int)reader.GetValue(2),
+                                            numOfCamps = (int)reader.GetValue(3),
+                                            numOfConts = (int)reader.GetValue(4),
+                                            numOfSent = (int)reader.GetValue(5),
+                                            id = (int)reader.GetValue(6),
+                                            name = reader.GetValue(7).ToString(),
+                                            phone = (long)reader.GetValue(8),
+                                            country = reader.GetValue(9).ToString(),
+                                            zip = reader.GetValue(10).ToString(),
+                                            phyAddress = reader.GetValue(11).ToString()
                 });
 
             }
