@@ -9,12 +9,17 @@ namespace Flock.Models
     {
         public String name { get; set; } //non editable
 
-        public long phone { get; set; }
+        public String phone { get; set; }
 
         public String country { get; set; }
 
-        public String zip { get; set; } 
+        public String zip { get; set; }
 
         public String phyAddress { get; set; }
+
+        public override Object getFields()
+        {
+            return this;
+        }
     }
 }

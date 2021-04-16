@@ -11,12 +11,17 @@ namespace Flock.Models
 
         public String lName { get; set; } 
 
-        public long phone { get; set; }
+        public String phone { get; set; }
 
         public String gender { get; set; }
 
         public String country { get; set; }
 
-        public String zip { get; set; } 
+        public String zip { get; set; }
+
+        public override Object getFields()
+        {
+            return this;
+        }
     }
 }

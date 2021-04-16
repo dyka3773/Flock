@@ -58,10 +58,10 @@ namespace Flock.Controllers
                     numOfCamps = (int)reader.GetValue(3),
                     numOfConts = (int)reader.GetValue(4),
                     numOfSent = (int)reader.GetValue(5),
-                    id = (int)reader.GetValue(6),
                     fName = reader.GetValue(7).ToString(),
+                    id = (int)reader.GetValue(6),
                     lName = reader.GetValue(8).ToString(),
-                    phone = (long)reader.GetValue(9),
+                    phone = reader.GetValue(9).ToString(),
                     gender = reader.GetValue(10).ToString(),
                     country = reader.GetValue(11).ToString(),
                     zip = reader.GetValue(12).ToString()

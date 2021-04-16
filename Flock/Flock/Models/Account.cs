@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Flock.Models
 {
-    public class Account
+    public abstract class Account
     {
         public int id { get; set; } //non editable
 
@@ -20,5 +20,8 @@ namespace Flock.Models
         public int numOfConts { get; set; } //non editable
 
         public int numOfSent { get; set; } //non editable
+
+        public abstract Object getFields();
+        
     }
 }

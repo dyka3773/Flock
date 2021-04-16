@@ -54,7 +54,7 @@ namespace Flock.Controllers
                                             numOfSent = (int)reader.GetValue(5),
                                             id = (int)reader.GetValue(6),
                                             name = reader.GetValue(7).ToString(),
-                                            phone = (long)reader.GetValue(8),
+                                            phone = reader.GetValue(8).ToString(),
                                             country = reader.GetValue(9).ToString(),
                                             zip = reader.GetValue(10).ToString(),
                                             phyAddress = reader.GetValue(11).ToString()
