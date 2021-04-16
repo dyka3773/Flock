@@ -17,8 +17,7 @@ namespace Flock.Controllers
         {
             myConnection = "SERVER=localhost;Port=3333;DATABASE=Flock;UID=root;PASSWORD=dyka3773";
             //Until we deploy the site in users, we have to connect through ssh with the db !!!
-            //ssh -L3333:/home/student/it/2018/it185200/mysql/run/mysql.sock it185200@users.iee.ihu.gr
-            //password : It185200@197358426
+            
         }
 
         public MySqlConnection connect()

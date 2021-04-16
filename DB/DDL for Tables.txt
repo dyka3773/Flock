@@ -11,9 +11,9 @@ CREATE TABLE IF NOT EXISTS `Flock`.`Accounts` (
   `Email` VARCHAR(45) NOT NULL,
   `Passwd` VARCHAR(45) NOT NULL,
   `Type` INT NOT NULL,
-  `Num_of_Camps` int(10) unsigned zerofill NOT NULL,
-  `Num_of_Conts` int(10) unsigned zerofill NOT NULL,
-  `Num_of_Sent` int(10) unsigned zerofill NOT NULL,
+  `Num_of_Camps` int(10) NOT NULL,
+  `Num_of_Conts` int(10) NOT NULL,
+  `Num_of_Sent` int(10) NOT NULL,
   PRIMARY KEY (`AID`),
   CONSTRAINT emailAlreadyExistsInDB UNIQUE (Email)
   )
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `Flock`.`Business_Personal` (
   `AID` int(11) NOT NULL,
   `F_Name` varchar(45) NOT NULL,
   `L_Name` varchar(45) NOT NULL,
-  `Phone` int(14) NOT NULL,
+  `Phone` varchar(45) NOT NULL,
   `Gender` varchar(45) NOT NULL,
   `Country` varchar(45) NOT NULL,
   `ZIP` varchar(45) NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `Flock`.`Business_Personal` (
 CREATE TABLE IF NOT EXISTS `Flock`.`Company` (
   `AID` int(11) NOT NULL,
   `C_Name` varchar(45) NOT NULL,
-  `Phone` int(11) NOT NULL,
+  `Phone` varchar(45) NOT NULL,
   `Country` varchar(45) NOT NULL,
   `ZIP` varchar(45) NOT NULL,
   `Phy_Address` varchar(45) NOT NULL,
