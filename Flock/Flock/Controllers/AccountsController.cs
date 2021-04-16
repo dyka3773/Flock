@@ -37,7 +37,7 @@ namespace Flock.Controllers
         [HttpGet("{id}")]
         public Object Get(int id)
         {
-            Object accounts = null;
+            Account account;
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
@@ -45,16 +45,13 @@ namespace Flock.Controllers
             cmd.CommandText = "getAccDetails(" + id + ")";
 
             MySqlDataReader reader = cmd.ExecuteReader();
-
-            while (reader.Read())
-            {
-
-                accounts = getAccountFactory(reader, id).getFields();
-
-            }
+            reader.Read();
+            
+            account = getAccountFactory(reader, id);
 
             cmd.Connection.Close();
-            return accounts;
+
+            return account.getFields();
         }
 
 
