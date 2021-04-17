@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `Flock`.`Accounts` (
   `Num_of_Conts` int(10) NOT NULL,
   `Num_of_Sent` int(10) NOT NULL,
   PRIMARY KEY (`AID`),
-  CONSTRAINT emailAlreadyExistsInDB UNIQUE (Email)
+  CONSTRAINT emailAlreadyExistsInDB UNIQUE (`Email`)
   )
 COMMENT = '// If type = 0 then Account is Personal\n// If type = 1 then Account is Company';
 
@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS `Flock`.`Contacts` (
   `Email` VARCHAR(45) NOT NULL,
   `AID` int(11) NOT NULL,
   PRIMARY KEY (`CID`),
+  CONSTRAINT emailAlreadyExistsInAccount UNIQUE (`Email`,`AID`),
   CONSTRAINT `fk_AID_from_Contacts` FOREIGN KEY (`AID`) REFERENCES `Accounts` (`AID`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -56,6 +57,7 @@ CREATE TABLE IF NOT EXISTS `Flock`.`Groups` (
   `Group_Name` varchar(45) NOT NULL,
   `AID` int(11) NOT NULL,
   PRIMARY KEY (`GID`),
+  CONSTRAINT groupAlreadyExistsInAccount UNIQUE (`Group_Name`,`AID`),
   CONSTRAINT `fk_AID_from_Groups` FOREIGN KEY (`AID`) REFERENCES `Accounts` (`AID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

@@ -53,45 +53,45 @@ BEGIN
 END$$
 
 CREATE PROCEDURE `Flock`.`editCompany` (
-in aid int , in password varchar(45), in name varchar(45),  in phone int(14), in country varchar(45), in zip varchar(45), in phyAddress varchar(45))
+in aiid int , in password varchar(45), in name varchar(45),  in phone int(14), in country varchar(45), in zip varchar(45), in phyAddress varchar(45))
 BEGIN
 	
     update Accounts
     set Passwd = password
-    where AID = aid;
+    where AID = aiid;
 
-	update Company
-    set C_Name = name, Phone = phone, Country = country, ZIP = zip, Phy_Address = phyAddress
-    where AID = aid;
+	update Company C
+    set C.C_Name = name, C.Phone = phone, C.Country = country, C.ZIP = zip, C.Phy_Address = phyAddress
+    where C.AID = aiid;
 END$$
 
 CREATE PROCEDURE `Flock`.`editBP` (
-in aid int , in password varchar(45), in fName varchar(45), in lName varchar(45), in phone int(14), in gender varchar(45), in country varchar(45), in zip varchar(45))
+in aiid int , in password varchar(45), in fName varchar(45), in lName varchar(45), in phoone int(14), in geender varchar(45), in countryy varchar(45), in ziip varchar(45))
 BEGIN
 
 	update Accounts
     set Passwd = password
-    where AID = aid;
+    where AID = aiid;
 
-	update Business_Personal
-    set F_Name = fName, L_Name = lName, Phone = phone, Gender = gender, Country = country, ZIP = zip
-    where AID = aid;
+	update Business_Personal BP
+    set BP.F_Name = fName, BP.L_Name = lName, BP.Phone = phoone, BP.Gender = geender, BP.Country = countryy, BP.ZIP = ziip
+    where BP.AID = aiid;
 END$$
 
 CREATE PROCEDURE `Flock`.`editCampaign` (
 in caiid int, in cname varchar(45), in aid int , in subject varchar(100), in text mediumtext, in endDate date, in frequency varchar(45))
 BEGIN
-	update Campaign
-    set C_Name = cname, Subject = subject, Text = text, End_Date = endDate, Frequency = frequency
-    where CAID=caiid and AID=aid;
+	update Campaign C
+    set C.C_Name = cname, C.Subject = subject, C.Text = text, C.End_Date = endDate, C.Frequency = frequency
+    where C.CAID=caiid and C.AID=aid;
 END$$
 
 CREATE PROCEDURE `Flock`.`editContact` (
 in cid int, in aid int, in fullname varchar(45), in email varchar(45))
 BEGIN
-	update Contacts
-    set Full_Name = fullname, Email = email
-    where CID=cid and AID=aid;
+	update Contacts C
+    set C.Full_Name = fullname, C.Email = email
+    where (C.CID=cid and C.AID=aid);
 END$$
 
 CREATE PROCEDURE `Flock`.`getContactsInGroup` (
@@ -178,14 +178,14 @@ BEGIN
 END$$
 
 CREATE PROCEDURE `Flock`.`addGroup` (
-in aid int, in groupname varchar(45))
+in aiid int, in groupname varchar(45))
 BEGIN
 	INSERT INTO `Flock`.`Groups`
 	(`Group_Name`,
 	`AID`)
 	VALUES
 	(groupname,
-	aid);
+	aiid);
 
 END$$
 
@@ -231,7 +231,7 @@ BEGIN
 	email,
 	aid);
     
-    if gid is null then
+    if gid is not null then
 		set @ciid = LAST_INSERT_ID();
 		call addContactToGroup(@ciid,gid);
 	end if;
