@@ -37,15 +37,27 @@ namespace Flock.Controllers
         }
 
         // POST api/<CompanyController>
-        [HttpPost]
-        public void Post([FromBody] Company comp)
+        [HttpPost("{id}")]
+        public void Post(Company c)
         {
+            using var cmd = new MySqlCommand();
+            cmd.Connection = new DBConnection().connect();
+            cmd.Connection.Open();
+
+            cmd.CommandText = String.Format("call addCompany('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')", c.email, c.password, c.name, c.phone, c.country, c.zip, c.phyAddress);
+            MySqlDataReader reader = cmd.ExecuteReader();
         }
 
         // PUT api/<CompanyController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, Company c)
         {
+            using var cmd = new MySqlCommand();
+            cmd.Connection = new DBConnection().connect();
+            cmd.Connection.Open();
+
+            cmd.CommandText = String.Format("call editCompany('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')", id, c.password, c.name, c.phone, c.country, c.zip, c.phyAddress);
+            MySqlDataReader reader = cmd.ExecuteReader();
         }
 
         // DELETE api/<CompanyController>/5

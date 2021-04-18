@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Flock.Models;
 using MySql.Data.MySqlClient;
+using System.Net.Http;
+using System.Net;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,9 +15,10 @@ namespace Flock.Controllers
     [ApiController]
     public class ContactsController : ControllerBase
     {
-        
 
-        public ContactsController() {
+
+        public ContactsController()
+        {
             /*contacts.Add(new Contact { id = 1,fullName="Petros Petras", email="petraras@gmail.com"});
             contacts.Add(new Contact { id = 2, fullName = "Makhs Makos", email = "makarena69@gmail.com" });
             contacts.Add(new Contact { id = 3, fullName = "Anastashs Anastasiadis", email = "anastasi@gmail.com" });
@@ -49,9 +51,12 @@ namespace Flock.Controllers
             while (reader.Read())
             {
 
-                contacts.Add(new Contact { id = (int)reader.GetValue(0), 
-                                           fullName = reader.GetValue(1).ToString(),
-                                           email = reader.GetValue(2).ToString() });
+                contacts.Add(new Contact
+                {
+                    id = (int)reader.GetValue(0),
+                    fullName = reader.GetValue(1).ToString(),
+                    email = reader.GetValue(2).ToString()
+                });
 
 
 
@@ -61,26 +66,69 @@ namespace Flock.Controllers
             return contacts;
         }
 
-        // POST api/<ContacsController>
-        [HttpPost]
-        public List<Contact> Post(Contact cont) 
+        // POST api/<ContacsController>/5
+        [HttpPost("{id}")]
+        public void Post(Contact cont, int id)
         {
-            return null;
+            using var cmd = new MySqlCommand();
+            cmd.Connection = new DBConnection().connect();
+            cmd.Connection.Open();
+
+            cmd.CommandText = String.Format("call addContact('{0}', '{1}', {2}, {3})", cont.fullName, cont.email, id, "null");
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+
+            cmd.Connection.Close();
+        }
+
+        // POST api/<ContacsController>/5 for not null
+        [HttpPost("{id}/{gid}")]
+        public void Post(Contact cont, int id, int gid)
+        {
+            using var cmd = new MySqlCommand();
+            cmd.Connection = new DBConnection().connect();
+            cmd.Connection.Open();
+
+            cmd.CommandText = String.Format("call addContact('{0}', '{1}', {2}, {3})", cont.fullName, cont.email, id, gid);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+
+            cmd.Connection.Close();
         }
 
         // PUT api/<ContacsController>/5
         [HttpPut("{id}")]
-        public void Put(Contact cont)
+        public void Put(Contact cont, int id)
         {
-            //cont.getEditable();
-            //cmd.CommandText = "editContact(" cont.id + cont[0] + cont[1] + cont[2]")";
+            using var cmd = new MySqlCommand();
+            cmd.Connection = new DBConnection().connect();
+            cmd.Connection.Open();
+
+            cmd.CommandText = String.Format("call editContact({0}, {1}, '{2}', '{3}')", cont.id, id, cont.fullName, cont.email);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+
+            cmd.Connection.Close();
 
         }
+        //cont.getEditable();
+        //cmd.CommandText = "editContact(" cont.id + cont[0] + cont[1] + cont[2]")";
+
 
         // DELETE api/<ContacsController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(Contact cont, int id)
         {
+            using var cmd = new MySqlCommand();
+            cmd.Connection = new DBConnection().connect();
+            cmd.Connection.Open();
+
+            cmd.CommandText = String.Format("call deleteContact({0}, {1})", cont.id, id);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+
+            cmd.Connection.Close();
         }
     }
 }
+

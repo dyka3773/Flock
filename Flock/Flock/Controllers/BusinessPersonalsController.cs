@@ -40,22 +40,39 @@ namespace Flock.Controllers
         {
         }
 
-        // POST api/<BusinessPersonalController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        // POST api/<BusinessPersonalController>/5
+        [HttpPost("{id}")]
+        public void Post(BusinessPersonal bp)
         {
+            using var cmd = new MySqlCommand();
+            cmd.Connection = new DBConnection().connect();
+            cmd.Connection.Open();
+
+            cmd.CommandText = String.Format("call addBusiness_Personal('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')", bp.email, bp.password, bp.fName, bp.lName, bp.phone, bp.gender, bp.country, bp.zip);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+
+            cmd.Connection.Close();
         }
 
         // PUT api/<BusinessPersonalController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, BusinessPersonal bp)
         {
+            using var cmd = new MySqlCommand();
+            cmd.Connection = new DBConnection().connect();
+            cmd.Connection.Open();
+
+            cmd.CommandText = String.Format("call editBusiness_Personal({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')", id, bp.password, bp.fName, bp.lName, bp.phone, bp.gender, bp.country, bp.zip);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+
+            cmd.Connection.Close();
         }
 
         // DELETE api/<BusinessPersonalController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
-        {
-        }
+        {}
     }
 }

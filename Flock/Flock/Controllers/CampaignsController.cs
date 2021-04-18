@@ -15,7 +15,8 @@ namespace Flock.Controllers
     [ApiController]
     public class CampaignsController : ControllerBase
     {
-        
+
+
         public CampaignsController() {
             /*campaigns.Add(new Campaign { id=1, subject="new penis enlargement procedure", text="get it while its hot", creationDate= new DateTime(3000, 8, 18, 16, 32, 18, 500), endDate = new DateTime(2010, 8, 18, 16, 32, 18, 500), startDate = new DateTime(2010, 8, 18, 16, 32, 18, 500), name="idk", frequency="lol", numOfContacts=300 });
             campaigns.Add(new Campaign { id = 2, subject = "222222222222222222", text = "22222222222222222", creationDate = new DateTime(2010, 8, 18, 16, 32, 18, 500), endDate = new DateTime(2010, 8, 18, 16, 32, 18, 500), startDate = new DateTime(2010, 8, 18, 16, 32, 18, 500), name = "id22k", frequency = "lol22", numOfContacts = 302 });
@@ -68,21 +69,51 @@ namespace Flock.Controllers
         }
 
         // POST api/<CampaignsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("{id}/{gid}")]
+        public void Post(Campaign camp, int id, int gid)
         {
+            using var cmd = new MySqlCommand();
+            cmd.Connection = new DBConnection().connect();
+            cmd.Connection.Open();
+
+            cmd.CommandText = String.Format("call addCampaign('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', {7}, {8}, {9})", camp.subject, camp.text, camp.startDate, camp.endDate, camp.creationDate, camp.name, camp.frequency, camp.numOfContacts, id, gid);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+
+            cmd.Connection.Close();
         }
 
         // PUT api/<CampaignsController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(int id, Campaign camp)
         {
+            using var cmd = new MySqlCommand();
+            cmd.Connection = new DBConnection().connect();
+            cmd.Connection.Open();
+
+            cmd.CommandText = String.Format("call editCampaign({0}, '{1}', {2}, '{3}', '{4}', '{5}', '{6}')", camp.id, camp.name, id, camp.subject, camp.text, camp.endDate, camp.frequency);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+
+            cmd.Connection.Close();
+
+
         }
 
         // DELETE api/<CampaignsController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(int id, Campaign camp)
         {
+            using var cmd = new MySqlCommand();
+            cmd.Connection = new DBConnection().connect();
+            cmd.Connection.Open();
+
+            cmd.CommandText = String.Format("call deleteCamp({0}, {1})", camp.id, id);
+
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            
+            
         }
     }
 }

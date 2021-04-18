@@ -22,7 +22,7 @@ namespace Flock.Controllers
             //accs.Add(new Company { id = 1, name="pp", phone=(long)00306969696969, country="ppstan", zip="56625", phyAddress="yeeeNo", email="emailcomp", password="123123", type=1, numOfCamps=123, numOfConts=2, numOfSent=4 });
             //accs.Add(new Company { id = 2, name = "pp", phone = (long)00306969696969, country = "ppstan", zip = "56625", phyAddress = "yeeeNo", email = "emailcomp", password = "123123", type = 1, numOfCamps = 123, numOfConts = 2, numOfSent = 4 });
             //accs.Add(new BusinessPersonal { id = 3, fName = "pp3", lName = "Lpp3", phone = (long)00306969696969, country = "pps2313tan",gender="helicopterio", zip = "56625", email = "emailBusiness", password = "123123", type = 0, numOfCamps = 123, numOfConts = 2, numOfSent = 4 });
-           // accs.Add(new BusinessPersonal { id = 3, fName = "pp4", lName = "Lpp4", phone = (long)00306969696969, country = "pps2313tan", gender = "helicopterio4", zip = "56625", email = "emailBusiness", password = "123123", type = 0, numOfCamps = 123, numOfConts = 2, numOfSent = 4 });
+            //accs.Add(new BusinessPersonal { id = 3, fName = "pp4", lName = "Lpp4", phone = (long)00306969696969, country = "pps2313tan", gender = "helicopterio4", zip = "56625", email = "emailBusiness", password = "123123", type = 0, numOfCamps = 123, numOfConts = 2, numOfSent = 4 });
         }
 
 
@@ -83,7 +83,7 @@ namespace Flock.Controllers
                     id = id
                 };
             }
-            else if (type == 1) //business pers
+            else if (type == 1) //company
             {
                 returnAcc = new Company
                 {

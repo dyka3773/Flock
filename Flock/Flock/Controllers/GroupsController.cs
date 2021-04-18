@@ -57,22 +57,40 @@ namespace Flock.Controllers
             return group;
         }
 
-        // POST apis/<GroupsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        // POST apis/<GroupsController>/5
+        [HttpPost("{id}")]
+        public void Post(Group gr, int id)
         {
+            using var cmd = new MySqlCommand();
+            cmd.Connection = new DBConnection().connect();
+            cmd.Connection.Open();
+
+            cmd.CommandText = String.Format("call addGroup({0}, '{1}')", id, gr.name);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+
+            cmd.Connection.Close();
         }
 
         // PUT api/<GroupsController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(Group gr, int id)
         {
         }
 
         // DELETE api/<GroupsController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(Group gr, int id)
         {
+            using var cmd = new MySqlCommand();
+            cmd.Connection = new DBConnection().connect();
+            cmd.Connection.Open();
+
+            cmd.CommandText = String.Format("call deleteGroup({0}, {1})", gr.id, id);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+
+            cmd.Connection.Close();
         }
     }
 }
