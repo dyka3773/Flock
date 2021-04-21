@@ -1,0 +1,5 @@
+-- call addBusiness_Personal('dyka3773@gmail.com', '1234', 'speres', 'nyxtes', '69696969', 'non-binary', 'ELLADARA', '57019');
+-- call addCompany('stefetoufe@gmail.com', '1234', 'speres', '69696969', 'ELLADARA', '57019', 'skata');
+-- call addGroup(1,'skataki');
+-- call addContact('Thanos','thas.psarras@gmail.com', 1, null);
+-- call addCampaign('peos','sks','2020-03-03','2020-03-03','aok','pote vlaka',null,1,1);
