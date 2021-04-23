@@ -1,7 +1,6 @@
 ﻿import React, { useState, useEffect, useRef } from 'react';
 
 import Accordion from '../components/Accordion';
-import Form from '../components/Form';
 import AccordionHeader from '../components/AccordionHeader';
 import Modal from '../components/Modal';
 import GroupsList from '../components/GroupsList';
@@ -26,10 +25,13 @@ import '../modulesCSS/ManagementModule.css';
  *  -addNewForm:
  * */
 
+const editGroupModalContents =  (
+            <span>AAAAAAAA</span>
+        )
 
 
 
-const ManagementModule = ({ getItems, editItems, listTitle, addNewModalContents}) => {
+const ManagementModule = ({ getItems, editItems, listTitle, modalContents}) => {
 
     
     const [searchValue, setSearchValue] = useState("");
@@ -37,8 +39,8 @@ const ManagementModule = ({ getItems, editItems, listTitle, addNewModalContents}
     const [pageNum, setPageNum] = useState(1);
 
     const selectedItemsRef = useRef({});
-    const addNewModalRef = useRef();
-    const editGroupModalRef = useRef();
+    const ref = useRef();
+    
 
    
   
@@ -64,10 +66,6 @@ const ManagementModule = ({ getItems, editItems, listTitle, addNewModalContents}
 
     const onGroupEdit = (selectedGroupId) => {
 
-
-
-
-        openEditGroupModal();
     }
 
     const onGroupDelete = (selectedGroupId) => {
@@ -99,31 +97,19 @@ const ManagementModule = ({ getItems, editItems, listTitle, addNewModalContents}
 
 
 
-    const openAddNewModal = () => {
+    const openModal = () => {
         
-        addNewModalRef.current.style.display = "flex";
+        ref.current.style.display = "flex";
 
     }
 
-    const closeEditGroupModal = (e) => {
+    const closeModal = (e) => {
 
-        if (editGroupModalRef.current.firstChild.contains(e.target) && !(e.target.className.includes("close")))
+        if (ref.current.firstChild.contains(e.target) && !(e.target.className.includes("close")))
             return;
-        editGroupModalRef.current.style.display = "none";
+        ref.current.style.display = "none";
     }
 
-    const openEditGroupModal = () => {
-
-        editGroupModalRef.current.style.display = "flex";
-
-    }
-
-    const closeAddNewModal = (e) => {
-
-        if (addNewModalRef.current.firstChild.contains(e.target) && !(e.target.className.includes("close")))
-            return;
-        addNewModalRef.current.style.display = "none";
-    }
     
 
     
@@ -141,7 +127,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, addNewModalContents}
                     <button className="ui basic button close" onClick={toggleSidebar}>
                         X
                     </button>
-                    <button className="ui button primary" id="add-new" onClick={openAddNewModal}>Add New</button>
+                    <button className="ui button primary" id="add-new" onClick={openModal}>Add New</button>
                     <div className="ui search ">
                         <div className="ui icon input fluid">
                             <input
@@ -180,11 +166,8 @@ const ManagementModule = ({ getItems, editItems, listTitle, addNewModalContents}
                     </div>
                 </div>
             </div>
-            <Modal ref={addNewModalRef} onClose={closeAddNewModal}>
-                {addNewModalContents}
-            </Modal>
-            <Modal ref={editGroupModalRef} onClose={closeEditGroupModal}>
-                
+            <Modal ref={ref} onClose={closeModal}>
+                {modalContents}
             </Modal>
         </>
 
