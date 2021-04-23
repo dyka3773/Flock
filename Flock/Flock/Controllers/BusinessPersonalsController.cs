@@ -41,7 +41,7 @@ namespace Flock.Controllers
         }
 
         // POST api/<BusinessPersonalController>/5
-        [HttpPost("{id}")]
+        [HttpPost]
         public void Post(BusinessPersonal bp)
         {
             using var cmd = new MySqlCommand();
