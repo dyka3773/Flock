@@ -1,25 +1,4 @@
-﻿/*gets data in the form:
- * {
-        title: "Stefanos",
-        details: {
-            name: "Stefanos",
-            surname: "Toufexis",
-            email:"stefetoufe@gmail.com"
-        },
-        id: "1"
-    },
-    {
-        title: "Thanos",
-        details: {
-            name: "Stefanos",
-            surname: "Toufexis",
-            email: "stefetoufe@gmail.com"
-        },
-        id: "2"
-    },
-
-    And converts it into an accordion
- * */
+﻿
 
 
 

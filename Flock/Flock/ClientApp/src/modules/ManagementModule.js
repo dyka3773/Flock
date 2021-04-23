@@ -1,6 +1,8 @@
 ﻿import React, { useState, useEffect, useRef } from 'react';
 
 import Accordion from '../components/Accordion';
+import Form from '../components/Form';
+
 import AccordionHeader from '../components/AccordionHeader';
 import Modal from '../components/Modal';
 import GroupsList from '../components/GroupsList';
@@ -8,6 +10,7 @@ import GroupsList from '../components/GroupsList';
 import getGroups from '../dataRequests/getGroups';
 
 import '../modulesCSS/ManagementModule.css';
+
 
 /* Params:
  *  -getItems: the function it will use to retrieve the items that will be managed in the module. These items will fill the accordion component.
@@ -25,51 +28,84 @@ import '../modulesCSS/ManagementModule.css';
  *  -addNewForm:
  * */
 
-const editGroupModalContents =  (
-            <span>AAAAAAAA</span>
-        )
+const editGroupModalContents = (
+    <span>AAAAAAAA</span>
+)
 
 
 
-const ManagementModule = ({ getItems, editItems, listTitle, modalContents}) => {
+const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => {
 
-    
+
     const [searchValue, setSearchValue] = useState("");
     const [items, setItems] = useState([]);
     const [pageNum, setPageNum] = useState(1);
+    const [editGroupModalContents, setEditGroupModalContents] = useState();
 
     const selectedItemsRef = useRef({});
     const ref = useRef();
-    
+    const ref2 = useRef();
 
-   
-  
+
+
     useEffect(
         () => {
             setItems(getItems(pageNum));
             window.scrollTo(0, 0);
-           
+
         }
         , [pageNum]);
 
     //console.log(items)
     const handleSelectGroups = (id) => {
-        
+
         console.log(id);
     }
 
     const handleSelectItems = (id) => {
 
-        
+
 
     }
 
-    const onGroupEdit = (selectedGroupId) => {
+    const onGroupEdit = (selectedGroup) => {
 
+
+
+        const inputs = [
+
+            {
+                label: "Old Name",
+                id: "oldName",
+                value: selectedGroup.name,
+                readOnly: true
+            },
+            {
+                label: "New Name",
+                id: "newName",
+                value: selectedGroup.name,
+
+            },
+
+        ]
+
+
+        setEditGroupModalContents(
+            <>
+            <h1>Edit Group</h1>
+                <Form
+                    inputs={inputs}
+                    submit={{ label: "submit", onClick: (sub) => console.log(sub) }}
+                />
+           
+        </>
+            
+        )
+        openModal2();
     }
 
     const onGroupDelete = (selectedGroupId) => {
-        console.log("delete",selectedGroupId);
+        console.log("delete", selectedGroupId);
     }
 
     const toggleSidebar = () => {
@@ -98,7 +134,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents}) => {
 
 
     const openModal = () => {
-        
+
         ref.current.style.display = "flex";
 
     }
@@ -110,9 +146,20 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents}) => {
         ref.current.style.display = "none";
     }
 
-    
+    const openModal2 = () => {
 
-    
+        ref2.current.style.display = "flex";
+
+    }
+
+    const closeModal2 = (e) => {
+
+        if (ref2.current.firstChild.contains(e.target) && !(e.target.className.includes("close")))
+            return;
+        ref2.current.style.display = "none";
+    }
+
+
 
     const accordionDescriptor = () => {
         if (!items[0]) return;
@@ -159,15 +206,20 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents}) => {
                             {accordionDescriptor()}
                         </div>
 
-                        <Accordion items={items} selectedItems={selectedItemsRef.current} editItems={editItems} onSelect={handleSelectItems} pageNum={pageNum}/>
-                        
+                        <Accordion items={items} selectedItems={selectedItemsRef.current} editItems={editItems} onSelect={handleSelectItems} pageNum={pageNum} />
+
                         <button onClick={previousPage}>previous page</button>
                         <button onClick={nextPage}>next page</button>
                     </div>
                 </div>
             </div>
+
             <Modal ref={ref} onClose={closeModal}>
                 {modalContents}
+            </Modal>
+
+            <Modal ref={ref2} onClose={closeModal2}>
+                {editGroupModalContents}
             </Modal>
         </>
 

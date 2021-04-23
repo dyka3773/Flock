@@ -12,30 +12,42 @@ const GroupsList = ({ handleSelectGroups, onGroupEdit, onGroupDelete}) => {
     },[])
 
     useEffect(() => {
+
         handleSelectGroups(selectedGroup);
+
     }, [selectedGroup])
 
+    const editGroup = () => {
 
-
-
-
-
-
-
-    
-
-
+        for (var i of groups) {
+            if (i.id == selectedGroup)
+                onGroupEdit(i);
+        }
+    }
 
     const retGroups = groups.map(({ name, id }) => {
 
         const selectedGroupButtons = selectedGroup === id ?
             <span className="icons">
-                <button onClick={() => onGroupEdit(selectedGroup)}>E</button>
-            /
-            <button onClick={() => onGroupDelete(selectedGroup)}>D</button>
+                <button
+                    onClick={editGroup}
+                >
+                  E
+                </button>
+                 /
+                <button onClick={() => onGroupDelete(selectedGroup)}>D</button>
             </span>
             :
             <></>
+
+        const radioClicked = (id) => {
+            
+            if (selectedGroup === id) {
+                setSelectedGroup(null)
+            }
+
+        }
+
 
 
         return (
@@ -46,6 +58,7 @@ const GroupsList = ({ handleSelectGroups, onGroupEdit, onGroupDelete}) => {
                         type="radio" id={id} name="group"
                         value={id} onChange={() => setSelectedGroup(id)}
                         checked={selectedGroup === id ? true : false}
+                        onClick={() => radioClicked(id)}
                     />
                    
                     <label for="male" htmlFor={id}>{name}</label>
