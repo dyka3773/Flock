@@ -1,9 +1,10 @@
 ﻿import React, { useState, useEffect, useRef } from 'react';
 
 import Accordion from '../components/Accordion';
+import Form from '../components/Form';
 import AccordionHeader from '../components/AccordionHeader';
 import Modal from '../components/Modal';
-
+import GroupsList from '../components/GroupsList';
 
 import getGroups from '../dataRequests/getGroups';
 
@@ -26,17 +27,18 @@ import '../modulesCSS/ManagementModule.css';
  * */
 
 
-const ManagementModule = ({ getItems, editItems, listTitle, modalContents}) => {
+
+
+const ManagementModule = ({ getItems, editItems, listTitle, addNewModalContents}) => {
 
     
     const [searchValue, setSearchValue] = useState("");
     const [items, setItems] = useState([]);
     const [pageNum, setPageNum] = useState(1);
 
-    const selectedGroupsRef = useRef({});
     const selectedItemsRef = useRef({});
-    const ref = useRef();
-    
+    const addNewModalRef = useRef();
+    const editGroupModalRef = useRef();
 
    
   
@@ -50,31 +52,26 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents}) => {
 
     //console.log(items)
     const handleSelectGroups = (id) => {
-
-        selectedGroupsRef.current[id] ?
-            selectedGroupsRef.current = (
-                { ...selectedGroupsRef.current, [id]: !selectedGroupsRef.current[id]}
-            )            
-            :
-            selectedGroupsRef.current = (
-                { ...selectedGroupsRef.current, [id]: true }
-            )
-
-        console.log(selectedGroupsRef.current);
+        
+        console.log(id);
     }
-
 
     const handleSelectItems = (id) => {
 
-        selectedItemsRef.current[id] ?
-            selectedItemsRef.current = (
-                { ...selectedItemsRef.current, [id]: !selectedItemsRef.current[id] }
-            )
-            :
-            selectedItemsRef.current = (
-                { ...selectedItemsRef.current, [id]: true }
-            )
+        
 
+    }
+
+    const onGroupEdit = (selectedGroupId) => {
+
+
+
+
+        openEditGroupModal();
+    }
+
+    const onGroupDelete = (selectedGroupId) => {
+        console.log("delete",selectedGroupId);
     }
 
     const toggleSidebar = () => {
@@ -102,32 +99,34 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents}) => {
 
 
 
-    const openAddNew = () => {
+    const openAddNewModal = () => {
         
-        ref.current.style.display = "flex";
+        addNewModalRef.current.style.display = "flex";
 
     }
 
-    const closeAddNew = (e) => {
+    const closeEditGroupModal = (e) => {
 
-        if (ref.current.firstChild.contains(e.target) && !(e.target.className.includes("close")))
+        if (editGroupModalRef.current.firstChild.contains(e.target) && !(e.target.className.includes("close")))
             return;
-        ref.current.style.display = "none";
+        editGroupModalRef.current.style.display = "none";
     }
 
+    const openEditGroupModal = () => {
+
+        editGroupModalRef.current.style.display = "flex";
+
+    }
+
+    const closeAddNewModal = (e) => {
+
+        if (addNewModalRef.current.firstChild.contains(e.target) && !(e.target.className.includes("close")))
+            return;
+        addNewModalRef.current.style.display = "none";
+    }
     
 
-    const groups = getGroups().map(({ name, id }) => {
-       
-        return (
-            <div className="field" key={id}>
-                <div className="ui checkbox">
-                    <input type="checkbox" id={id} onInput={() => handleSelectGroups(id)}/>
-                    <label htmlFor={id}>{name}</label>
-                </div>
-            </div>
-            );
-    });
+    
 
     const accordionDescriptor = () => {
         if (!items[0]) return;
@@ -142,7 +141,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents}) => {
                     <button className="ui basic button close" onClick={toggleSidebar}>
                         X
                     </button>
-                    <button className="ui button primary" id="add-new" onClick={openAddNew}>Add New</button>
+                    <button className="ui button primary" id="add-new" onClick={openAddNewModal}>Add New</button>
                     <div className="ui search ">
                         <div className="ui icon input fluid">
                             <input
@@ -156,7 +155,11 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents}) => {
                     </div>
                     <div className="ui segment groups">
                         <h5>Groups:</h5>
-                        {groups}
+                        <GroupsList
+                            handleSelectGroups={handleSelectGroups}
+                            onGroupEdit={onGroupEdit}
+                            onGroupDelete={onGroupDelete}
+                        />
                     </div>
                 </div>
                 <button className="sidebar-toggle" onClick={toggleSidebar}>{'>>'}</button>
@@ -177,8 +180,11 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents}) => {
                     </div>
                 </div>
             </div>
-            <Modal ref={ref} onClose={closeAddNew}>
-                {modalContents}
+            <Modal ref={addNewModalRef} onClose={closeAddNewModal}>
+                {addNewModalContents}
+            </Modal>
+            <Modal ref={editGroupModalRef} onClose={closeEditGroupModal}>
+                
             </Modal>
         </>
 

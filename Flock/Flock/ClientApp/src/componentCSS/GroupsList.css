@@ -1,0 +1,15 @@
+﻿.groups-list .ui.checkbox {
+    position:relative;
+    width:100%;
+}
+
+
+    .groups-list .ui.checkbox > *{
+        display: inline;
+    }
+
+    .groups-list .ui.checkbox > .icons {
+        position: absolute;
+        right: 0;
+       
+    }
