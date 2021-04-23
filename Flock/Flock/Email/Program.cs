@@ -67,7 +67,7 @@ namespace SendEmail
                 mailMessage.To.Add(str);
 
 
-                mailMessage.Body = "h11aAAAAAAAAAAAAAAAAAAAwaad1";
+                mailMessage.Body = "o skulos mou einai gkey";
                 mailMessage.Subject = "a1wadaAAAAAAAAAAAAAAAAAAAAAAAAAwdwd11";
                 customSend(client, mailMessage);
                 
