@@ -78,8 +78,9 @@ CREATE TABLE IF NOT EXISTS `Flock`.`Campaign` (
   KEY `fk_AID_from_Camps` (`AID`),
   KEY `fk_GID_from_Camps` (`GID`),
   CONSTRAINT `fk_AID_from_Camps` FOREIGN KEY (`AID`) REFERENCES `Accounts` (`AID`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `fk_GID_from_Camps` FOREIGN KEY (`GID`) REFERENCES `Groups` (`GID`) ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  CONSTRAINT `fk_GID_from_Camps` FOREIGN KEY (`GID`) REFERENCES `Groups` (`GID`) ON UPDATE NO ACTION,
+  CONSTRAINT thisCnameAlreadyExistsInThisUser UNIQUE (`C_Name`,`AID`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `Flock`.`Contacts_in_Groups` (
   `CID` INT NOT NULL,

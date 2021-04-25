@@ -21,8 +21,17 @@ drop procedure if exists `Flock`.`editCompany`;
 drop procedure if exists `Flock`.`editBP`;
 drop procedure if exists `Flock`.`getAccDetails`;
 drop procedure if exists `Flock`.`deleteAcc`;
+drop procedure if exists `Flock`.`addNOS`;
 
 DELIMITER $$
+
+CREATE PROCEDURE `Flock`.`addNOS` (
+IN aiid int, in newNOS int)
+BEGIN
+	update Accounts A
+    set A.Num_of_Sent = A.Num_of_Sen + newNOS
+    where A.AID=aiid;
+END$$
 
 CREATE PROCEDURE `Flock`.`deleteAcc` (
 IN aiid int)
@@ -243,7 +252,8 @@ in fname varchar(45), in email varchar(45), in aid int, in gid int)
 BEGIN
 
 	if gid is not null then
-	
+		
+        -- Check if Group belongs to the certain user
 		set @checking = null;
 		select G.aid into @checking from Groups G where G.GID=gid and G.AID=aid;
 		
@@ -256,10 +266,13 @@ BEGIN
 			(fname,
 			email,
 			aid);
-		end if;
-
-		set @ciid = LAST_INSERT_ID();
-		call addContactToGroup(@ciid,gid);
+			
+            set @ciid = LAST_INSERT_ID();
+			call addContactToGroup(@ciid,gid);
+        else
+			SIGNAL SQLSTATE '45000'
+			SET MESSAGE_TEXT = 'This user does not have access to this certain Group';
+        end if;
 	else
 		INSERT INTO `Flock`.`Contacts`
 			(`Full_Name`,
