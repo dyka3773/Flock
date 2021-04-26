@@ -18,7 +18,7 @@ namespace SendEmail
         private Campaign camp  { get; }
 
         public EmailService(int campaignId, int aid) {
-            camp = new CampaignsController().Get(campaignId);
+            //camp = new CampaignsController().Get(campaignId);
             groupId = camp.groupId;
             groupName = new GroupsController().Get(groupId).name;
             contacts = new GroupsController().GetContacts(aid, groupName);

@@ -36,9 +36,9 @@ namespace Flock.Controllers
 
         // GET api/<CampaignsController>/5
         [HttpGet("{id}")]
-        public Campaign Get(int id)
+        public List<Campaign> Get(int id)
         {
-            Campaign campaign;
+            List<Campaign> campaigns = new List<Campaign>();
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
@@ -48,24 +48,26 @@ namespace Flock.Controllers
             MySqlDataReader reader = cmd.ExecuteReader();
 
 
-            reader.Read();
-            campaign = new Campaign
-            {   
-                subject = reader.GetValue(1).ToString(),
-                text = reader.GetValue(2).ToString(),
-                startDate = reader.GetValue(3).ToString(),
-                endDate = reader.GetValue(4).ToString(),
-                name = reader.GetValue(5).ToString(),
-                frequency = reader.GetValue(7).ToString(),
-                numOfContacts = (uint)reader.GetValue(8),
-                groupId = (int)reader.GetValue(11),
-                id = (int)reader.GetValue(10)
-            };
-
+            while (reader.Read()) {
+                
+                 campaigns.Add(new Campaign
+                {
+                    id = (int)reader.GetValue(0),
+                    subject = reader.GetValue(1).ToString(),
+                    text = reader.GetValue(2).ToString(),
+                    startDate = reader.GetValue(3).ToString(),
+                    endDate = reader.GetValue(4).ToString(),
+                    creationDate = reader.GetValue(5).ToString(),
+                    name = reader.GetValue(6).ToString(),
+                    frequency = reader.GetValue(7).ToString(),
+                    numOfContacts = (uint)reader.GetValue(8),
+                    groupId = (int)reader.GetValue(11)
+                });
+            }
 
 
             cmd.Connection.Close();
-            return campaign;
+            return campaigns;
         }
 
         // POST api/<CampaignsController>
@@ -76,7 +78,8 @@ namespace Flock.Controllers
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = String.Format("call addCampaign('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', {7}, {8})", camp.subject, camp.text, camp.startDate, camp.endDate, camp.creationDate, camp.name, camp.frequency, camp.numOfContacts, gid);
+            cmd.CommandText = String.Format("call addCampaign('{0}', '{1}', '{2}', '{3}','{4}', '{5}','{6}', {7} , {8} )", 
+                camp.subject, camp.text, camp.startDate, camp.endDate, camp.name, camp.frequency,null,id, gid);
             MySqlDataReader reader = cmd.ExecuteReader();
 
 
@@ -101,14 +104,14 @@ namespace Flock.Controllers
         }
 
         // DELETE api/<CampaignsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id, Campaign camp)
+        [HttpDelete("{id}/{cid}")]
+        public void Delete(int id, int cid)
         {
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = String.Format("call deleteCamp({0}, {1})", camp.id, id);
+            cmd.CommandText = String.Format("call deleteCamp({0}, {1})", cid, id);
 
             MySqlDataReader reader = cmd.ExecuteReader();
 
