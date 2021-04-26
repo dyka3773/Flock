@@ -46,12 +46,11 @@ namespace SendEmail
                 MailMessage mailMessage = new MailMessage();
                 mailMessage.From = new MailAddress(getUserName());
 
-
                 mailMessage.To.Add(c.email);
 
 
-                mailMessage.Body = "o skulos mou einai gkey";
-                mailMessage.Subject = "a1wadaAAAAAAAAAAAAAAAAAAAAAAAAAwdwd11";
+                mailMessage.Body = camp.text;
+                mailMessage.Subject = camp.subject;
                 customSend(client, mailMessage);
                 
             }
