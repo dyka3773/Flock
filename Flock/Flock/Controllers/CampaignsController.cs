@@ -38,7 +38,7 @@ namespace Flock.Controllers
         [HttpGet("{id}")]
         public Campaign Get(int id)
         {
-            Campaign campaign = new Campaign();
+            Campaign campaign;
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
@@ -48,19 +48,18 @@ namespace Flock.Controllers
             MySqlDataReader reader = cmd.ExecuteReader();
 
 
-
-            new Campaign
-            {
-                id = (int)reader.GetValue(0),
+            reader.Read();
+            campaign = new Campaign
+            {   
                 subject = reader.GetValue(1).ToString(),
                 text = reader.GetValue(2).ToString(),
-                startDate = (DateTime)reader.GetValue(3),
-                endDate = (DateTime)reader.GetValue(4),
-                creationDate = (DateTime)reader.GetValue(5),
-                name = reader.GetValue(6).ToString(),
+                startDate = reader.GetValue(3).ToString(),
+                endDate = reader.GetValue(4).ToString(),
+                name = reader.GetValue(5).ToString(),
                 frequency = reader.GetValue(7).ToString(),
-                numOfContacts = (int)reader.GetValue(8),
-                groupId = (int)reader.GetValue(11)
+                numOfContacts = (uint)reader.GetValue(8),
+                groupId = (int)reader.GetValue(11),
+                id = (int)reader.GetValue(10)
             };
 
 
@@ -77,7 +76,7 @@ namespace Flock.Controllers
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = String.Format("call addCampaign('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', {7}, {8}, {9})", camp.subject, camp.text, camp.startDate, camp.endDate, camp.creationDate, camp.name, camp.frequency, camp.numOfContacts, id, gid);
+            cmd.CommandText = String.Format("call addCampaign('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', {7}, {8})", camp.subject, camp.text, camp.startDate, camp.endDate, camp.creationDate, camp.name, camp.frequency, camp.numOfContacts, gid);
             MySqlDataReader reader = cmd.ExecuteReader();
 
 

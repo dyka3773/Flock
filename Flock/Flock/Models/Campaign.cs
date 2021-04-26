@@ -13,17 +13,17 @@ namespace Flock.Models
 
         public String text { get; set; }
 
-        public DateTime startDate { get; set; }//non editable
+        public String startDate { get; set; }//non editable
 
-        public DateTime endDate { get; set; }
+        public String endDate { get; set; }
 
-        public DateTime creationDate { get; set; }//non editable
+        public String creationDate { get; set; }//non editable
 
         public String name { get; set; }
 
         public String frequency { get; set; }
 
-        public int numOfContacts { get; set; } //non editable
+        public uint numOfContacts { get; set; } //non editable
 
         public int groupId { get; set; } //non editable
     }

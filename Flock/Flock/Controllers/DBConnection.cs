@@ -12,10 +12,11 @@ namespace Flock.Controllers
 
         private MySqlConnection connection;
         //private MySqlConnectionStringBuilder properties;
+        
 
         public DBConnection()
         {
-            myConnection = "SERVER=localhost;Port=3333;DATABASE=Flock;UID=root;PASSWORD=dyka3773";
+            myConnection = "SERVER=localhost;Port=3333;DATABASE=Flock;UID=root;PASSWORD=dyka3773;Convert Zero Datetime=True;";
             //Until we deploy the site in users, we have to connect through ssh with the db !!!
         }
 
