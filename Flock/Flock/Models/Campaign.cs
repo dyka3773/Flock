@@ -24,5 +24,7 @@ namespace Flock.Models
         public String frequency { get; set; }
 
         public int numOfContacts { get; set; } //non editable
+
+        public int groupId { get; set; } //non editable
     }
 }

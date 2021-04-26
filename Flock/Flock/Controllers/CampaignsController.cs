@@ -17,7 +17,8 @@ namespace Flock.Controllers
     {
 
 
-        public CampaignsController() {
+        public CampaignsController()
+        {
             /*campaigns.Add(new Campaign { id=1, subject="new penis enlargement procedure", text="get it while its hot", creationDate= new DateTime(3000, 8, 18, 16, 32, 18, 500), endDate = new DateTime(2010, 8, 18, 16, 32, 18, 500), startDate = new DateTime(2010, 8, 18, 16, 32, 18, 500), name="idk", frequency="lol", numOfContacts=300 });
             campaigns.Add(new Campaign { id = 2, subject = "222222222222222222", text = "22222222222222222", creationDate = new DateTime(2010, 8, 18, 16, 32, 18, 500), endDate = new DateTime(2010, 8, 18, 16, 32, 18, 500), startDate = new DateTime(2010, 8, 18, 16, 32, 18, 500), name = "id22k", frequency = "lol22", numOfContacts = 302 });
             campaigns.Add(new Campaign { id = 3, subject = "33333333333333", text = "333333333333333", creationDate = new DateTime(2010, 8, 18, 16, 32, 18, 500), endDate = new DateTime(2010, 8, 18, 16, 32, 18, 500), startDate = new DateTime(2010, 8, 18, 16, 32, 18, 500), name = "idk", frequency = "lol", numOfContacts = 300 });
@@ -35,9 +36,9 @@ namespace Flock.Controllers
 
         // GET api/<CampaignsController>/5
         [HttpGet("{id}")]
-        public List<Campaign> Get(int id)
+        public Campaign Get(int id)
         {
-            List<Campaign> campaigns = new List<Campaign>();
+            Campaign campaign = new Campaign();
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
@@ -46,26 +47,26 @@ namespace Flock.Controllers
 
             MySqlDataReader reader = cmd.ExecuteReader();
 
-            while (reader.Read())
+
+
+            new Campaign
             {
+                id = (int)reader.GetValue(0),
+                subject = reader.GetValue(1).ToString(),
+                text = reader.GetValue(2).ToString(),
+                startDate = (DateTime)reader.GetValue(3),
+                endDate = (DateTime)reader.GetValue(4),
+                creationDate = (DateTime)reader.GetValue(5),
+                name = reader.GetValue(6).ToString(),
+                frequency = reader.GetValue(7).ToString(),
+                numOfContacts = (int)reader.GetValue(8),
+                groupId = (int)reader.GetValue(11)
+            };
 
-                campaigns.Add(new Campaign
-                {
-                    id = (int)reader.GetValue(0),
-                    subject = reader.GetValue(1).ToString(),
-                    text = reader.GetValue(2).ToString(),
-                    creationDate = (DateTime)reader.GetValue(3),
-                    startDate = (DateTime)reader.GetValue(4),
-                    endDate = (DateTime)reader.GetValue(5),
-                    name = reader.GetValue(6).ToString(),
-                    frequency = reader.GetValue(7).ToString(),
-                    numOfContacts = (int)reader.GetValue(8)
-                });
 
-            }
 
             cmd.Connection.Close();
-            return campaigns;
+            return campaign;
         }
 
         // POST api/<CampaignsController>
@@ -112,8 +113,8 @@ namespace Flock.Controllers
 
             MySqlDataReader reader = cmd.ExecuteReader();
 
-            
-            
+
+
         }
     }
 }

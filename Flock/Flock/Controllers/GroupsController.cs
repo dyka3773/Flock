@@ -17,23 +17,19 @@ namespace Flock.Controllers
     {
 
         public GroupsController() {
-            /*groups.Add(new Group { id=1, name="group1"});
+          /*groups.Add(new Group { id=1, name="group1"});
             groups.Add(new Group { id = 2, name = "group2" });
             groups.Add(new Group { id = 3, name = "group3" });
             groups.Add(new Group { id = 4, name = "group4" });
             groups.Add(new Group { id = 5, name = "group5" });*/
         }
-        [HttpGet]
-        public List<Group> Get()
-        {
-            return null;
-        }
+      
 
         // GET apis/<GroupsController>/5
         [HttpGet("{id}")]
-        public List<Group> Get(int id)
+        public Group Get(int id)
         {
-            List<Group> group = new List<Group>();
+            Group group = new Group();
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
@@ -42,19 +38,47 @@ namespace Flock.Controllers
 
             MySqlDataReader reader = cmd.ExecuteReader();
 
-            while (reader.Read())
-            {
+           
 
-                group.Add(new Group
+           group = new Group
                 {
                     id = (int)reader.GetValue(0),
                     name = reader.GetValue(1).ToString()
+                };
+
+            
+
+            cmd.Connection.Close();
+            return group;
+        }
+
+        [HttpGet]
+        public List<Contact> GetContacts(int aid, string g )
+        {
+            Console.WriteLine("awdawd");
+            List<Contact> contacts = new List<Contact>();
+            using var cmd = new MySqlCommand();
+            cmd.Connection = new DBConnection().connect();
+            cmd.Connection.Open();
+
+            cmd.CommandText = "getContactsInGroup(1,'Academic')";
+
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+
+                contacts.Add(new Contact
+                {
+                    id = (int)reader.GetValue(0),
+                    fullName = reader.GetValue(1).ToString(),
+                    email = reader.GetValue(2).ToString()
                 });
 
             }
 
             cmd.Connection.Close();
-            return group;
+            return contacts;
         }
 
         // POST apis/<GroupsController>/5

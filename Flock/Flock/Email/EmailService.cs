@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Flock.Controllers;
+using Flock.Models;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
@@ -8,47 +10,28 @@ using System.Threading.Tasks;
 
 namespace SendEmail
 {
-    class Program
+    class EmailService
     {
+        private int groupId { get; }
+        private String groupName { get; }
+        private List<Contact> contacts { get; }
+        private Campaign camp  { get; }
 
-        static void Main(string[] args)
-        {
-            //userClientCreation() a client based on user crendetials
-            //ContactListOfRecipientsCreation() the list of recipients
-            //MailCreation() a method that sets subject and body for a mail
-            //Sender(client,msg,list) sends mail
-            //
-
-            Debug.WriteLine(true, "Sending mail...");
-            justDoIt();
-
-            Thread.Sleep(int.MaxValue);
-            //SendEmail("a","");  
-
+        public EmailService(int campaignId, int aid) {
+            camp = new CampaignsController().Get(campaignId);
+            groupId = camp.groupId;
+            groupName = new GroupsController().Get(groupId).name;
+            contacts = new GroupsController().GetContacts(aid, groupName);
         }
+        
 
+        
+        
 
-
-        public static void justDoIt()
+        public void mailSender()
         {
 
-            //SmtpClient client = userClientCreation();
-            List<String> contacts = ContactListOfRecipientsCreation();
-            mailSender(contacts);
-
-            //gets user's credential data from db and creates a client based on that
-            //SmtpClient userClient =
-
-            //This method creates a Mail massage with content from frontend to fill subject and body
-            //field (To) is empty
-            //MailSender(userClient,contacts);
-            //
-        }
-
-        public static void mailSender(List<String> contacts)
-        {
-
-            foreach (string str in contacts)
+            foreach (Contact c in contacts)
             {
                 string address = getUserName();
                 string password = getPass();
@@ -64,7 +47,7 @@ namespace SendEmail
                 mailMessage.From = new MailAddress(getUserName());
 
 
-                mailMessage.To.Add(str);
+                mailMessage.To.Add(c.email);
 
 
                 mailMessage.Body = "o skulos mou einai gkey";
@@ -75,7 +58,7 @@ namespace SendEmail
 
         }
 
-        public static async void customSend(SmtpClient client,MailMessage mailMessage) {
+        public async void customSend(SmtpClient client,MailMessage mailMessage) {
 
             Random rnd = new Random();
             int ran = rnd.Next(5000, 10000);  
@@ -86,23 +69,12 @@ namespace SendEmail
             Console.WriteLine("ads"+ran);
         }
 
-        public static List<String> ContactListOfRecipientsCreation()
-        {
-            //getFromDBContacts();//prepei na milhsw me ton 8anno na dw to api
-            List<String> contacts = new List<String>();
 
-            //fetch cnioataxdw
-            contacts.Add("stefetoufe@gmail.com");
-            contacts.Add("skarlatosstratos2@gmail.com");
-            contacts.Add("thanos.psarras3@gmail.com");
-            return contacts;
-        }
-
-        public static string getUserName()
+        public string getUserName()
         {
             return "flockflockflockflockflock@gmail.com";
         }
-        public static string getPass()
+        public string getPass()
         {
             return "flock69a!";
         }
@@ -129,7 +101,7 @@ namespace SendEmail
 
         }*/
 
-        public static void getCotnacts()
+        public void getCotnacts()
         {
 
         }

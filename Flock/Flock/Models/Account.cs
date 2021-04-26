@@ -22,6 +22,6 @@ namespace Flock.Models
         public int numOfSent { get; set; } //non editable
 
         public abstract Object getFields();
-        
+
     }
 }
