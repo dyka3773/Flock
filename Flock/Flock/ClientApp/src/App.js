@@ -14,6 +14,7 @@ import Page1 from './modules/page1';
 import LogIn from './modules/LogIn';
 import SignUp from './modules/SignUp';
 import AccountSettings from './modules/AccountSettings';
+import Homepage from './modules/Homepage';
 
 import logo from "./images/logo.png";
 
@@ -22,7 +23,7 @@ import logo from "./images/logo.png";
 const App = () => {
     const [hidden, setHidden] = useState("");
     
-    const loggedIn = true;
+    const loggedIn = false;
 
     const toggleCollapse = () => {
 
@@ -109,7 +110,7 @@ const App = () => {
                     <SignUp />
                 </Route>
                 <Route path="/">
-                    <div>Homepage under construction!</div>
+                    <Homepage />
                 </Route>
 
             </Switch>
