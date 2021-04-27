@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Flock.Models;
 using MySql.Data.MySqlClient;
+using System.Diagnostics;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,32 +28,31 @@ namespace Flock.Controllers
 
         // GET apis/<GroupsController>/5
         [HttpGet("{id}")]
-        public Group Get(int id)
+        public List<Group> Get(int aid)
         {
-            Group group = new Group();
+            List<Group> group = new List<Group>();
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = "getAllGroups(" + id + ")";
+            cmd.CommandText = "getAllGroups(" + aid + ")";
 
             MySqlDataReader reader = cmd.ExecuteReader();
 
-           
-
-           group = new Group
+            while (reader.Read()) {
+                group.Add(new Group
                 {
                     id = (int)reader.GetValue(0),
                     name = reader.GetValue(1).ToString()
-                };
+                });
 
-            
+            }
 
             cmd.Connection.Close();
             return group;
         }
 
-        [HttpGet]
+       
         public List<Contact> GetContacts(int aid, string g )
         {
             Console.WriteLine("awdawd");
@@ -61,7 +61,9 @@ namespace Flock.Controllers
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = "getContactsInGroup(1,'Academic')";
+            Debug.WriteLine("groupname "+g);
+            cmd.CommandText = String.Format("call getContactsInGroup({0}, '{1}')", aid, g);
+
 
             MySqlDataReader reader = cmd.ExecuteReader();
 

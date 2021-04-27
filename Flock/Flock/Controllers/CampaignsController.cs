@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Flock.Models;
 using MySql.Data.MySqlClient;
+using SendEmail;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,22 +29,22 @@ namespace Flock.Controllers
         }
 
         // GET: api/<CampaignsController>
-        [HttpGet]
-        public List<Campaign> Get()
+        [HttpPost("sendCampaign/{caid}/{aid}")]
+        public void Get(int caid, int aid)
         {
-            return null;
+            EmailService email = new EmailService(caid,aid);
         }
 
         // GET api/<CampaignsController>/5
         [HttpGet("{id}")]
-        public List<Campaign> Get(int id)
+        public List<Campaign> Get(int aid)
         {
             List<Campaign> campaigns = new List<Campaign>();
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = "getCamps(" + id + ",NULL)";
+            cmd.CommandText = "getCamps(" + aid + ",NULL)";
 
             MySqlDataReader reader = cmd.ExecuteReader();
 
@@ -114,8 +115,6 @@ namespace Flock.Controllers
             cmd.CommandText = String.Format("call deleteCamp({0}, {1})", cid, id);
 
             MySqlDataReader reader = cmd.ExecuteReader();
-
-
 
         }
     }

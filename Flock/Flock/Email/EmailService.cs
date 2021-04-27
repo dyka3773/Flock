@@ -17,11 +17,24 @@ namespace SendEmail
         private List<Contact> contacts { get; }
         private Campaign camp  { get; }
 
-        public EmailService(int campaignId, int aid) {
-            //camp = new CampaignsController().Get(campaignId);
+        public EmailService(int campaignId, int aid) { 
+            //Receives campaignId and the cooresponding aid and sends the campaign contents to the
+            //group (specified in camp.groupId) of the account (known by the aid)
+            List<Campaign> camps = new CampaignsController().Get(aid);
+
+            camp = camps.Find((c)=> c.id == campaignId);
+            
+            Debug.WriteLine(camp.ToString());
+
             groupId = camp.groupId;
-            groupName = new GroupsController().Get(groupId).name;
+            
+            List<Group> groups = new GroupsController().Get(aid);
+
+            groupName = groups.Find((g) => g.id == groupId).name;
+
             contacts = new GroupsController().GetContacts(aid, groupName);
+
+            mailSender();
         }
         
 
@@ -33,6 +46,7 @@ namespace SendEmail
 
             foreach (Contact c in contacts)
             {
+                Debug.WriteLine(c.ToString());
                 string address = getUserName();
                 string password = getPass();
                 SmtpClient client = new SmtpClient("smtp.gmail.com", 587);

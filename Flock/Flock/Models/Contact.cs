@@ -13,7 +13,10 @@ namespace Flock.Models
 
         public String email { get; set; }
 
-
+        public override string ToString()
+        {
+            return "email:" + email;
+        }
         //public getEditable List(return editableFields);
 
     }
