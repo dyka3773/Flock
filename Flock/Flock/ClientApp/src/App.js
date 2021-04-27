@@ -93,10 +93,11 @@ const App = () => {
                 </span>
 
                 <NavLink className="item" activeClassName="active" to="/" exact>Home</NavLink>
-                <span className="right">
-                    <NavLink className="item" to="/log-in">Log In</NavLink>
-                    <NavLink className="item" to="/sign-up">Sign Up</NavLink>
-                </span>
+
+                <NavLink className={`hide right item ${hidden}`} to="/log-in">Log in</NavLink>
+
+                <NavLink className={`hide item ${hidden}`} to="/sign-up">Sign up</NavLink>
+                
             </div>
 
             {/* A <Switch> looks through its children <Route>s and

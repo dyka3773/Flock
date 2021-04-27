@@ -9,7 +9,7 @@ const Homepage = () => {
     return <div class="ui container" id="homepage">
 
             <div class="title-block">
-            <img src={ logo} class="ui centered medium circular image" />
+            <img src={logo} class="ui centered medium circular image" />
                 <h1 class="ui header centered">Flock is Lorem Ipsum</h1>
             </div>
 
