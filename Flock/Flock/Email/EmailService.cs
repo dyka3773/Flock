@@ -18,7 +18,7 @@ namespace SendEmail
         private Campaign camp  { get; }
 
         public EmailService(int campaignId, int aid) { 
-            //Receives campaignId and the cooresponding aid and sends the campaign contents to the
+            //Receives campaignId and the coresponding aid and sends the campaign contents to the
             //group (specified in camp.groupId) of the account (known by the aid)
             List<Campaign> camps = new CampaignsController().Get(aid);
 
@@ -74,12 +74,8 @@ namespace SendEmail
         public async void customSend(SmtpClient client,MailMessage mailMessage) {
 
             Random rnd = new Random();
-            int ran = rnd.Next(5000, 10000);  
-
-            await Task.Delay(ran);
-
             await client.SendMailAsync(mailMessage);
-            Console.WriteLine("ads"+ran);
+            
         }
 
 
@@ -91,181 +87,6 @@ namespace SendEmail
         {
             return "flock69a!";
         }
-
-       /* public static SmtpClient userClientCreation()
-        {
-
-
-            //getUserCredentialsFromDB();//returns user //token //
-
-
-            
-
-
-
-
-
-
-
-
-            //return client;
-
-
-
-        }*/
-
-        public void getCotnacts()
-        {
-
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*SmtpClient client = new SmtpClient
-           {
-               DeliveryMethod = SmtpDeliveryMethod.Network,
-               UseDefaultCredentials = false,
-               EnableSsl = true,
-               Host = "smtp.gmail.com",
-               Port = 587,
-               Credentials = new NetworkCredential(host, pwd)
-           };*/
-
-
-        /*//'emgamrqicxlewzgf'
-        public static MailMessage MailCreation(string from, string to)
-        {
-          
-
-            
-            string subject = "Using the new SMTP client.";
-            string body = @"Using this new feature, you can send an email message from an application very easily.";
-            MailMessage message = new MailMessage(from, to, subject, body);
-
-            return message;
-        }
-
-        public static void MailSender(SmtpClient user, List<String> contactList)
-        {
-            //multithreads
-            foreach (string str in contactList) //Contact =adress,username 
-            {
-                MailMessage msg = MailCreation("flockflockflockflockflock@gmail.com", str);
-                Sender(user, msg);
-            }
-        }
-
-       
-
-        public static void Sender(SmtpClient user, MailMessage msg)
-        {
-            try
-            {
-                Console.WriteLine("Sending mail...");
-                Task.Run(()=>customSend(user, msg));
-                
-
-
-            }
-            catch (SmtpException e)
-            {
-                Console.WriteLine(e);
-            }
-        }
-
-        static async Task customSend(SmtpClient user, MailMessage msg)
-        {
-            
-           // Random rnd = new Random();
-            //int delay  = rnd.Next(200, 5000);
-
-            await Task.Run(()=> user.Send(msg));
-            Console.WriteLine("Done " + msg.To+"\n");
-
-        }
-
-
-
-        /* public static void SendEmail(string fromAddress, string pwd)
-         {
-             SmtpClient client = new SmtpClient
-             {
-                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                 UseDefaultCredentials = false,
-                 EnableSsl = true,
-                 Host = "smtp.gmail.com",
-                 Port = 587,
-                 Credentials = new NetworkCredential("haxemaniac1999@gmail.com", "emgamrqicxlewzgf")
-             };
-
-             string subject = "test mail";
-             string body = "Omae wa moo,shindei rou.....NANI?";
-
-             try
-             {
-                 Console.WriteLine("Sending mail...");
-                 client.Send("haxemaniac1999@gmail.com", "stefetoufe@gmail.com", subject, body);
-                 Console.WriteLine("Done");
-             }
-             catch (SmtpException e)
-             {
-                 Console.WriteLine(e);
-             }
-
-         }*/
+ 
     }
 }

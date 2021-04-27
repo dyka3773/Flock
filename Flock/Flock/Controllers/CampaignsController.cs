@@ -72,15 +72,15 @@ namespace Flock.Controllers
         }
 
         // POST api/<CampaignsController>
-        [HttpPost("{id}/{gid}")]
-        public void Post(Campaign camp, int id, int gid)
+        [HttpPost("{aid}/{gid}")]
+        public void Post(Campaign camp, int aid, int gid)
         {
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
             cmd.CommandText = String.Format("call addCampaign('{0}', '{1}', '{2}', '{3}','{4}', '{5}','{6}', {7} , {8} )", 
-                camp.subject, camp.text, camp.startDate, camp.endDate, camp.name, camp.frequency,null,id, gid);
+                camp.subject, camp.text, camp.startDate, camp.endDate, camp.name, camp.frequency,null,aid, gid);
             MySqlDataReader reader = cmd.ExecuteReader();
 
 
