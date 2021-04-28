@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     BrowserRouter as Router,
     Switch,
@@ -14,6 +14,7 @@ import Page1 from './modules/page1';
 import LogIn from './modules/LogIn';
 import SignUp from './modules/SignUp';
 import AccountSettings from './modules/AccountSettings';
+import Homepage from './modules/Homepage';
 
 import logo from "./images/logo.png";
 
@@ -21,36 +22,19 @@ import logo from "./images/logo.png";
 
 const App = () => {
 
-    const loggedIn = true;
-    useEffect(() => {
-        const func = async () => {
+    const [hidden, setHidden] = useState("");
+    
+    const loggedIn = false;
 
-            const re1 = await axios.get('/apis/Contacts/1');
-
-            console.log(re1.data);
-
-
-          
-
-            
-        }
-
-
-        func();
-
-
-
-    })
 
     const toggleCollapse = () => {
-        const items = document.getElementsByClassName("hide");
+
+        hidden === "" ?
+            setHidden("hidden")
+            :
+            setHidden("")
         
-        for (let i of items) {
-            i.classList.contains("hidden") ?
-                i.classList.remove("hidden")
-                :
-                i.classList.add("hidden");
-        }
+        
     }
 
 
@@ -59,23 +43,24 @@ const App = () => {
             <div className="ui stackable menu" id="main-navbar">
 
 
-                <span className="item">
-                    <img className="logo" src={logo}  />
-                    <button id="unhide" onClick={toggleCollapse}>\/</button>
+                <span className="header item">
+                    <img className="logo" src={logo} />
+                    <button className="item ui basic primary button" id="unhide" onClick={toggleCollapse}>\/</button>
                 </span>
-                <NavLink className="hide item" activeClassName="active" to="/" exact>Home</NavLink>
 
-                <NavLink className="hide item" activeClassName="active" to="/campaign-management">Campaigns</NavLink>
+                <NavLink className={`hide item ${hidden}`} to="/" exact>Home</NavLink>
 
-                <NavLink className="hide item" activeClassName="active" to="/contact-management">Contact List</NavLink>
+                <NavLink className={`hide item ${hidden}`}  to="/campaign-management">Campaigns</NavLink>
 
-
-
-                <NavLink className="hide right item " to="/account-settings">Account Settings</NavLink>
-
-                <NavLink className="hide item" to="/">Log Out</NavLink>
+                <NavLink className={`hide item ${hidden}`}  to="/contact-management">Contact List</NavLink>
 
 
+
+                <NavLink className={`hide right item ${hidden}`} to="/account-settings">Account Settings</NavLink>
+
+                <NavLink className={`hide item ${hidden}`} to="/">Log Out</NavLink>
+                
+                
             </div>
 
             
@@ -110,10 +95,11 @@ const App = () => {
                 </span>
 
                 <NavLink className="item" activeClassName="active" to="/" exact>Home</NavLink>
-                <span className="right">
-                    <NavLink className="item" to="/log-in">Log In</NavLink>
-                    <NavLink className="item" to="/sign-up">Sign Up</NavLink>
-                </span>
+
+                <NavLink className={`hide right item ${hidden}`} to="/log-in">Log in</NavLink>
+
+                <NavLink className={`hide item ${hidden}`} to="/sign-up">Sign up</NavLink>
+                
             </div>
 
             {/* A <Switch> looks through its children <Route>s and
@@ -127,7 +113,7 @@ const App = () => {
                     <SignUp />
                 </Route>
                 <Route path="/">
-                    <div>Homepage under construction!</div>
+                    <Homepage />
                 </Route>
 
             </Switch>

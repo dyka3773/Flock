@@ -60,7 +60,7 @@ const recursive = (prototype, entry, id) => {
             newVal = randomNum(prototype[prop]);
         } else if (typeof prototype[prop] === "string") {
             if (prototype[prop] === "id")
-                newVal = id;
+                newVal = id.toString();
             else if (prototype[prop].match(/\d+/g))
                 newVal = randomString(parseInt(prototype[prop]));
             else if (prototype[prop] === "email")

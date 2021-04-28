@@ -1,5 +1,9 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import '../componentCSS/Accordion.css';
+import dataToFormInputs from '../usefulFunctions/dataToFormInputs';
+import AccordionHeader from '../components/AccordionHeader';
+import Form from '../components/Form';
+
 /*Accordion receives an array of objects following the below structure
  * const accordionItems = [
     {
@@ -19,8 +23,9 @@ for each array item one accordion item is rendered
 */
 
 
-const Accordion = (props) => {
+const Accordion = ({ items, editItems, onSelect, selectedItems, pageNum }) => {
     const [activeIndex, setActiveIndex] = useState(null);
+    
 
     const onClick = (event, index) => {
         //ensures that clicking on a button or anchor element inside an AccordionItem will not trigger the opening or closing of the item
@@ -34,19 +39,47 @@ const Accordion = (props) => {
 
     }
 
+    useEffect(() => { setActiveIndex(null) }, [pageNum])
+    
+    
+   
+        
 
-    const items = props.items.map(
+    const accordionItems = items.map(
         (item, index) => {
+
+            const inputs = dataToFormInputs(item.details);
+
+            const accordionHeader = onSelect && selectedItems ? 
+                <AccordionHeader
+                    details={item.details}
+                    onSelect={() => onSelect(item.id)}
+                    isSelected={selectedItems[item.id]}
+                />
+                :
+                <AccordionHeader
+                    details={item.details}
+                />
+
             return (
                 <div className="accordion-item" key={item.id}>
+
                     <div
                         className={`title ${activeIndex === index ? 'active' : ''}`}
                         onClick={(e) => onClick(e,index)}
                     >
-                        {item.header}
+
+                        {accordionHeader}
+
                     </div>
+
                     <div className={`content ${activeIndex === index ? 'active' : ''}`}>
-                       {item.details}
+
+                        <Form
+                            inputs={inputs}
+                            submit={{ label: "edit", onClick: (details) => editItems({ id: item.id, details: details }) }}
+                        />
+
                     </div>
                 </div>
             );
@@ -55,7 +88,7 @@ const Accordion = (props) => {
 
     return (
         <div className="ui fluid accordion">
-            {items}
+            {accordionItems}
         </div>
     );
 

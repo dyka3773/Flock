@@ -1,11 +1,15 @@
-﻿import React from 'react';
+﻿import React, { useState} from 'react';
 import '../componentCSS/AccordionHeader.css';
 
-const AccordionHeader = ({title, details, onDelete}) => {
+const AccordionHeader = ({ title, details, onSelect, isSelected}) => {
 
-    const onClick = (e) => {
-        e.preventDefault();
-        onDelete();
+    const [selected, setSelected] = useState(isSelected ? isSelected : false);
+   
+    const onCheckClick = (e) => {
+        
+        onSelect();
+        setSelected(!selected);
+       
     }
 
     let i = 0;
@@ -20,14 +24,15 @@ const AccordionHeader = ({title, details, onDelete}) => {
         
     })
 
+
    
 
     return (
         <div className="accordion-header">
-            <div className="titles">
+            <div className={`titles ${selected ? "selected" : "" }`} >
                 {accordionTitles}
                 <div className="buttons">
-                    { onDelete ? <input className="ui button" type="checkbox" onClick={onClick}/> : <></>}
+                    {onSelect ? <input className="ui button" type="checkbox" onChange={onCheckClick} checked={selected} /> : <></>}
                 </div>
             </div>
             

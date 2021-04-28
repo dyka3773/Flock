@@ -9,34 +9,6 @@ import MarkdownEditView from './MarkdownEditView';
 import dummyJsonGenerator from '../usefulFunctions/dummyJsonGenerator'
 
 
-const formInputs = [
-    {
-        label: "Name",
-        id: "name",
-        type:"password"
-    },
-    {
-        label: "Groups",
-        id: "surname",
-        required: true
-    },
-    {
-        label: "item3",
-        id: "it3",
-        value:"placeholder"
-    },
-    {
-        label: "item4",
-        id: "it4",
-        type: "email"
-    },
-    {
-        label: "read only",
-        id: "read",
-        value: "readOnlyValue",
-        readOnly:true
-    }
-];
 
 
 
@@ -86,20 +58,10 @@ const jsonPrototype = {
 
 const Page1 = () => {
 
-    const [date, onDateChange] = useState(new Date());
+   
 
 
-    const onCancel = () => {
-        console.log("cancelled");
-    }
-
-    const onSubmit = (inputValues) => {
-        console.log(inputValues);
-        console.log(date);
-        console.log("start date",`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()}`); //start date
-       //console.log("creation date", `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`);
-       
-    }
+    
 
 
     console.log(dummyJsonGenerator(jsonPrototype,10,0));
@@ -109,20 +71,7 @@ const Page1 = () => {
         
         
         <div>
-            <Form
-                label="Basic Form Exampol"
-                inputs={formInputs}
-                cancel={{ label:"cancel", onClick: onCancel}}
-                submit={{ label: "submit", onClick: onSubmit}}
-            >
-                <div className="ui segment">
-                    <Calendar
-                        className="react-calendar"
-                        onChange={onDateChange}
-                        value={date}
-                    />
-                </div>
-            </Form>
+            
             <br/>
             <br />
             <br />

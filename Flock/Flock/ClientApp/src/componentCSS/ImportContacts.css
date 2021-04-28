@@ -1,0 +1,27 @@
+﻿body {
+}
+
+.import-contacts {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+    
+
+    .import-contacts>form>*{
+        margin:5px;
+       
+    }
+
+    .import-contacts input[type="file"] {
+        display: none;
+    }
+
+    .import-contacts .custom-file-upload {
+        border: 1px solid #ccc;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+    }
+

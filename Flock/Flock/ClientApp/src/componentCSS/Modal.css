@@ -2,14 +2,15 @@
 }
 
 .custom-modal {
-    display: none; /* Hidden by default */
+    display: none; /* Hidden by default, will be set to flex with JS */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 3; /* Sit on top */
     left: 0;
-    top: 3rem;
+    top: 0;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
+    
+    flex-direction:column;
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.2); /* Black w/ opacity */
     align-items:center;
@@ -17,14 +18,16 @@
 }
 
 
-    .custom-modal .ui.segment {
-        position:relative;
+    .custom-modal>.ui.segment {
+        position: relative;
+        overflow: auto; /* Enable scroll if needed */
+        max-width: 95%;
+        max-height: 95%;
+        min-height:50%;
+        min-width:75%;
+        display: flex;
+        flex-direction: column;
         
-        height:75%;
-        display:flex;
-        flex-direction:column;
-        justify-content:space-evenly;
-        align-items:center;
        
     }
 
@@ -36,3 +39,12 @@
         padding:5px;
         }
 
+    .custom-modal .multitab-modal-content{
+       
+        height:100%;
+        display:flex;
+        flex-direction:column;
+        justify-content:space-between;
+    }
+
+    

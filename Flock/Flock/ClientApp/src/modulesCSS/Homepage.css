@@ -1,0 +1,23 @@
+﻿
+#homepage .icon:hover {
+    transform: scale(1.1); /* Standard syntax */
+}
+
+#homepage > div {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+}
+
+#homepage h1, h2 {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+}
+
+#homepage .ui.segment {
+    min-height: 20rem;
+}
+
+#homepage .ui.list .item {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}

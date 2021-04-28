@@ -4,7 +4,7 @@
 
 
     .management-module #add-new{
-        height:4rem;
+        min-height:2rem;
         
     }
 
@@ -53,7 +53,14 @@
         margin-left: 20rem;
         padding: 20px;
     }
-
+        .management-module .list>#head {
+            position:relative;
+        }
+            .management-module .list > #head > .button {
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
 
         .management-module .list .list-items {
             padding: 20px;

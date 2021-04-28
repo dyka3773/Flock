@@ -4,7 +4,6 @@ import getCampaigns, { getDashboardCampaigns } from '../dataRequests/getCampaign
 import getAccount from '../dataRequests/getAccount';
 import editCampaign from '../dataRequests/editCampaign';
 
-import dataToAccordionConvert from '../usefulFunctions/dataToAccordionItemsConvert';
 import { newContactFormInputs } from '../usefulFunctions/formInputs';
 import csvToJson from '../usefulFunctions/csvToJson';
 
@@ -57,7 +56,7 @@ const Dashboard = () => {
             }
         ]
 
-    const accordion = dataToAccordionConvert(campaigns, editCampaign);
+    
 
     const contactNum = 50;
     const campaignsNum = 10;
@@ -113,7 +112,7 @@ const Dashboard = () => {
 
                 <div className="ui segment campaigns flex-item">
                     <h1>Campaign Information</h1>
-                    <Accordion items={accordion} />
+                    <Accordion items={campaigns} editItems={editCampaign} />
                     <button className="ui button">New Campaign</button>
                 </div>
 

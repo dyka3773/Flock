@@ -17,6 +17,10 @@
         
         
     }
+        .accordion-header .titles.selected {
+            text-decoration: line-through;
+            color:rgba(0,0,0,0.3);
+        }
 
         .accordion-header .titles .title1 {
             width:25%;
