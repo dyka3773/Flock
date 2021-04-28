@@ -112,23 +112,19 @@ BEGIN
 END$$
 
 CREATE PROCEDURE `Flock`.`getContactsInGroup` (
-in aid int, in groupname varchar(45))
+in aid int, in gid int)
 BEGIN
 	select C.CID, C.Full_Name, C.Email, C.AID
     from Contacts C join Contacts_in_Groups CiG on (C.CID=CiG.CID)
-    join Groups G on (CiG.GID=G.GID)
-    where G.AID=aid and G.Group_Name=groupname and G.AID=C.AID;
+    where C.AID=aid and CiG.GID=gid;
 END$$
 
 CREATE PROCEDURE `Flock`.`getCampsInGroup` (
-in aid int, in groupname varchar(45))
+in aid int, in gid int)
 BEGIN
-	select *
-    from Campaign C
-    where C.AID=aid and C.GID =(select G.GID
-								from Groups G
-								where G.Group_Name=groupname and G.AID=aid
-	);
+	select C.CAID, C.Subject, C.Text, C.Start_Date, C.End_Date, C.Creation_Date, C.C_Name, C.Frequency, C.Num_of_Conts, C.Attachment, C.AID, C.GID
+    from Campaign C join Groups G on (C.GID=G.GID)
+    where C.AID=aid AND C.GID=gid;
 END$$
 
 CREATE PROCEDURE `Flock`.`deleteGroup` (
