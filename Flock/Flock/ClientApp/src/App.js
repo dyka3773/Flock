@@ -23,7 +23,7 @@ import logo from "./images/logo.png";
 const App = () => {
 
     const [hidden, setHidden] = useState("");
-    const [token, setToken] = useState(-1);
+    const [token, setToken] = useState(null);
 
     
 
@@ -45,7 +45,7 @@ const App = () => {
 
 
 
-    const layout = !(token===-1) ?
+    const layout = token ?
         <>
             <div className="ui stackable menu" id="main-navbar">
 

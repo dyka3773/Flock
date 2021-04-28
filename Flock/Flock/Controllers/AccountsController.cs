@@ -35,7 +35,7 @@ namespace Flock.Controllers
 
         
         [HttpGet("login/{email}/{password}")]
-        public long login(string email, string password)
+        public Object login(string email, string password) //needs to be httpactionresult
         {
            
             using var cmd = new MySqlCommand();
@@ -50,7 +50,14 @@ namespace Flock.Controllers
 
             cmd.Connection.Close();
 
-            return token;
+            if (token == -1)
+                return null;
+            else
+                return token;
+
+
+
+
         }
 
 

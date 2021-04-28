@@ -29,7 +29,7 @@ const LogIn = ({ setToken }) => {
 
     const attemptLogin = async ({ email, password }) => {
         const token = await login(email, password);
-        token === -1 ? window.alert("Wrong credentials") : setToken(token)
+        token ? setToken(token) : window.alert("Wrong credentials") 
     }
 
 
