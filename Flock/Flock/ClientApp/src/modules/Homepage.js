@@ -92,7 +92,7 @@ const Homepage = () => {
                 <h4 className="ui center aligned header">For more information contact us at info@flock.com</h4>
                 <div className="ui three column centered grid icons">
                     <div className="two wide column ">
-                        <a href="https://www.facebook.com/">
+                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
                             <h2 className="ui center aligned icon header">
                                 <i className="circular facebook icon"></i>
 
@@ -101,7 +101,7 @@ const Homepage = () => {
                     </div>
 
                     <div className="two wide column">
-                        <a href="https://www.instagram.com/">
+                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
                             <h2 className="ui center aligned icon header">
                                 <i className="circular instagram icon"></i>
 
@@ -111,7 +111,7 @@ const Homepage = () => {
                     </div>
 
                     <div className="two wide column">
-                        <a href="https://www.linkedin.com/">
+                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
                             <h2 className="ui center aligned icon header">
                                 <i className="circular linkedin icon"></i>
 
