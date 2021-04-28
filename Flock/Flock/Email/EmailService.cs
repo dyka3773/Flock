@@ -12,23 +12,17 @@ namespace SendEmail
 {
     class EmailService
     {
-        private int groupId { get; }
-        private String groupName { get; }
         private List<Contact> contacts { get; }
         private Campaign camp  { get; }
 
-        public EmailService(int campaignId, int aid) { 
+        public EmailService(int campaignId) { 
             //Receives campaignId and the coresponding aid and sends the campaign contents to the
             //group (specified in camp.groupId) of the account (known by the aid)
-            List<Campaign> camps = new CampaignsController().Get(aid);
-
-            camp = camps.Find((c)=> c.id == campaignId);
+            camp = new CampaignsController().getCampFromCaid(campaignId);
             
             Debug.WriteLine(camp.ToString());
 
-            groupId = camp.groupId;
-
-            contacts = new GroupsController().GetContacts(aid, groupId);
+            contacts = new GroupsController().GetContacts(camp.AID, camp.GID);
 
             mailSender();
         }

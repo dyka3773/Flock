@@ -25,10 +25,12 @@ namespace Flock.Models
 
         public uint numOfContacts { get; set; } //non editable
 
-        public int groupId { get; set; } //non editable
+        public int GID { get; set; } //non editable
+
+        public int AID { get; set; } //non editable
 
         public override String ToString() {
-            return "id " + id + " name " + name + " groupId " + groupId;
+            return "id " + id + " name " + name + " groupId " + GID+ " AID "+AID;
         }
     }
 }
