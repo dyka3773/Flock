@@ -53,7 +53,7 @@ namespace Flock.Controllers
         }
 
        
-        public List<Contact> GetContacts(int aid, string g )
+        public List<Contact> GetContacts(int aid, int gid )
         {
             Console.WriteLine("awdawd");
             List<Contact> contacts = new List<Contact>();
@@ -61,8 +61,8 @@ namespace Flock.Controllers
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            Debug.WriteLine("groupname "+g);
-            cmd.CommandText = String.Format("call getContactsInGroup({0}, '{1}')", aid, g);
+            Debug.WriteLine("Gid: "+gid);
+            cmd.CommandText = String.Format("call getContactsInGroup({0}, {1})", aid, gid);
 
 
             MySqlDataReader reader = cmd.ExecuteReader();
