@@ -29,14 +29,14 @@ namespace Flock.Controllers
         }
 
         // GET: api/<CampaignsController>
-        [HttpPost("sendCampaign/{caid}/{aid}")]
-        public void Get(int caid, int aid)
+        [HttpPost("sendCampaign/{caid}")]
+        public void sendCampaign(int caid)
         {
-            EmailService email = new EmailService(caid,aid);
+            EmailService email = new EmailService(caid);
         }
 
         // GET api/<CampaignsController>/5
-        [HttpGet("{id}")]
+        [HttpGet("{aid}")]
         public List<Campaign> Get(int aid)
         {
             List<Campaign> campaigns = new List<Campaign>();
@@ -49,9 +49,10 @@ namespace Flock.Controllers
             MySqlDataReader reader = cmd.ExecuteReader();
 
 
-            while (reader.Read()) {
-                
-                 campaigns.Add(new Campaign
+            while (reader.Read())
+            {
+
+                campaigns.Add(new Campaign
                 {
                     id = (int)reader.GetValue(0),
                     subject = reader.GetValue(1).ToString(),
@@ -62,7 +63,8 @@ namespace Flock.Controllers
                     name = reader.GetValue(6).ToString(),
                     frequency = reader.GetValue(7).ToString(),
                     numOfContacts = (uint)reader.GetValue(8),
-                    groupId = (int)reader.GetValue(11)
+                    AID = (int)reader.GetValue(10),
+                    GID = (int)reader.GetValue(11)
                 });
             }
 
@@ -70,6 +72,47 @@ namespace Flock.Controllers
             cmd.Connection.Close();
             return campaigns;
         }
+
+
+        public Campaign getCampFromCaid(int caid)
+        {
+            Campaign campaign;
+            using var cmd = new MySqlCommand();
+            cmd.Connection = new DBConnection().connect();
+            cmd.Connection.Open();
+
+            cmd.CommandText = "getCampFromCAID(" + caid + ")";
+
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+
+            reader.Read();
+
+
+
+            campaign = new Campaign
+            {
+                id = (int)reader.GetValue(0),
+                subject = reader.GetValue(1).ToString(),
+                text = reader.GetValue(2).ToString(),
+                startDate = reader.GetValue(3).ToString(),
+                endDate = reader.GetValue(4).ToString(),
+                creationDate = reader.GetValue(5).ToString(),
+                name = reader.GetValue(6).ToString(),
+                frequency = reader.GetValue(7).ToString(),
+                numOfContacts = (uint)reader.GetValue(8),
+                AID = (int)reader.GetValue(10),
+                GID = (int)reader.GetValue(11)
+            };
+
+
+
+            cmd.Connection.Close();
+            return campaign;
+        }
+
+
+
 
         // POST api/<CampaignsController>
         [HttpPost("{aid}/{gid}")]
@@ -79,8 +122,8 @@ namespace Flock.Controllers
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = String.Format("call addCampaign('{0}', '{1}', '{2}', '{3}','{4}', '{5}','{6}', {7} , {8} )", 
-                camp.subject, camp.text, camp.startDate, camp.endDate, camp.name, camp.frequency,null,aid, gid);
+            cmd.CommandText = String.Format("call addCampaign('{0}', '{1}', '{2}', '{3}','{4}', '{5}','{6}', {7} , {8} )",
+                camp.subject, camp.text, camp.startDate, camp.endDate, camp.name, camp.frequency, null, aid, gid);
             MySqlDataReader reader = cmd.ExecuteReader();
 
 
