@@ -1,7 +1,7 @@
 drop procedure if exists `Flock`.`getContacts`;
 drop procedure if exists `Flock`.`getCamps`;
 drop procedure if exists `Flock`.`getAllGroups`;
-drop procedure if exists `Flock`.`exists`;
+drop procedure if exists `Flock`.`user_exists`;
 drop procedure if exists `Flock`.`addCompany`;
 drop procedure if exists `Flock`.`addBusiness_Personal`;
 drop procedure if exists `Flock`.`addContact`;
@@ -47,10 +47,10 @@ BEGIN
     where AID=aiid;
 END$$
 
-CREATE PROCEDURE `Flock`.`exists` (
+CREATE PROCEDURE `Flock`.`user_exists` (
 IN username varchar(45), in passwrd varchar(45))
 BEGIN
-	select AID 
+	select A.AID 
     from Accounts A 
     where A.Email=username
     and A.Passwd=passwrd;
@@ -299,7 +299,7 @@ BEGIN
     insert into Business_Personal(AID,F_Name,L_Name,Phone,Gender,Country,ZIP)
     values(@aiid, firstname, lastname, phone, gender, country, zip);
     
-    call `Flock`.`exists`(email, passwrd);
+    call `Flock`.`user_exists`(email, passwrd);
 END$$
 
 CREATE PROCEDURE `Flock`.`addCompany` (
@@ -313,7 +313,7 @@ BEGIN
     insert into Company (AID,C_Name,Phone,Country,ZIP,Phy_Address)
     values(@aiid, cname, phone, country, zip, address);
     
-    call `Flock`.`exists`(email, passwrd);
+    call `Flock`.`user_exists`(email, passwrd);
 END$$
 
 CREATE PROCEDURE `Flock`.`getAllGroups` (
