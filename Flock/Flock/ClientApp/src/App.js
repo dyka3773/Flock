@@ -24,7 +24,7 @@ const App = () => {
 
     const [hidden, setHidden] = useState("");
     
-    const loggedIn = false;
+    const loggedIn = true;
 
 
     const toggleCollapse = () => {

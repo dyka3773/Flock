@@ -27,12 +27,8 @@ namespace SendEmail
             Debug.WriteLine(camp.ToString());
 
             groupId = camp.groupId;
-            
-            List<Group> groups = new GroupsController().Get(aid);
 
-            groupName = groups.Find((g) => g.id == groupId).name;
-
-            contacts = new GroupsController().GetContacts(aid, groupName);
+            contacts = new GroupsController().GetContacts(aid, groupId);
 
             mailSender();
         }
