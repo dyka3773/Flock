@@ -50,10 +50,17 @@ END$$
 CREATE PROCEDURE `Flock`.`user_exists` (
 IN username varchar(45), in passwrd varchar(45))
 BEGIN
-	select A.AID 
+	set @userID= null;
+	select A.AID into @userID
     from Accounts A 
     where A.Email=username
     and A.Passwd=passwrd;
+    
+    if @userID is null then
+		select -1;
+	else
+		select @userID;
+	end if;
 END$$
 
 CREATE PROCEDURE `Flock`.`getAccDetails` (
