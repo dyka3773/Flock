@@ -1,17 +1,23 @@
 ﻿import React from 'react';
+
 import Form from '../components/Form';
+
+import login from '../dataRequests/login';
+
 import '../modulesCSS/LogIn.css';
 
 const inputs = [
  {
         label: "Email",
         id: "email",
-        type: "email" //optional
+        type: "email",
+        required:true
     },
     {
         label: "Password",
         id: "password",
-        type: "password" //optional
+        type: "password",
+        required: true
     }
   ]
 
@@ -19,9 +25,12 @@ const inputs = [
 
 
 
-const LogIn = () => {
+const LogIn = ({ setToken }) => {
 
-
+    const attemptLogin = async ({ email, password }) => {
+        const token = await login(email, password);
+        token === -1 ? window.alert("Wrong credentials") : setToken(token)
+    }
 
 
     return (
@@ -30,7 +39,7 @@ const LogIn = () => {
                     label="Log In"
                     inputs={inputs}
                     cancel={{ label: "cancel", onClick: () => console.log("cancel")}}
-                    submit={{ label: "submit", onClick: (submitions) => console.log(submitions)}}
+                    submit={{ label: "submit", onClick: (submitions) => attemptLogin(submitions)}}
                 />
         </div>
        );

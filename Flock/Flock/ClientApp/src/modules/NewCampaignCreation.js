@@ -37,11 +37,11 @@ const NewCampaignCreation = () => {
 
     const onSubmit = (inputValues) => {
         console.log(inputValues);
-        console.log(startDate);
+        
         console.log("start date", `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDay()}`); //start date
         //console.log("creation date", `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`);
         console.log("end date", `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDay()}`); //end date
-        console.log(frequency); //end date
+        console.log(frequency); 
         console.log(editorValue);
     }
 

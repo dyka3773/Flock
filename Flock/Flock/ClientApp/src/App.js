@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
     BrowserRouter as Router,
     Switch,
@@ -23,8 +23,9 @@ import logo from "./images/logo.png";
 const App = () => {
 
     const [hidden, setHidden] = useState("");
+    const [token, setToken] = useState(-1);
+
     
-    const loggedIn = true;
 
 
     const toggleCollapse = () => {
@@ -33,12 +34,18 @@ const App = () => {
             setHidden("hidden")
             :
             setHidden("")
-        
-        
     }
 
+    useEffect(() => {
+        console.log(token);
 
-    const layout = loggedIn ?
+
+    },[token]);
+    
+
+
+
+    const layout = !(token===-1) ?
         <>
             <div className="ui stackable menu" id="main-navbar">
 
@@ -107,7 +114,7 @@ const App = () => {
 
             <Switch>
                 <Route path="/log-in">
-                    <LogIn />
+                    <LogIn setToken={setToken}/>
                 </Route>
                 <Route path="/sign-up">
                     <SignUp />

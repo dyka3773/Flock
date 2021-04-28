@@ -34,13 +34,7 @@ namespace Flock.Controllers
             return null;
         }
 
-        // GET api/<BusinessPersonalController>/5
-        [HttpGet("{id}")]
-        public void Get(int id)
-        {
-        }
-
-        // POST api/<BusinessPersonalController>/5
+       
         [HttpPost]
         public void Post(BusinessPersonal bp)
         {
@@ -55,7 +49,7 @@ namespace Flock.Controllers
             cmd.Connection.Close();
         }
 
-        // PUT api/<BusinessPersonalController>/5
+        
         [HttpPut("{id}")]
         public void Put(int id, BusinessPersonal bp)
         {
@@ -70,7 +64,7 @@ namespace Flock.Controllers
             cmd.Connection.Close();
         }
 
-        // DELETE api/<BusinessPersonalController>/5
+        
         [HttpDelete("{id}")]
         public void Delete(int id)
         {}

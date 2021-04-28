@@ -33,6 +33,29 @@ namespace Flock.Controllers
             return new string[] { "value1", "value2" };
         }
 
+        
+        [HttpGet("login/{email}/{password}")]
+        public long login(string email, string password)
+        {
+           
+            using var cmd = new MySqlCommand();
+            cmd.Connection = new DBConnection().connect();
+            cmd.Connection.Open();
+
+            cmd.CommandText = String.Format("call user_exists('{0}', '{1}' )", email, password);
+            MySqlDataReader reader = cmd.ExecuteReader();
+            reader.Read();
+
+            long token = (long)reader.GetValue(0);
+
+            cmd.Connection.Close();
+
+            return token;
+        }
+
+
+
+
         // GET api/<AccountsController>/6
         [HttpGet("getFields/{id}")]
         public Object GetFields(int id)
