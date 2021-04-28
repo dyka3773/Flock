@@ -22,8 +22,15 @@ drop procedure if exists `Flock`.`editBP`;
 drop procedure if exists `Flock`.`getAccDetails`;
 drop procedure if exists `Flock`.`deleteAcc`;
 drop procedure if exists `Flock`.`addNOS`;
+drop procedure if exists `Flock`.`getCampFromCAID`;
 
 DELIMITER $$
+
+CREATE PROCEDURE `Flock`.`getCampFromCAID` (
+IN caiid int)
+BEGIN
+	select * from Campaign where CAID=caiid;
+END$$
 
 CREATE PROCEDURE `Flock`.`addNOS` (
 IN aiid int, in newNOS int)
