@@ -18,19 +18,29 @@ const NewContactCreation = () => {
 
 
     useEffect(() => {
-        const groupsData = getGroups();
+        const fetchGroups = async() => {
 
-        const groups = groupsData.map((gr) => {
-            return (
-                <option value={gr.id} key={gr.id}>{gr.name}</option>
-            )
-        })
+            const groupsData = await getGroups(token);
 
-        setGroups(groups);
+            const groups = groupsData.map((gr) => {
+                return (
+                    <option value={gr.id} key={gr.id}>{gr.name}</option>
+                )
+            })
+
+            setGroups(groups);
+            
+        }
+
+        fetchGroups();
+
+        
     }, [])
 
     const handleFormSubmit = (sub) => {
-        addContact(sub,token,4);
+            addContact(sub, token, selectedGroup);
+        
+        
 
     }
     
@@ -42,7 +52,8 @@ const NewContactCreation = () => {
             submit={{ label: "submit", onClick: (sub) => handleFormSubmit(sub) }}
         >
             <label>Choose one or more groups</label>
-            <select required onChange={(e)=>setSelectedGroup(e.target.value)} value={selectedGroup}>
+            <select required onChange={(e) => setSelectedGroup(e.target.value)} value={selectedGroup}>
+                <option value="" disabled>Select a group</option>
                 {groups}
             </select>
         </Form>

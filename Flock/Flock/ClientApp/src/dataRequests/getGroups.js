@@ -1,13 +1,8 @@
-﻿import dummyJsonGenerator from '../usefulFunctions/dummyJsonGenerator';
+﻿import axios from 'axios';
 
-const jsonPrototype = {
-    name:"6",
-    id:"id"
-}
-
-
-const getGroups = () => {
-    return dummyJsonGenerator(jsonPrototype, 10, 0);
+const getGroups = async (token) => {
+    const resp = await axios.get(`https://localhost:44363/apis/Groups/${token}`);
+    return resp.data;
 }
 
 export default getGroups;

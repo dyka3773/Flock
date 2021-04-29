@@ -1,14 +1,23 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef, useContext } from 'react';
 import getGroups from '../dataRequests/getGroups';
 import '../componentCSS/GroupsList.css';
+import context from '../contexts/context';
 
 const GroupsList = ({ handleSelectGroups, onGroupEdit, onGroupDelete, editable, type}) => {
 
     const [groups, setGroups] = useState([]);
     const [selectedGroup, setSelectedGroup] = useState(null);
 
+    const token = useContext(context);
+
     useEffect(() => {
-        setGroups(getGroups)
+        const fetchGroups = async () => {
+            const groups = await getGroups(token);
+            setGroups(groups);
+        }
+
+        fetchGroups();
+
     },[])
 
     useEffect(() => {

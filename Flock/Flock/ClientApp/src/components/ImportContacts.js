@@ -1,21 +1,39 @@
-﻿import React, { useState } from 'react';
-import csvToJson from '../usefulFunctions/csvToJson'
+﻿import React, { useEffect, useState, useContext } from 'react';
+import csvToJson from '../usefulFunctions/csvToJson';
+
+import context from '../contexts/context';
 
 import '../componentCSS/ImportContacts.css';
 import getGroups from '../dataRequests/getGroups';
 
 const ImportContacts = () => {
-
+    const [groups, setGroups] = useState([]);
     const [selectedGroupId, setSelectedGroupId] = useState("-1");
 
-    const defaultGroup = {id:"none",name:"None"};
+    const token = useContext(context)
 
-    const groupsData = getGroups();
-    groupsData.push(defaultGroup);
+    const defaultGroup = { id: "none", name: "None" };
 
-    const groups = groupsData.map((group) => {
-        return <option value={group.id} key={group.id}>{group.name}</option>
-    });
+    useEffect(() => {
+        const fetchGroups = async () => {
+
+            const groupsData = await getGroups(token);
+            console.log(groupsData);
+            groupsData.push(defaultGroup);
+
+            const groups = groupsData.map((gr) => {
+                return <option value={gr.id} key={gr.id}>{gr.name}</option>
+            })
+
+            setGroups(groups);
+        }
+
+        fetchGroups();
+
+
+    },[])
+
+    
 
     const createContacts = (e) => {
 

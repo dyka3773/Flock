@@ -27,7 +27,7 @@ namespace Flock.Controllers
       
 
         // GET apis/<GroupsController>/5
-        [HttpGet("{id}")]
+        [HttpGet("{aid}")]
         public List<Group> Get(int aid)
         {
             List<Group> group = new List<Group>();
