@@ -24,8 +24,8 @@ import logo from "./images/logo.png";
 const App = () => {
 
     const [hidden, setHidden] = useState("");
-    const [token, setToken] = useState(2);
-
+    const [token, setToken] = useState(null);
+   
     
 
 
@@ -37,7 +37,6 @@ const App = () => {
             setHidden("")
     }
 
-  
     
 
 
@@ -62,7 +61,7 @@ const App = () => {
 
                 <NavLink className={`hide right item ${hidden}`} to="/account-settings">Account Settings</NavLink>
 
-                <NavLink className={`hide item ${hidden}`} to="/log-out">Log Out</NavLink>
+                <NavLink className={`hide item ${hidden}`} to="/" onClick={() => { setToken(null) }}>Log Out</NavLink>
                 
                 
             </div>
@@ -73,11 +72,6 @@ const App = () => {
               renders the first one that matches the current URL. */}
 
             <Switch>
-                <Route path="/log-out">
-                    {
-                        () =>setToken(null)
-                    }
-                </Route>
                 <Route path="/account-settings">
                     <AccountSettings />
                 </Route>
