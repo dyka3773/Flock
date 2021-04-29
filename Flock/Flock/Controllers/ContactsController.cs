@@ -82,14 +82,14 @@ namespace Flock.Controllers
         }
 
         // POST api/<ContacsController>/5 for not null
-        [HttpPost("{id}/{gid}")]
-        public void Post(Contact cont, int id, int gid)
+        [HttpPost("{aid}/{gid}")]
+        public void Post(Contact cont, int aid, int gid)
         {
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = String.Format("call addContact('{0}', '{1}', {2}, {3})", cont.fullName, cont.email, id, gid);
+            cmd.CommandText = String.Format("call addContact('{0}', '{1}', {2}, {3})", cont.fullName, cont.email, aid, gid);
             MySqlDataReader reader = cmd.ExecuteReader();
 
 

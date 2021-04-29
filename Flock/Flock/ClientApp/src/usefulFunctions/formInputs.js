@@ -3,19 +3,13 @@
 export const newContactFormInputs = [
     {
         label: "Name (First and Last)",
-        id: "name",
+        id: "fullName",
         required:true
     },
     {
-        label: "E-mail",
+        label: "Email",
         id: "email",
         type: "email",
-        required: true
-    }
-    ,
-    {
-        label: "Groups",
-        id: "groups",
         required: true
     }
 ];

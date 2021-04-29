@@ -1,3 +1,7 @@
 ﻿import React from 'react';
 
-export default React.createContext(-1);
+const TokenContext = React.createContext(null);
+
+export const TokenProvider = TokenContext.Provider;
+
+export default TokenContext;

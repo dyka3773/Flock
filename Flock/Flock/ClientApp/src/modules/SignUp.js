@@ -126,6 +126,7 @@ const SignUp = () => {
                 console.log(resp);
             }
             aa();
+            
         }
 
     }
@@ -140,6 +141,7 @@ const SignUp = () => {
                 console.log(resp);
             }
             aa();
+
         }
 
         

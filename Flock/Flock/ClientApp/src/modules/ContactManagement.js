@@ -1,26 +1,22 @@
 ﻿import React from 'react';
+
 import ManagementModule from './ManagementModule';
+import NewContactCreation from './NewContactCreation';
+
 import getContacts from '../dataRequests/getContacts'
 import editContact from '../dataRequests/editContact';
-import Form from '../components/Form';
-import ImportContacts from '../components/ImportContacts';
 
-import { newContactFormInputs } from '../usefulFunctions/formInputs';
+
+
+
 
 const ContactManagement = () => {
 
     
+    
 
     const modalContents = (
-        <>
-            <h1>Add a new contact:</h1>
-            <Form
-                inputs={newContactFormInputs}
-                submit={{ label: "submit", onClick: (sub) => console.log(sub) }}
-            />
-            or
-            <ImportContacts />
-        </>
+        <NewContactCreation />
     )
 
 

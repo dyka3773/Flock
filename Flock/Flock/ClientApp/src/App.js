@@ -5,7 +5,8 @@ import {
     Route,
     NavLink
 } from "react-router-dom";
-import axios from 'axios';
+
+import TokenContext from './contexts/context';
 
 import Dashboard from './modules/Dashboard';
 import ContactManagement from './modules/ContactManagement';
@@ -23,7 +24,7 @@ import logo from "./images/logo.png";
 const App = () => {
 
     const [hidden, setHidden] = useState("");
-    const [token, setToken] = useState(null);
+    const [token, setToken] = useState(2);
 
     
 
@@ -36,11 +37,7 @@ const App = () => {
             setHidden("")
     }
 
-    useEffect(() => {
-        console.log(token);
-
-
-    },[token]);
+  
     
 
 
@@ -65,7 +62,7 @@ const App = () => {
 
                 <NavLink className={`hide right item ${hidden}`} to="/account-settings">Account Settings</NavLink>
 
-                <NavLink className={`hide item ${hidden}`} to="/">Log Out</NavLink>
+                <NavLink className={`hide item ${hidden}`} to="/log-out">Log Out</NavLink>
                 
                 
             </div>
@@ -76,6 +73,11 @@ const App = () => {
               renders the first one that matches the current URL. */}
 
             <Switch>
+                <Route path="/log-out">
+                    {
+                        () =>setToken(null)
+                    }
+                </Route>
                 <Route path="/account-settings">
                     <AccountSettings />
                 </Route>
@@ -129,7 +131,9 @@ const App = () => {
     return (
         <Router>
             <div id="app">
-                {layout}
+                <TokenContext.Provider value={token}>
+                    {layout}
+                </TokenContext.Provider>
             </div >
         </Router >
     );

@@ -2,7 +2,7 @@
 import getGroups from '../dataRequests/getGroups';
 import '../componentCSS/GroupsList.css';
 
-const GroupsList = ({ handleSelectGroups, onGroupEdit, onGroupDelete}) => {
+const GroupsList = ({ handleSelectGroups, onGroupEdit, onGroupDelete, editable, type}) => {
 
     const [groups, setGroups] = useState([]);
     const [selectedGroup, setSelectedGroup] = useState(null);
@@ -27,7 +27,7 @@ const GroupsList = ({ handleSelectGroups, onGroupEdit, onGroupDelete}) => {
 
     const retGroups = groups.map(({ name, id }) => {
 
-        const selectedGroupButtons = selectedGroup === id ?
+        const selectedGroupButtons = (selectedGroup === id)&&(editable)?
             <span className="icons">
                 <button
                     onClick={editGroup}
@@ -61,7 +61,7 @@ const GroupsList = ({ handleSelectGroups, onGroupEdit, onGroupDelete}) => {
                         onClick={() => radioClicked(id)}
                     />
                    
-                    <label for="male" htmlFor={id}>{name}</label>
+                    <label>{name}</label>
                     {selectedGroupButtons}
                     
                 </div>
