@@ -28,9 +28,6 @@ import '../modulesCSS/ManagementModule.css';
  *  -addNewForm:
  * */
 
-const editGroupModalContents = (
-    <span>AAAAAAAA</span>
-)
 
 
 
@@ -40,7 +37,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => 
     const [searchValue, setSearchValue] = useState("");
     const [items, setItems] = useState([]);
     const [pageNum, setPageNum] = useState(1);
-    const [editGroupModalContents, setEditGroupModalContents] = useState();
+    const [modalCont, setModalCont] = useState(modalContents);
 
     const selectedItemsRef = useRef({});
     const ref = useRef();
@@ -50,6 +47,9 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => 
 
     useEffect(
         () => {
+            const fetchItems = async () => {
+                await getItems(pageNum)
+            }
             setItems(getItems(pageNum));
             window.scrollTo(0, 0);
 
@@ -90,7 +90,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => 
         ]
 
 
-        setEditGroupModalContents(
+        setModalCont(
             <>
             <h1>Edit Group</h1>
                 <Form
@@ -101,7 +101,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => 
         </>
             
         )
-        openModal2();
+        openModal();
     }
 
     const onGroupDelete = (selectedGroupId) => {
@@ -146,18 +146,8 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => 
         ref.current.style.display = "none";
     }
 
-    const openModal2 = () => {
+ 
 
-        ref2.current.style.display = "flex";
-
-    }
-
-    const closeModal2 = (e) => {
-
-        if (ref2.current.firstChild.contains(e.target) && !(e.target.className.includes("close")))
-            return;
-        ref2.current.style.display = "none";
-    }
 
 
 
@@ -174,7 +164,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => 
                     <button className="ui basic button close" onClick={toggleSidebar}>
                         X
                     </button>
-                    <button className="ui button primary" id="add-new" onClick={openModal}>Add New</button>
+                    <button className="ui button primary" id="add-new" onClick={() => { setModalCont(modalContents); openModal(); }}>Add New</button>
                     <div className="ui search ">
                         <div className="ui icon input fluid">
                             <input
@@ -215,12 +205,9 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => 
             </div>
 
             <Modal ref={ref} onClose={closeModal}>
-                {modalContents}
+                {modalCont}
             </Modal>
-
-            <Modal ref={ref2} onClose={closeModal2}>
-                {editGroupModalContents}
-            </Modal>
+            
         </>
 
     );

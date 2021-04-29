@@ -3,7 +3,9 @@ import getGroups from '../dataRequests/getGroups';
 import '../componentCSS/GroupsList.css';
 import context from '../contexts/context';
 
-const GroupsList = ({ handleSelectGroups, onGroupEdit, onGroupDelete, editable, type}) => {
+import NewGroupCreation from '../modules/NewGroupCreation';
+
+const GroupsList = ({ handleSelectGroups, onGroupEdit, onGroupDelete, editable=true}) => {
 
     const [groups, setGroups] = useState([]);
     const [selectedGroup, setSelectedGroup] = useState(null);
@@ -81,10 +83,11 @@ const GroupsList = ({ handleSelectGroups, onGroupEdit, onGroupDelete, editable, 
     return (
         <div className="groups-list">
             {retGroups}
+            <button className="ui button">Add Group</button>
         </div>
             );
 
-            }
+ }
 
 
 export default GroupsList;
