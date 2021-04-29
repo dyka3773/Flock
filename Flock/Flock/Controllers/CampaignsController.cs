@@ -33,6 +33,11 @@ namespace Flock.Controllers
         public void sendCampaign(int caid)
         {
             EmailService email = new EmailService(caid);
+
+            string fr = email.getFrequency();
+            
+
+            email.mailSender();
         }
 
         // GET api/<CampaignsController>/5

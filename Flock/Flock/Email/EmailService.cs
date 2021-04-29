@@ -12,19 +12,25 @@ namespace SendEmail
 {
     class EmailService
     {
-        private List<Contact> contacts { get; }
-        private Campaign camp  { get; }
+        private List<Contact> contacts;
+        private Campaign camp;
+        private string frequency;
+
+        public String getFrequency() {
+            return frequency;
+        }
 
         public EmailService(int campaignId) { 
             //Receives campaignId and the coresponding aid and sends the campaign contents to the
             //group (specified in camp.groupId) of the account (known by the aid)
             camp = new CampaignsController().getCampFromCaid(campaignId);
+
+            frequency = camp.frequency;
             
             Debug.WriteLine(camp.ToString());
 
             contacts = new GroupsController().GetContacts(camp.AID, camp.GID);
 
-            mailSender();
         }
         
 
@@ -39,10 +45,10 @@ namespace SendEmail
                 Debug.WriteLine(c.ToString());
                 string address = getUserName();
                 string password = getPass();
-                SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+                SmtpClient client = new SmtpClient("something.com", 587);
                 client.UseDefaultCredentials = false;
                 client.Credentials = new System.Net.NetworkCredential(address, password);
-                client.EnableSsl = true;
+                client.EnableSsl = false;
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
 
                 
@@ -71,11 +77,11 @@ namespace SendEmail
 
         public string getUserName()
         {
-            return "flockflockflockflockflock@gmail.com";
+            return "imanemail@something.com";
         }
         public string getPass()
         {
-            return "flock69a!";
+            return "852456";
         }
  
     }
