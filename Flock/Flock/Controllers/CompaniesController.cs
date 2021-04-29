@@ -44,7 +44,11 @@ namespace Flock.Controllers
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = String.Format("call addCompany('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')", c.email, c.password, c.name, c.phone, c.country, c.zip, c.phyAddress);
+            cmd.CommandText = 
+                String.Format(
+                    "call addCompany('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')"
+                    , c.email, c.password, c.name, c.phone, c.country, c.zip, c.phyAddress
+                    );
             MySqlDataReader reader = cmd.ExecuteReader();
         }
 
@@ -56,7 +60,11 @@ namespace Flock.Controllers
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = String.Format("call editCompany({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')", id, c.password, c.name, c.phone, c.country, c.zip, c.phyAddress);
+            cmd.CommandText = 
+                String.Format(
+                    "call editCompany({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')"
+                    , id, c.password, c.name, c.phone, c.country, c.zip, c.phyAddress
+                    );
             MySqlDataReader reader = cmd.ExecuteReader();
         }
 

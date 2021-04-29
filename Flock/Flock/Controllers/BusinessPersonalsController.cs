@@ -42,7 +42,12 @@ namespace Flock.Controllers
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = String.Format("call addBusiness_Personal('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')", bp.email, bp.password, bp.fName, bp.lName, bp.phone, bp.gender, bp.country, bp.zip);
+            cmd.CommandText = 
+                String.Format(
+                    "call addBusiness_Personal('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')", 
+                     bp.email, bp.password, bp.fName, bp.lName, bp.phone, bp.gender, bp.country, bp.zip
+                     );
+
             MySqlDataReader reader = cmd.ExecuteReader();
 
 

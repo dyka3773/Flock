@@ -1,11 +1,15 @@
 ﻿import React, { useEffect, useState } from 'react';
+
 import Form from '../components/Form';
+
+import { personalSignup, companySignup } from '../dataRequests/signup';
+
 import '../modulesCSS/SignUp.css';
 
 const companyInputs = [
     {
         label: "Company Name",
-        id: "companyName",
+        id: "name",
         required: true
     },
     {
@@ -31,7 +35,7 @@ const companyInputs = [
     },
     {
         label: "Physical Address",
-        id: "address",
+        id: "phyAddress",
         required: true
     },
     {
@@ -51,18 +55,23 @@ const companyInputs = [
 const personalInputs = [
     {
         label: "First Name",
-        id: "name",
+        id: "fName",
         required: true
     },
     {
         label: "Last Name",
-        id: "surname",
+        id: "lName",
         required: true
     },
     {
         label: "E-Mail",
         id: "email",
         type: "email",
+        required: true
+    },
+    {
+        label: "Gender",
+        id: "gender",
         required: true
     },
     {
@@ -105,7 +114,37 @@ const SignUp = () => {
     useEffect(() => {
         document.querySelector("#personal").checked = true;
 
-    },[]);
+    }, []);
+
+    const companySignUp = (sub) => {
+        if (sub.password !== sub.confirmPassword)
+            window.alert("Password fields dont match")
+        else {
+            delete (sub.confirmPassword)
+            const aa = async () => {
+                const resp = await companySignup(sub);
+                console.log(resp);
+            }
+            aa();
+        }
+
+    }
+
+    const personalSignUp = (sub) => {
+        if (sub.password !== sub.confirmPassword)
+            window.alert("Password fields dont match")
+        else {
+            delete (sub.confirmPassword)
+            const aa = async () => {
+                const resp = await personalSignup(sub);
+                console.log(resp);
+            }
+            aa();
+        }
+
+        
+
+    }
 
 
     return (
@@ -120,12 +159,22 @@ const SignUp = () => {
                     <label for="company">Company</label>
                 </span>
             </div>
-            <Form
-                label="Sign Up"
-                inputs={accountType ? companyInputs : personalInputs}
-                cancel={{ label: "cancel", onClick: () => console.log("cancel") }}
-                submit={{ label: "submit", onClick: (submitions) => console.log(submitions) }}
-            />
+
+            {accountType ? 
+                <Form
+                    label="Sign Up"
+                    inputs={companyInputs}
+                    cancel={{ label: "cancel", onClick: () => console.log("cancel") }}
+                    submit={{ label: "submit", onClick: (submitions) => companySignUp(submitions) }}
+                />
+                :
+                <Form
+                    label="Sign Up"
+                    inputs={personalInputs}
+                    cancel={{ label: "cancel", onClick: () => console.log("cancel") }}
+                    submit={{ label: "submit", onClick: (submitions) => personalSignUp(submitions) }}
+                />
+                }
         </div>
     );
 }
