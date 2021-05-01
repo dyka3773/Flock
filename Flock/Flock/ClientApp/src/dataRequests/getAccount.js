@@ -1,39 +1,11 @@
-﻿
-const personal = {
-    fName : "Stef",
-    lName : "Touf",
-    phone : 696969696,
-    gender : "Female",
-    country : "kazakstan",
-    zip : 69420,
-    email : "stefetoufe@gmail.com",
-    password: 12345,
-    numOfConts: 500,
-    numOfCamps: 10,
-    NumOfSent:3000
+﻿import axios from 'axios';
+
+ export const getAccountFields = async (token) => {
+    const resp = await axios.get(`apis/Accounts/getFields/${token}`)
+    return resp.data;
 }
 
-const company = {
-    cName: "Stef",
-    phone: 696969696,
-    country: "kazakstan",
-    phyAddress: "idk 24",
-    zip: 69420,
-    email: "stefetoufe@gmail.com",
-    password: 12345,
-    numOfConts: 500,
-    numOfCamps: 10,
-    numOfSent: 3000
+export const getAccountBasic = async (token) => {
+    const resp = await axios.get(`apis/Accounts/getBasic/${token}`)
+    return resp.data;
 }
-
-
-const accounts = [company, personal];
-
-const getAccount = (account=0) => {
-
-    return (
-        accounts[account]
-    );
-}
-
-export default getAccount;

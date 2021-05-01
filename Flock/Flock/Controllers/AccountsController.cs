@@ -64,27 +64,49 @@ namespace Flock.Controllers
 
 
         // GET api/<AccountsController>/6
-        [HttpGet("getFields/{id}")]
-        public Object GetFields(int id)
+        [HttpGet("getFields/{aid}")]
+        public Object GetFields(int aid)
         {
             Account account;
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = "getAccDetails(" + id + ")";
+            cmd.CommandText = "getAccDetails(" + aid + ")";
 
             MySqlDataReader reader = cmd.ExecuteReader();
             reader.Read();
             
-            account = getAccountFactory(reader, id);
+            account = getAccountFactory(reader, aid);
 
             cmd.Connection.Close();
 
             return account.getFields();
         }
 
-        
+        // GET api/<AccountsController>/6
+        [HttpGet("getBasic/{aid}")]
+        public Object GetBasic(int aid)
+        {
+            Account account;
+            using var cmd = new MySqlCommand();
+            cmd.Connection = new DBConnection().connect();
+            cmd.Connection.Open();
+
+            cmd.CommandText = "getAccDetails(" + aid + ")";
+
+            MySqlDataReader reader = cmd.ExecuteReader();
+            reader.Read();
+
+            account = getAccountFactory(reader, aid);
+
+            cmd.Connection.Close();
+
+            return account.getBasicInfo();
+        }
+
+
+
         public Account Get(int id)
         {
             Account account;

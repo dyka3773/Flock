@@ -1,12 +1,14 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef, useContext } from 'react';
 
-import getAccount from '../dataRequests/getAccount';
+import { getAccountFields } from '../dataRequests/getAccount';
 
 import { keysToLabel } from '../usefulFunctions/formInputs';
 
 import Form from '../components/Form';
 
 import '../modulesCSS/AccountSettings.css'
+
+import context from '../contexts/context';
 
 const passwordInputs = [
     {
@@ -26,47 +28,49 @@ const passwordInputs = [
     }
 ]
 
-const inputConfig = {
-   
-        password: { type: "password", value: () =>"password", required: true },
-        email: { type: "email", value: (acc, key) => acc[key], required: false },
-        other: { type: "text", value: (acc, key) => acc[key], required: false }
-    
-}
+
 
 
 const AccountSettings = () => {
     const [accountSettingsFormInputs, setAccountSettingsFormInputs] = useState([]);
+
+    const token = useContext(context);
+
     useEffect(() => {
-        const acc = getAccount();
-        const accInputs = [];
-        for (let key of Object.keys(acc)) {
 
-            //cant see password as placeholder in input and becomes type password
-            /*const type = key === "password" || key === "email" ? key : "text"
+        const fetchAccount = async () => {
 
-            const value = key === "password" ? "password" : acc[key] 
+            const acc = await getAccountFields(token);
 
-            const required = key === "password" ? true : false*/
-            let key2 = key;
+            const accInputs = [];
+            for (let key of Object.keys(acc)) {
 
-            if (!inputConfig[key])
-                key2 = "other"
+                //cant see password as placeholder in input and becomes type password
+                /*const type = key === "password" || key === "email" ? key : "text"
+    
+                const value = key === "password" ? "password" : acc[key] 
+    
+                const required = key === "password" ? true : false*/
 
-            const { type, value, required } = inputConfig[key2];
 
-            //uses idToLabel object to transform keys of incoming object into form inputs with proper labels
-            if (keysToLabel[key])
-                accInputs.push({
-                    label: keysToLabel[key],
-                    id: key,
-                    value: value(acc,key),
-                    type: type,
-                    required: required
-                });
+                const [type, readOnly] = key === "email" ? ["email", true] : ["text", false]
+
+                //uses idToLabel object to transform keys of incoming object into form inputs with proper labels
+                if (keysToLabel[key])
+                    accInputs.push({
+                        label: keysToLabel[key],
+                        id: key,
+                        value: acc[key],
+                        type: type,
+                        readOnly: readOnly
+                    });
+            }
+
+            setAccountSettingsFormInputs(accInputs);
         }
 
-        setAccountSettingsFormInputs(accInputs);
+        fetchAccount();
+
     }, [])
 
     const onSubmitSettings = (sub) => {

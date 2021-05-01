@@ -5,6 +5,9 @@ using Flock.Models;
 using MySql.Data.MySqlClient;
 using System.Net.Http;
 using System.Net;
+using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -36,15 +39,15 @@ namespace Flock.Controllers
         }
 
         // GET api/<ContacsController>/5
-        [HttpGet("{id}")]
-        public List<Contact> Get(int id)
+        [HttpGet("{aid}")]
+        public List<Contact> Get(int aid)
         {
             List<Contact> contacts = new List<Contact>();
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = "getContacts(" + id + ",NULL)";
+            cmd.CommandText = "getContacts(" + aid + ",NULL)";
 
             MySqlDataReader reader = cmd.ExecuteReader();
 
@@ -67,14 +70,14 @@ namespace Flock.Controllers
         }
 
         // POST api/<ContacsController>/5
-        [HttpPost("{id}")]
-        public void Post(Contact cont, int id)
+        [HttpPost("{aid}")]
+        public void Post(Contact cont, int aid)
         {
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = String.Format("call addContact('{0}', '{1}', {2}, {3})", cont.fullName, cont.email, id, "null");
+            cmd.CommandText = String.Format("call addContact('{0}', '{1}', {2}, {3})", cont.fullName, cont.email, aid, "null");
             MySqlDataReader reader = cmd.ExecuteReader();
 
 
@@ -94,6 +97,42 @@ namespace Flock.Controllers
 
 
             cmd.Connection.Close();
+        }
+
+        // POST api/<ContacsController>/5 for not null
+        [HttpPost("multiplePost/{aid}/{gid}")]
+        public HttpResponseMessage multiplePost(List<Contact> contacts, int aid, int gid)
+        {
+
+
+            foreach (Contact i in contacts) {
+
+                
+
+
+                using var cmd = new MySqlCommand();
+                cmd.Connection = new DBConnection().connect();
+                cmd.Connection.Open();
+                cmd.CommandText = String.Format("call addContact('{0}', '{1}', {2}, {3})", i.fullName, i.email, aid, gid);
+
+                custom(cmd);
+
+            }
+
+            
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            return response;
+        }
+
+        private async void custom(MySqlCommand cmd) {
+
+            await cmd.ExecuteReaderAsync().ContinueWith((asd) => {
+
+                //Debug.WriteLine("donezo");
+
+                cmd.Connection.Close();
+            });
+
         }
 
         // PUT api/<ContacsController>/5

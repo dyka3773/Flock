@@ -23,5 +23,10 @@ namespace Flock.Models
 
         public abstract Object getFields();
 
+        public Object getBasicInfo() {
+
+            return new { numOfCamps=numOfCamps, numOfConts=numOfConts, numOfSent=numOfSent};
+        }
+
     }
 }

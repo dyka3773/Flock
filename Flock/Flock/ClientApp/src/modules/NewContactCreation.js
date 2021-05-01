@@ -6,7 +6,7 @@ import Form from '../components/Form'
 import ImportContacts from '../components/ImportContacts'
 
 import getGroups from '../dataRequests/getGroups';
-import addContact from '../dataRequests/addContact';
+import { addContact } from '../dataRequests/addContact';
 
 import { newContactFormInputs } from '../usefulFunctions/formInputs';
 
@@ -46,8 +46,8 @@ const NewContactCreation = () => {
     
 
     return <>
-        <h1>Add a new contact:</h1>
         <Form
+            label="Add a new contact:"
             inputs={newContactFormInputs}
             submit={{ label: "submit", onClick: (sub) => handleFormSubmit(sub) }}
         >
@@ -57,8 +57,6 @@ const NewContactCreation = () => {
                 {groups}
             </select>
         </Form>
-            or
-        <ImportContacts />
     </>
 
 

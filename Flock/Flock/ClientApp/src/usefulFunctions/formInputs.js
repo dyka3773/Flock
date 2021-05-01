@@ -15,11 +15,12 @@ export const newContactFormInputs = [
 ];
 
 
-//used to match an incoming object's keys with proper labels
+//used to match an incoming object's keys with proper labels and 
+//in many cases decides weather the key will be displayed(see AccountSettings.js)
 export const keysToLabel = {
     fName: "Name",
     lName: "Last Name",
-    cName: "Name",
+    name: "Name",
     phyAddress: "Physical Address",
     phone: "Phone",
     gender: "Gender",
@@ -27,4 +28,7 @@ export const keysToLabel = {
     zip: "Zip Code",
     email: "Email Address",
     password: "Password",
+    numOfCamps: "Active Campaigns",
+    numOfConts: "Contacts",
+    numOfSent: "Delivered Emails"
 }

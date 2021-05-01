@@ -95,7 +95,7 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
             const inputField = input.readOnly ? <input
                 value={input.value}
                 className={input.type}
-                readOnly={input.readOnly ? true : false}
+                readOnly={true}
                 />
                 :
                 <input
@@ -103,7 +103,7 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
                     onChange={(e) => handleFieldChange(input.id, e.target.value)}
                     value={val || ''}
                     className={input.type}
-                    readOnly={input.readOnly ? true : false}
+                    readOnly={false}
                     placeholder={input.value}
                     required={input.required ? true : false}
                 />

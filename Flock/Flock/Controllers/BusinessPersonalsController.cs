@@ -55,14 +55,16 @@ namespace Flock.Controllers
         }
 
         
-        [HttpPut("{id}")]
-        public void Put(int id, BusinessPersonal bp)
+        [HttpPut("{aid}")]
+        public void Put(int aid, BusinessPersonal bp)
         {
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = String.Format("call editBusiness_Personal({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')", id, bp.password, bp.fName, bp.lName, bp.phone, bp.gender, bp.country, bp.zip);
+            cmd.CommandText = String.Format(
+                "call editBusiness_Personal({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')", 
+                aid, bp.password, bp.fName, bp.lName, bp.phone, bp.gender, bp.country, bp.zip);
             MySqlDataReader reader = cmd.ExecuteReader();
 
 

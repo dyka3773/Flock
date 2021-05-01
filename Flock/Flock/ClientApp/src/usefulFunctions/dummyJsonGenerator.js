@@ -35,7 +35,8 @@ const randomString = (length) => {
 const randomEmail = () => {
     const emailConstructor = [];
 
-    emailConstructor.push(randomString(10));
+   
+    emailConstructor.push(randomString(randomNum([15, 33])));
     emailConstructor.push("@");
 
    
@@ -76,7 +77,7 @@ const recursive = (prototype, entry, id) => {
 }
 
 
-const dummyJsonGenerator = (jsonPrototype, num, startid) => {
+const dummyJsonGenerator = (jsonPrototype, num, startid=0) => {
 
     const data = [];
 
