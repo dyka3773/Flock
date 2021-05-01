@@ -1,10 +1,9 @@
-﻿import React, { useContext, useEffect, useState } from 'react';
+﻿import React, { useContext, useEffect, useRef, useState } from 'react';
 
-import getCampaigns, { getDashboardCampaigns } from '../dataRequests/getCampaigns';
+import { getDashboardCampaigns } from '../dataRequests/getCampaigns';
 import { getAccountBasic } from '../dataRequests/getAccount';
 import editCampaign from '../dataRequests/editCampaign';
 
-import { newContactFormInputs } from '../usefulFunctions/formInputs';
 import { keysToLabel } from '../usefulFunctions/formInputs';
 
 import Accordion from '../components/Accordion';
@@ -16,6 +15,7 @@ import '../modulesCSS/Dashboard.css'
 import context from '../contexts/context';
 
 import NewContactCreation from './NewContactCreation';
+import Modal from '../components/Modal';
 
 
 
@@ -26,6 +26,9 @@ const Dashboard = () => {
     
     const [campaigns, setCampaigns] = useState([]);
     const [basicInfoInputs, setBasicInfoInputs] = useState([])
+    const [modalCont, setModalCont] = useState();
+
+    const modalRef = useRef();
 
     const token = useContext(context);
 
@@ -49,9 +52,6 @@ const Dashboard = () => {
                         readOnly:true
                     }
                 )
-
-
-
             }
 
 
@@ -60,8 +60,20 @@ const Dashboard = () => {
 
         fetchBasicInfo()
         
-    },[])
+    }, [])
 
+    const openModal = () => {
+
+        modalRef.current.style.display = "flex";
+
+    }
+
+    const closeModal = (e) => {
+
+        if (modalRef.current.firstChild.contains(e.target) && !(e.target.className.includes("close")))
+            return;
+        modalRef.current.style.display = "none";
+    }
 
     
 
@@ -117,6 +129,7 @@ const Dashboard = () => {
 
             </div>
 
+            <Modal ref={modalRef} onClose={closeModal}>{modalCont}</Modal>
 
 
         </div>
