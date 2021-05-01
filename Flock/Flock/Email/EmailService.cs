@@ -65,10 +65,10 @@ namespace SendEmail
 
         public SmtpClient userClient(Contact c) 
         {
-            SmtpClient client = new SmtpClient("something.com", 587);
+            SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.UseDefaultCredentials = false;
             client.Credentials = new System.Net.NetworkCredential( getUserName(), getPass() );
-            client.EnableSsl = false;
+            client.EnableSsl = true;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             return client;
         }
@@ -76,13 +76,13 @@ namespace SendEmail
 
         public string getUserName()
         {
-            return "imanemail@something.com";
+            return "flockflockflockflockflock@gmail.com";
         }
         //gets the adress of the sender
 
         public string getPass()
         {
-            return "852456";
+            return "flock69a!";
         }
         //gets the password of the sender
     }
