@@ -41,8 +41,8 @@ ELSE
     where (C.AID=AIID) 
     and ( C.C_Name LIKE CONCAT('%',keyword,'%'));
 END IF;
-    
-select @pageCount/ofst;
+
+select ceil(@pageCount);
 END$$
 
 CREATE PROCEDURE `Flock`.`numOfPagesInConts` (
@@ -60,7 +60,7 @@ ELSE
 		or C.Email LIKE CONCAT('%',keyword,'%'));
 END IF;
     
-    select @pageCount;
+select ceil(@pageCount);
 END$$
 
 CREATE PROCEDURE `Flock`.`getCampFromCAID` (
