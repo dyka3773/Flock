@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef, useContext } from 'react';
 
 import Accordion from '../components/Accordion';
 import Form from '../components/Form';
@@ -7,7 +7,9 @@ import AccordionHeader from '../components/AccordionHeader';
 import Modal from '../components/Modal';
 import GroupsList from '../components/GroupsList';
 
-import getGroups from '../dataRequests/getGroups';
+import context from '../contexts/context';
+
+import {addGroup }from '../dataRequests/addGroup';
 
 import '../modulesCSS/ManagementModule.css';
 
@@ -37,13 +39,12 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => 
     const [searchValue, setSearchValue] = useState("");
     const [items, setItems] = useState([]);
     const [pageNum, setPageNum] = useState(1);
-    const [modalCont, setModalCont] = useState(modalContents);
+    const [modalCont, setModalCont] = useState({});
 
-    const selectedItemsRef = useRef({});
+    const selectedItemsRef = useRef(modalContents);
     const ref = useRef();
-    const ref2 = useRef();
 
-
+    const token = useContext(context);
 
     useEffect(
         () => {
@@ -70,8 +71,6 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => 
 
     const onGroupEdit = (selectedGroup) => {
 
-
-
         const inputs = [
 
             {
@@ -88,18 +87,45 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => 
             },
 
         ]
-
-
         setModalCont(
             <>
             <h1>Edit Group</h1>
                 <Form
                     inputs={inputs}
-                    submit={{ label: "submit", onClick: (sub) => console.log(sub) }}
+                    submit={{label: "submit", onClick: (sub) => console.log(sub)}}
                 />
-           
         </>
             
+        )
+        openModal();
+    }
+
+    const onGroupAdd = (selectedGroup) => {
+
+        const inputs = [
+
+            {
+                label: "Group Name",
+                id: "name",
+                required:true
+            }
+
+        ]
+        setModalCont(
+            <>
+                <h1>Add Group</h1>
+                <Form
+                    inputs={inputs}
+                    submit={{
+                        label: "submit", onClick: async (sub) => {
+                            console.log(sub);
+                            await addGroup(sub,token);
+                            window.alert("group added");
+                        }}}
+                />
+
+            </>
+
         )
         openModal();
     }
@@ -146,10 +172,6 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => 
         ref.current.style.display = "none";
     }
 
- 
-
-
-
 
     const accordionDescriptor = () => {
         if (!items[0]) return;
@@ -182,6 +204,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => 
                             handleSelectGroups={handleSelectGroups}
                             onGroupEdit={onGroupEdit}
                             onGroupDelete={onGroupDelete}
+                            onGroupAdd={onGroupAdd}
                         />
                     </div>
                 </div>

@@ -5,7 +5,7 @@ import context from '../contexts/context';
 
 import NewGroupCreation from '../modules/NewGroupCreation';
 
-const GroupsList = ({ handleSelectGroups, onGroupEdit, onGroupDelete, editable=true}) => {
+const GroupsList = ({ handleSelectGroups, onGroupEdit, onGroupDelete, editable=true, onGroupAdd}) => {
 
     const [groups, setGroups] = useState([]);
     const [selectedGroup, setSelectedGroup] = useState(null);
@@ -83,7 +83,7 @@ const GroupsList = ({ handleSelectGroups, onGroupEdit, onGroupDelete, editable=t
     return (
         <div className="groups-list">
             {retGroups}
-            <button className="ui button">Add Group</button>
+            <button className="ui button" onClick={onGroupAdd}>Add Group</button>
         </div>
             );
 

@@ -84,14 +84,14 @@ namespace Flock.Controllers
         }
 
         // POST apis/<GroupsController>/5
-        [HttpPost("{id}")]
-        public void Post(Group gr, int id)
+        [HttpPost("{aid}")]
+        public void Post(Group gr, int aid)
         {
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = String.Format("call addGroup({0}, '{1}')", id, gr.name);
+            cmd.CommandText = String.Format("call addGroup({0}, '{1}')", aid, gr.name);
             MySqlDataReader reader = cmd.ExecuteReader();
 
 

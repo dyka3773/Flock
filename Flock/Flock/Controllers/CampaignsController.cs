@@ -20,10 +20,7 @@ namespace Flock.Controllers
 
         public CampaignsController()
         {
-            /*campaigns.Add(new Campaign { id=1, subject="new penis enlargement procedure", text="get it while its hot", creationDate= new DateTime(3000, 8, 18, 16, 32, 18, 500), endDate = new DateTime(2010, 8, 18, 16, 32, 18, 500), startDate = new DateTime(2010, 8, 18, 16, 32, 18, 500), name="idk", frequency="lol", numOfContacts=300 });
-            campaigns.Add(new Campaign { id = 2, subject = "222222222222222222", text = "22222222222222222", creationDate = new DateTime(2010, 8, 18, 16, 32, 18, 500), endDate = new DateTime(2010, 8, 18, 16, 32, 18, 500), startDate = new DateTime(2010, 8, 18, 16, 32, 18, 500), name = "id22k", frequency = "lol22", numOfContacts = 302 });
-            campaigns.Add(new Campaign { id = 3, subject = "33333333333333", text = "333333333333333", creationDate = new DateTime(2010, 8, 18, 16, 32, 18, 500), endDate = new DateTime(2010, 8, 18, 16, 32, 18, 500), startDate = new DateTime(2010, 8, 18, 16, 32, 18, 500), name = "idk", frequency = "lol", numOfContacts = 300 });
-            campaigns.Add(new Campaign { id = 4, subject = "4444444444444444444", text = "44444444444444444", creationDate = new DateTime(2010, 8, 18, 16, 32, 18, 500), endDate = new DateTime(2010, 8, 18, 16, 32, 18, 500), startDate = new DateTime(2010, 8, 18, 16, 32, 18, 500), name = "idk", frequency = "lol", numOfContacts = 300 });*/
+            
 
 
         }
@@ -41,15 +38,48 @@ namespace Flock.Controllers
         }
 
         // GET api/<CampaignsController>/5
-        [HttpGet("{aid}")]
-        public List<Campaign> Get(int aid)
+        [HttpGet("GetNumOfPages/{aid}")]
+        public decimal GetNumOfPages(int aid)
         {
+            int numOfRows = 1;
+            
+
             List<Campaign> campaigns = new List<Campaign>();
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = "getCamps(" + aid + ",NULL)";
+            cmd.CommandText = String.Format("call numOfPagesInCamps({0},null,{1})", aid,numOfRows);
+
+            MySqlDataReader reader = cmd.ExecuteReader();
+            reader.Read();
+
+            return (decimal)reader.GetValue(0);
+        }
+
+        // GET api/<CampaignsController>/5
+        [HttpGet("{aid}/{pageNum}/{query?}")]
+        public List<Campaign> Get(int aid, int pageNum,string query)
+        {
+            int numOfRows = 5;
+            int offset = numOfRows * pageNum;
+
+            List<Campaign> campaigns = new List<Campaign>();
+            using var cmd = new MySqlCommand();
+            cmd.Connection = new DBConnection().connect();
+            cmd.Connection.Open();
+
+            if (query == null)
+            {
+                cmd.CommandText = String.Format("call getCamps({0}, null, {1}, {2})", aid, offset, numOfRows);
+            }
+            else {
+                cmd.CommandText = String.Format("call getCamps({0}, '{1}', {2}, {3})", aid, query, offset, numOfRows);
+            }
+            
+           
+            
+           
 
             MySqlDataReader reader = cmd.ExecuteReader();
 

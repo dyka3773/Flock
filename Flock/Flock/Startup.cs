@@ -54,7 +54,7 @@ namespace Flock
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}/{gid?}");
+                    pattern: "{controller}/{action=Index}/{id?}/{id2?}");
             });
 
             app.UseSpa(spa =>

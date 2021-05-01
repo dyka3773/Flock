@@ -38,16 +38,47 @@ namespace Flock.Controllers
             return null;
         }
 
-        // GET api/<ContacsController>/5
-        [HttpGet("{aid}")]
-        public List<Contact> Get(int aid)
+   
+        [HttpGet("GetNumOfPages/{aid}")]
+        public decimal GetNumOfPages(int aid)
         {
+            int numOfRows = 5;
+
+
+            List<Campaign> campaigns = new List<Campaign>();
+            using var cmd = new MySqlCommand();
+            cmd.Connection = new DBConnection().connect();
+            cmd.Connection.Open();
+
+            cmd.CommandText = String.Format("call numOfPagesInConts({0},null,{1})", aid, numOfRows);
+
+            MySqlDataReader reader = cmd.ExecuteReader();
+            reader.Read();
+
+            return (decimal)reader.GetValue(0);
+        }
+
+
+        [HttpGet("{aid}/{pageNum}/{query?}")]
+        public List<Contact> Get(int aid, int pageNum, string query)
+        {
+            int numOfRows = 5;
+            int offset = numOfRows * pageNum;
+
             List<Contact> contacts = new List<Contact>();
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = "getContacts(" + aid + ",NULL)";
+            if (query == null)
+            {
+                cmd.CommandText = String.Format("call getContacts({0}, null, {1}, {2})", aid, offset, numOfRows);
+            }
+            else
+            {
+                cmd.CommandText = String.Format("call getContacts({0}, '{1}', {2}, {3})", aid, query, offset, numOfRows);
+            }
+
 
             MySqlDataReader reader = cmd.ExecuteReader();
 
@@ -79,7 +110,6 @@ namespace Flock.Controllers
 
             cmd.CommandText = String.Format("call addContact('{0}', '{1}', {2}, {3})", cont.fullName, cont.email, aid, "null");
             MySqlDataReader reader = cmd.ExecuteReader();
-
 
             cmd.Connection.Close();
         }
