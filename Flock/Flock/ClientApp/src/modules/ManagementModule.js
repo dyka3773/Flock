@@ -39,9 +39,9 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => 
     const [searchValue, setSearchValue] = useState("");
     const [items, setItems] = useState([]);
     const [pageNum, setPageNum] = useState(1);
-    const [modalCont, setModalCont] = useState({});
+    const [modalCont, setModalCont] = useState(modalContents);
 
-    const selectedItemsRef = useRef(modalContents);
+    const selectedItemsRef = useRef();
     const ref = useRef();
 
     const token = useContext(context);

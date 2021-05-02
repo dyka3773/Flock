@@ -1,20 +1,21 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useState, useContext, useEffect } from 'react';
 
 import Calendar from 'react-calendar';
 
 import MarkdownEditView from './MarkdownEditView';
 
-import Form from '../components/Form'
+import Form from '../components/Form';
+import GroupsDropdown from '../components/GroupsDropdown';
+
+import context from '../contexts/context';
+
+import getGroups from '../dataRequests/getGroups';
+import { addCampaign } from '../dataRequests/addCampaign';
 
 const formInputs = [
     {
         label: "Campaign Name",
         id: "name",
-        required: true
-    },
-    {
-        label: "Groups",
-        id: "surname",
         required: true
     },
     {
@@ -32,17 +33,23 @@ const NewCampaignCreation = () => {
     const [endDate, setEndDate] = useState(new Date());
     const [frequency, setFrequency] = useState("Once");
 
+    const [selectedGroup, setSelectedGroup] = useState("");
+
+    const token = useContext(context);
+
 
     const btn = tab === 0 ? <button className="tab-btn ui button" onClick={() => setTab(1)}>Next</button> : <button className="tab-btn ui button" onClick={() => setTab(0)}>previous</button>
 
     const onSubmit = (inputValues) => {
-        console.log(inputValues);
+
+        inputValues.text = editorValue;
+        inputValues.frequency = frequency;
+        inputValues.startDate = startDate;
+        inputValues.endDate = endDate;
+
+        addCampaign(inputValues, token, selectedGroup).then(window.alert("done"));
         
-        console.log("start date", `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDay()}`); //start date
-        //console.log("creation date", `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`);
-        console.log("end date", `${endDate.getFullYear()}-${endDate.getMonth() + 1}-${endDate.getDay()}`); //end date
-        console.log(frequency); 
-        console.log(editorValue);
+       
     }
 
 
@@ -53,6 +60,7 @@ const NewCampaignCreation = () => {
                 inputs={formInputs}
                 submit={{ label: "Create and Send", onClick: onSubmit }}
             >
+                <GroupsDropdown selectedGroup={selectedGroup} setSelectedGroup={setSelectedGroup} />
                 <div>
                     <h3>Start Date:</h3>
                     <Calendar

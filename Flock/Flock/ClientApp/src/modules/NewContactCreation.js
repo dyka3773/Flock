@@ -3,45 +3,22 @@
 import context from '../contexts/context';
 
 import Form from '../components/Form'
-import ImportContacts from '../components/ImportContacts'
+import ImportContacts from '../components/ImportContacts';
+import GroupsDropdown from '../components/GroupsDropdown';
 
-import getGroups from '../dataRequests/getGroups';
 import { addContact } from '../dataRequests/addContact';
 
 import { newContactFormInputs } from '../usefulFunctions/formInputs';
 
 const NewContactCreation = () => {
-    const [groups, setGroups] = useState([]);
+
     const [selectedGroup, setSelectedGroup] = useState("");
 
     const token = useContext(context)
 
-
-    useEffect(() => {
-        const fetchGroups = async() => {
-
-            const groupsData = await getGroups(token);
-
-            const groups = groupsData.map((gr) => {
-                return (
-                    <option value={gr.id} key={gr.id}>{gr.name}</option>
-                )
-            })
-
-            setGroups(groups);
-            
-        }
-
-        fetchGroups();
-
-        
-    }, [])
-
     const handleFormSubmit = (sub) => {
-            addContact(sub, token, selectedGroup);
+        addContact(sub, token, selectedGroup).then(window.alert("done"));
         
-        
-
     }
     
 
@@ -51,11 +28,7 @@ const NewContactCreation = () => {
             inputs={newContactFormInputs}
             submit={{ label: "submit", onClick: (sub) => handleFormSubmit(sub) }}
         >
-            <label>Choose one or more groups</label>
-            <select required onChange={(e) => setSelectedGroup(e.target.value)} value={selectedGroup}>
-                <option value="" disabled>Select a group</option>
-                {groups}
-            </select>
+            <GroupsDropdown selectedGroup={selectedGroup} setSelectedGroup={ setSelectedGroup}/>
         </Form>
     </>
 
