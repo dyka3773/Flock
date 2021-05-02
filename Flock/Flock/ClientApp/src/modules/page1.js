@@ -9,6 +9,7 @@ import MarkdownEditView from './MarkdownEditView';
 import dummyJsonGenerator from '../usefulFunctions/dummyJsonGenerator'
 import { addManyContacts } from '../dataRequests/addContact';
 import context from '../contexts/context';
+import { addCampaign } from '../dataRequests/addCampaign';
 
 
 
@@ -37,7 +38,15 @@ const jsonPrototype = {
     email: "email"
 }
 
+const campJsonPrototype = {
+    subject: "40",
+    text: "40",
+    startDate: "date",
+    endDate: "date",
+    name: "40",
+    frequency: "10",
 
+}
 
 
 
@@ -52,19 +61,25 @@ const Page1 = () => {
     
         const fillUpBase = async () => {
             console.log("Filling up base");
-            const num = 300;
+            const num = 25;
             setLoading(true);
 
-            const entries = dummyJsonGenerator(jsonPrototype, num);
-            console.log(entries);
 
+            const camps = dummyJsonGenerator(campJsonPrototype, num);
+            console.log(camps);
 
+            for (let i of camps)
+                await addCampaign(i,2,6);
 
-            console.log( await addManyContacts(entries, token, 6));
-
-            window.alert("contacts succesfully added")
-
+            window.alert("camps succesfully added");
             setLoading(false);
+
+            //const entries = dummyJsonGenerator(jsonPrototype, num);
+            //console.log(entries);
+            //console.log( await addManyContacts(entries, 1, 3));
+            //window.alert("contacts succesfully added")
+
+            
 
         }
 

@@ -1,6 +1,6 @@
 ﻿import React, { useEffect, useState } from 'react';
 import '../componentCSS/Accordion.css';
-import dataToFormInputs from '../usefulFunctions/dataToFormInputs';
+import { dataToFormInputs, dataToAccordionHeaders } from '../usefulFunctions/configs';
 import AccordionHeader from '../components/AccordionHeader';
 import Form from '../components/Form';
 
@@ -23,6 +23,8 @@ for each array item one accordion item is rendered
 */
 
 
+
+
 const Accordion = ({ items, editItems, onSelect, selectedItems, pageNum }) => {
     const [activeIndex, setActiveIndex] = useState(null);
     
@@ -41,25 +43,52 @@ const Accordion = ({ items, editItems, onSelect, selectedItems, pageNum }) => {
 
     useEffect(() => { setActiveIndex(null) }, [pageNum])
     
+
     
-   
         
 
     const accordionItems = items.map(
         (item, index) => {
 
-            const inputs = dataToFormInputs(item.details);
+            
+            const inputs = [];
+            const headers = [];
+            const headerValues = [];
+
+            for (let key of Object.keys(item)) {
+
+                if (dataToFormInputs[key]) {
+                    const inp = dataToFormInputs[key];
+                    inp.value = item[key];
+                    inputs.push(inp);
+                    
+                } 
+                if (dataToAccordionHeaders[key]) {
+                    const head = dataToAccordionHeaders[key];
+                    headers.push(head);
+                    headerValues.push(item[key]);
+                    
+                } 
+
+            }
+             
+                
+           
+
+            
 
             const accordionHeader = onSelect && selectedItems ? 
                 <AccordionHeader
-                    details={item.details}
-                    onSelect={() => onSelect(item.id)}
+                    headerValues={headerValues}
+                    onSel={() => onSelect(item.id)}
                     isSelected={selectedItems[item.id]}
                 />
                 :
                 <AccordionHeader
-                    details={item.details}
+                    headerValues={headerValues}
                 />
+
+            
 
             return (
                 <div className="accordion-item" key={item.id}>

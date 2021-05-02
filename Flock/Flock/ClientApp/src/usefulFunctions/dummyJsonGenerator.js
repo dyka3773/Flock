@@ -32,6 +32,10 @@ const randomString = (length) => {
     return newString.join('');
 }
 
+const randomDate =(start, end)=> {
+    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+}
+
 const randomEmail = () => {
     const emailConstructor = [];
 
@@ -66,6 +70,8 @@ const recursive = (prototype, entry, id) => {
                 newVal = randomString(parseInt(prototype[prop]));
             else if (prototype[prop] === "email")
                 newVal = randomEmail();
+            else if (prototype[prop] === "date")
+                newVal = randomDate(new Date(2012, 0, 1), new Date());
         } else {
             newVal = recursive(prototype[prop], {}, id);
         }

@@ -41,7 +41,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => 
     const [pageNum, setPageNum] = useState(1);
     const [modalCont, setModalCont] = useState(modalContents);
 
-    const selectedItemsRef = useRef();
+    const selectedItemsRef = useRef({});
     const ref = useRef();
 
     const token = useContext(context);
@@ -49,11 +49,14 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => 
     useEffect(
         () => {
             const fetchItems = async () => {
-                await getItems(pageNum)
-            }
-            setItems(getItems(pageNum));
-            window.scrollTo(0, 0);
+                const itemss = await getItems(token, pageNum);
 
+                console.log("itemss.data", itemss.data);
+                setItems(itemss.data);
+                window.scrollTo(0, 0);
+            }
+            
+            fetchItems();
         }
         , [pageNum]);
 
@@ -64,7 +67,13 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => 
     }
 
     const handleSelectItems = (id) => {
-
+        if (selectedItemsRef.current[id]) {
+            selectedItemsRef.current = { ...selectedItemsRef.current, [id]: !selectedItemsRef.current[id] }
+        }
+        else {
+            selectedItemsRef.current = { ...selectedItemsRef.current, [id]: true }
+        }
+        
 
 
     }
@@ -175,8 +184,8 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => 
 
     const accordionDescriptor = () => {
         if (!items[0]) return;
-        const keys = Object.keys(items[0].details);
-        return <AccordionHeader details={keys} />;
+        const keys = Object.keys(items[0]);
+        return <AccordionHeader headerValues={keys} />;
     }
 
     return (

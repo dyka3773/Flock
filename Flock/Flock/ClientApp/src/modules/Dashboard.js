@@ -1,6 +1,5 @@
 ﻿import React, { useContext, useEffect, useRef, useState } from 'react';
 
-import { getDashboardCampaigns } from '../dataRequests/getCampaigns';
 import { getAccountBasic } from '../dataRequests/getAccount';
 import editCampaign from '../dataRequests/editCampaign';
 
@@ -33,7 +32,7 @@ const Dashboard = () => {
     const token = useContext(context);
 
     useEffect(() => {
-        setCampaigns(getDashboardCampaigns());
+        //setCampaigns(getDashboardCampaigns());
 
         const fetchBasicInfo = async () => {
           
@@ -122,7 +121,8 @@ const Dashboard = () => {
 
                 <div className="ui segment campaigns flex-item">
                     <h1>Campaign Information</h1>
-                    <Accordion items={campaigns} editItems={editCampaign} />
+                    { //<Accordion items={campaigns} editItems={editCampaign} />
+                    }
                     <button className="ui button">New Campaign</button>
                 </div>
 
