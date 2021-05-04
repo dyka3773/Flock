@@ -55,3 +55,21 @@ h1, h2, h3,.ui.header {
     
 
 }
+
+.icon-button {
+    border:none;
+    cursor:pointer;
+    background-color:rgba(0,0,0,0);
+    color:red;
+    margin:0.5rem;
+   
+}
+
+.icon-button:hover{
+    
+}
+
+    .icon-button > img {
+        height: 2.5rem;
+        
+    }

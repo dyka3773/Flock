@@ -113,7 +113,7 @@ const Dashboard = () => {
 
             <div className="flex-item">
                 <div className="ui segment import ">
-                    <h1>Hello again **username**</h1>
+                    <h1>Import contacts from csv</h1>
                     <ImportContacts />
                     
                 </div>
@@ -150,7 +150,7 @@ const Dashboard = () => {
                 
                 <div className="flex-item">
                 <div className="ui segment campaigns">
-                    <h1>Campaign Information</h1>
+                    <h1>Recent Campaigns</h1>
                     <Accordion
                         items={campaigns}
                         editItems={editCampaign}

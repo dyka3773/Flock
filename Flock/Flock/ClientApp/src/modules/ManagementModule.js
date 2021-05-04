@@ -15,6 +15,8 @@ import { addGroup } from '../dataRequests/addGroup';
 import useDidMountEffect from '../customHooks/useDidMountEffect'
 
 import '../modulesCSS/ManagementModule.css';
+import next from '../images/icons/Next.png';
+import previous from '../images/icons/Previous.png';
 
 
 /* Params:
@@ -43,35 +45,36 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
     const [items, setItems] = useState([]);
     const [pageNum, setPageNum] = useState(1);
     const [modalCont, setModalCont] = useState(modalContents);
+    const [maxPage, setMaxPage] = useState(0);
 
-    const maxPage = useRef(0);
-    const selectedItemsRef = useRef({});
+    const selectedItemsRef = useRef([]);
     const ref = useRef();
 
     const token = useContext(context);
 
     const fetchItems = async () => {
 
-        console.log("pageNum", pageNum);
-        const itemss = await getItems(token, pageNum - 1, searchValue,50);
+        console.log("fetchItems", pageNum);
+        const itemss = await getItems(token, pageNum - 1, searchValue, 50);
 
         setItems(itemss.data);
         window.scrollTo(0, 0);
     }
 
     const fetchMaxPage = async () => {
-        const maxP = await getMaxPage(token, searchValue,50);
-        maxPage.current = maxP.data;
+        const maxP = await getMaxPage(token, searchValue, 50);
+        setMaxPage(maxP.data);
 
-        console.log("maxPage.current", maxPage.current);
+        console.log("getMaxPage", maxP);
 
     }
 
     useEffect(
         () => {
-            fetchMaxPage();
-            fetchItems();
             
+            fetchItems();
+            fetchMaxPage();
+
         }
         , []);
 
@@ -87,7 +90,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
             if (!(pageNum === 1)) {
                 setPageNum(1);
                 fetchMaxPage();
-            } 
+            }
             else {
                 fetchItems();
                 fetchMaxPage();
@@ -109,20 +112,39 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
 
 
 
+    const deleteItems = () => {
 
-    //console.log(items)
+        const length = selectedItemsRef.current.length;
+
+        if (length === 0) {
+            window.alert("No items selected.")
+            return;
+        }
+
+        if (window.confirm(`You are about to delete ${length} items. Proceed?`)) {
+            console.log('Deleted', selectedItemsRef.current)
+        } else {
+            
+        }
+
+       
+       
+    }
+
     const handleSelectGroups = (id) => {
 
         console.log(id);
     }
 
     const handleSelectItems = (id) => {
-        if (selectedItemsRef.current[id]) {
-            selectedItemsRef.current = { ...selectedItemsRef.current, [id]: !selectedItemsRef.current[id] }
+
+        if (selectedItemsRef.current.includes(id)) {
+            selectedItemsRef.current = selectedItemsRef.current.filter(it=>it!==id)            
         }
         else {
-            selectedItemsRef.current = { ...selectedItemsRef.current, [id]: true }
+            selectedItemsRef.current.push(id);
         }
+      
     }
 
     const onGroupEdit = (selectedGroup) => {
@@ -158,7 +180,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
 
     const onGroupAdd = (selectedGroup) => {
 
-       
+
         setModalCont(
             <>
                 <NewGroupCreation />
@@ -190,7 +212,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
 
     const nextPage = () => {
         const goToNextPage = pageNum + 1;
-        if (goToNextPage > maxPage.current) return;
+        if (goToNextPage > maxPage) return;
         setPageNum(goToNextPage);
     }
 
@@ -242,7 +264,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
                 <div className="list" >
                     <div id="head">
                         <h1>{listTitle}</h1>
-                        <button className="ui red button" onClick={() => console.log(selectedItemsRef.current)}>Delete</button>
+                        <button className="ui red button" onClick={deleteItems}>Delete</button>
                     </div>
                     <div className="list-items">
                         <div className="accordion-descriptor">
@@ -258,9 +280,21 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
                             accordionHeadersConfig={accordionHeadersConfig}
 
                         />
-
-                        <button onClick={previousPage}>previous page</button>
-                        <button onClick={nextPage}>next page</button>
+                        <div className="pagination-buttons">
+                            <button
+                                onClick={previousPage}
+                                className="icon-button"
+                            >
+                                <img src={previous} />
+                            </button>
+                            <span>{pageNum} / {maxPage}</span>
+                            <button
+                                className="icon-button"
+                                onClick={nextPage}
+                            >
+                                <img src={next} />
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
