@@ -102,6 +102,15 @@ namespace Flock.Controllers
         [HttpPut("{id}")]
         public void Put(Group gr, int aid)
         {
+            using var cmd = new MySqlCommand();
+            cmd.Connection = new DBConnection().connect();
+            cmd.Connection.Open();
+
+            cmd.CommandText = String.Format("call editGroup({0}, {1}, '{2}')", gr.id, aid, gr.name);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+
+            cmd.Connection.Close();
         }
 
         // DELETE api/<GroupsController>/5
