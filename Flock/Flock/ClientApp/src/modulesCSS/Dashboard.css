@@ -27,7 +27,7 @@
         .Dashboard .inner-flex .inner-inner-flex {
             display: flex;
             flex-direction: column;
-            justify-content:space-around;
+            justify-content:flex-start;
             
         }
 
@@ -37,6 +37,7 @@
                 align-items:center;
                 justify-content:center;
                 flex-direction:column;
+                margin-bottom:1rem;
             }
             .Dashboard .inner-flex .inner-inner-flex .basic-info {
                 flex:2;

@@ -1,8 +1,7 @@
-﻿
+﻿import axios from 'axios';
 
-const editCampaign = (newDetails) => {
-    console.log("edit Campaign");
-    console.log(newDetails);
+const editCampaign = (token, campaign) => {
+    return axios.put(`apis/Campaigns/${token}`, campaign)
 }
 
 export default editCampaign;

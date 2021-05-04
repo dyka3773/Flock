@@ -12,8 +12,6 @@ const AccordionHeader = ({headerValues, onSel, isSelected}) => {
        
     }
 
-    console.log("onSel", onSel);
-
     return (
         <div className="accordion-header">
             <div className={`titles ${selected ? "selected" : ""}`} >

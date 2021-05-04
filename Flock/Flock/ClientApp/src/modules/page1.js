@@ -65,21 +65,21 @@ const Page1 = () => {
             setLoading(true);
 
 
-            const camps = dummyJsonGenerator(campJsonPrototype, num);
-            console.log(camps);
+            //const camps = dummyJsonGenerator(campJsonPrototype, num);
+            //console.log(camps);
 
-            for (let i of camps)
-                await addCampaign(i,2,6);
+            //for (let i of camps)
+               // await addCampaign(i,2,6);
 
-            window.alert("camps succesfully added");
-            setLoading(false);
-
-            //const entries = dummyJsonGenerator(jsonPrototype, num);
-            //console.log(entries);
-            //console.log( await addManyContacts(entries, 1, 3));
-            //window.alert("contacts succesfully added")
-
+            //window.alert("camps succesfully added");
             
+
+            const entries = dummyJsonGenerator(jsonPrototype, num);
+            console.log(entries);
+            console.log( await addManyContacts(entries, 2, 4));
+            window.alert("contacts succesfully added")
+
+            setLoading(false);
 
         }
 

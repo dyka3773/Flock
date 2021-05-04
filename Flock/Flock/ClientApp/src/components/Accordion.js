@@ -1,8 +1,9 @@
-﻿import React, { useEffect, useState } from 'react';
+﻿import React, { useContext, useEffect, useState } from 'react';
 import '../componentCSS/Accordion.css';
 import { dataToFormInputs, dataToAccordionHeaders } from '../usefulFunctions/configs';
 import AccordionHeader from '../components/AccordionHeader';
 import Form from '../components/Form';
+import context from '../contexts/context'
 
 /*Accordion receives an array of objects following the below structure
  * const accordionItems = [
@@ -25,9 +26,11 @@ for each array item one accordion item is rendered
 
 
 
-const Accordion = ({ items, editItems, onSelect, selectedItems, pageNum }) => {
+const Accordion = ({ items, editItems, onSelect, selectedItems, pageNum, accordionHeadersConfig  }) => {
     const [activeIndex, setActiveIndex] = useState(null);
-    
+
+    const token = useContext(context);
+
 
     const onClick = (event, index) => {
         //ensures that clicking on a button or anchor element inside an AccordionItem will not trigger the opening or closing of the item
@@ -52,27 +55,24 @@ const Accordion = ({ items, editItems, onSelect, selectedItems, pageNum }) => {
 
             
             const inputs = [];
-            const headers = [];
+           
             const headerValues = [];
 
+            
+           
+
             for (let key of Object.keys(item)) {
-
                 if (dataToFormInputs[key]) {
-                    const inp = dataToFormInputs[key];
-                    inp.value = item[key];
+                    const dataToForm = dataToFormInputs[key];
+                    const inp = {...dataToForm, ["value"]:item[key]};
                     inputs.push(inp);
-                    
                 } 
-                if (dataToAccordionHeaders[key]) {
-                    const head = dataToAccordionHeaders[key];
-                    headers.push(head);
+                if (accordionHeadersConfig[key]) {
                     headerValues.push(item[key]);
-                    
                 } 
-
             }
              
-                
+           // console.log("inputs", inputs);
            
 
             
@@ -89,7 +89,7 @@ const Accordion = ({ items, editItems, onSelect, selectedItems, pageNum }) => {
                 />
 
             
-
+            
             return (
                 <div className="accordion-item" key={item.id}>
 
@@ -106,7 +106,11 @@ const Accordion = ({ items, editItems, onSelect, selectedItems, pageNum }) => {
 
                         <Form
                             inputs={inputs}
-                            submit={{ label: "edit", onClick: (details) => editItems({ id: item.id, details: details }) }}
+                            submit={{
+                                label: "edit",
+                                onClick: (sub) => {
+                                    editItems(token, { ...sub, ["id"]: item.id }).then(() => window.alert("Done"));
+                                }}}
                         />
 
                     </div>

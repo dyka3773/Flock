@@ -1,8 +1,11 @@
 ﻿import React, { useState, useEffect, useRef, useContext } from 'react';
 
 import { getAccountFields } from '../dataRequests/getAccount';
+import login from '../dataRequests/login';
+import editAccount from '../dataRequests/editAccount';
 
-import { keysToLabel } from '../usefulFunctions/formInputs';
+
+import { accountSettingsDataToFormInputs } from '../usefulFunctions/configs'
 
 import Form from '../components/Form';
 
@@ -32,7 +35,9 @@ const passwordInputs = [
 
 
 const AccountSettings = () => {
-    const [accountSettingsFormInputs, setAccountSettingsFormInputs] = useState([]);
+    const [account, setAccount] = useState({});
+    
+    console.log(account);
 
     const token = useContext(context);
 
@@ -40,52 +45,71 @@ const AccountSettings = () => {
 
         const fetchAccount = async () => {
 
-            const acc = await getAccountFields(token);
-
-            const accInputs = [];
-            for (let key of Object.keys(acc)) {
-
-                //cant see password as placeholder in input and becomes type password
-                /*const type = key === "password" || key === "email" ? key : "text"
-    
-                const value = key === "password" ? "password" : acc[key] 
-    
-                const required = key === "password" ? true : false*/
-
-
-                const [type, readOnly] = key === "email" ? ["email", true] : ["text", false]
-
-                //uses idToLabel object to transform keys of incoming object into form inputs with proper labels
-                if (keysToLabel[key])
-                    accInputs.push({
-                        label: keysToLabel[key],
-                        id: key,
-                        value: acc[key],
-                        type: type,
-                        readOnly: readOnly
-                    });
-            }
-
-            setAccountSettingsFormInputs(accInputs);
+            setAccount(await getAccountFields(token));
+            
         }
 
         fetchAccount();
 
     }, [])
 
-    const onSubmitSettings = (sub) => {
-        console.log("submitted",sub)
+    const inputs = () => {
+
+        const accInputs = [];
+
+        for (let key of Object.keys(account)) {
+            if (accountSettingsDataToFormInputs[key]) {
+                const inp = accountSettingsDataToFormInputs[key];
+                inp.value = account[key];
+                accInputs.push(inp);
+            }
+        }
+
+
+        accInputs.push({
+            id: "password",
+            label: "Confirm Password",
+            value: "password",
+            type: "password",
+            required: true
+        })
+
+        return accInputs;
     }
 
-    const onSubmitPassword = (sub) => {
+
+    const onSubmitSettings = async (sub) => {
+        const token = await login(account.email, sub.password);
+        if (token) {
+            await editAccount(token, sub, account.type);
+            window.alert("Done");
+        } else
+            window.alert("Wrong Password") 
+        
+    }
+
+    const onSubmitPassword = async (sub) => {
         const { newP, confP } = sub;
-        if (newP !== confP) window.alert("AH OH STINKYYYYYYYYY");
+        const token = await login(account.email, sub.oldP);
+
+        if (!token) {
+            window.alert("Wrong old password");
+            return;
+        }
+
+        if (newP !== confP) window.alert("New password and confirm password dont match");
+        else {
+            const acc = { ...account, ["password"]: newP }
+            console.log(acc);
+            await editAccount(token, acc, account.type);
+            window.alert("Done");   
+        }
     }
 
-    console.log(accountSettingsFormInputs);
+    
     return (
         <div className="account-settings">
-            <Form label="Account Settings" inputs={accountSettingsFormInputs} submit={{ label: "Save Changes", onClick: onSubmitSettings }}/>
+            <Form label="Account Settings" inputs={inputs()} submit={{ label: "Save Changes", onClick: onSubmitSettings }} />
             <Form label="Change Password" inputs={passwordInputs} submit={{ label: "Change Password", onClick: onSubmitPassword}}/>
         </div>
         );

@@ -39,18 +39,24 @@ namespace Flock.Controllers
         }
 
    
-        [HttpGet("GetNumOfPages/{aid}")]
-        public decimal GetNumOfPages(int aid)
+        [HttpGet("GetNumOfPages/{aid}/{numOfRows}/{query?}")]
+        public decimal GetNumOfPages(int aid, string query, int numOfRows)
         {
-            int numOfRows = 5;
-
-
             List<Campaign> campaigns = new List<Campaign>();
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = String.Format("call numOfPagesInConts({0},null,{1})", aid, numOfRows);
+            if (query == null)
+            {
+                cmd.CommandText = String.Format("call numOfPagesInConts({0}, null, {1})", aid,numOfRows);
+            }
+            else
+            {
+                cmd.CommandText = String.Format("call numOfPagesInConts({0},'{1}',{2})", aid, query, numOfRows);
+            }
+
+            
 
             MySqlDataReader reader = cmd.ExecuteReader();
             reader.Read();
@@ -59,10 +65,9 @@ namespace Flock.Controllers
         }
 
 
-        [HttpGet("{aid}/{pageNum}/{query?}")]
-        public List<Contact> Get(int aid, int pageNum, string query)
+        [HttpGet("{aid}/{pageNum}/{numOfRows}/{query?}")]
+        public List<Contact> Get(int aid, int pageNum,int numOfRows, string query)
         {
-            int numOfRows = 5;
             int offset = numOfRows * pageNum;
 
             List<Contact> contacts = new List<Contact>();
@@ -137,7 +142,7 @@ namespace Flock.Controllers
 
             foreach (Contact i in contacts) {
 
-                
+
 
 
                 using var cmd = new MySqlCommand();
@@ -146,6 +151,9 @@ namespace Flock.Controllers
                 cmd.CommandText = String.Format("call addContact('{0}', '{1}', {2}, {3})", i.fullName, i.email, aid, gid);
 
                 custom(cmd);
+
+               
+                    
 
             }
 
@@ -166,14 +174,14 @@ namespace Flock.Controllers
         }
 
         // PUT api/<ContacsController>/5
-        [HttpPut("{id}")]
-        public void Put(Contact cont, int id)
+        [HttpPut("{aid}")]
+        public void Put(Contact cont, int aid)
         {
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = String.Format("call editContact({0}, {1}, '{2}', '{3}')", cont.id, id, cont.fullName, cont.email);
+            cmd.CommandText = String.Format("call editContact({0}, {1}, '{2}', '{3}')", cont.id, aid, cont.fullName, cont.email);
             MySqlDataReader reader = cmd.ExecuteReader();
 
 

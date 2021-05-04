@@ -20,7 +20,9 @@ namespace Flock.Models
         public override Object getFields()
         {
             return new {name = name,phone=phone,
-                zip = zip, country=country, phyAddress= phyAddress,email=email};
+                zip = zip, country=country, phyAddress= phyAddress,email=email,
+                type = type
+            };
         }
     }
 }

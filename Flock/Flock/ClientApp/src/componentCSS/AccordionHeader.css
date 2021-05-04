@@ -44,6 +44,28 @@
         }
 
 
+        .Dashboard .accordion-header .titles .title1 {
+            width: 50%;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .Dashboard .accordion-header .titles .title2 {
+            width: 50%;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .Dashboard .accordion-header .titles .title3 {
+            display:none;
+        }
+        .Dashboard .accordion-header .titles .buttons {
+             display:none;
+        }
+        
+
+
+
+
 @media screen and (max-width: 1024px) {
 
     .accordion-header .titles .title3 {

@@ -100,19 +100,19 @@ namespace Flock.Controllers
 
         // PUT api/<GroupsController>/5
         [HttpPut("{id}")]
-        public void Put(Group gr, int id)
+        public void Put(Group gr, int aid)
         {
         }
 
         // DELETE api/<GroupsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(Group gr, int id)
+        [HttpDelete("{aid}")]
+        public void Delete(Group gr, int aid)
         {
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = String.Format("call deleteGroup({0}, {1})", gr.id, id);
+            cmd.CommandText = String.Format("call deleteGroup({0}, {1})", gr.id, aid);
             MySqlDataReader reader = cmd.ExecuteReader();
 
 

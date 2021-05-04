@@ -8,18 +8,18 @@ import getGroups from '../dataRequests/getGroups';
 
 const ImportContacts = () => {
     const [groups, setGroups] = useState([]);
-    const [selectedGroupId, setSelectedGroupId] = useState("-1");
+    const [selectedGroupId, setSelectedGroupId] = useState("");
 
     const token = useContext(context)
 
-    const defaultGroup = { id: "none", name: "None" };
+    //const defaultGroup = { id: "none", name: "None" };
 
     useEffect(() => {
         const fetchGroups = async () => {
 
             const groupsData = await getGroups(token);
-            console.log(groupsData);
-            groupsData.push(defaultGroup);
+           // console.log(groupsData);
+            //groupsData.push(defaultGroup);
 
             const groups = groupsData.map((gr) => {
                 return <option value={gr.id} key={gr.id}>{gr.name}</option>
@@ -35,22 +35,22 @@ const ImportContacts = () => {
 
     
 
-    const createContacts = (e) => {
-
+    const createContacts = async (e) => {
+        e.preventDefault();
         if (!document.querySelector("#import").files[0]){
             window.alert("Please upload a csv");
             e.preventDefault()
             return;
         }
 
-        if (selectedGroupId === "-1") {
+        if (selectedGroupId === "") {
             window.alert("Please select a group");
             e.preventDefault()
             return;
         }
 
-        csvToJson(document.querySelector("#import").files[0], selectedGroupId);
-        window.alert("Success");
+        csvToJson(document.querySelector("#import").files[0], selectedGroupId, token).then(() => { window.alert("Done!") })
+        
     }
 
 
@@ -67,9 +67,9 @@ const ImportContacts = () => {
                 </label>
             
 
-            
-                <select className="ui selection dropdown" value={selectedGroupId} onChange={(e) => setSelectedGroupId(e.target.value)} required>
-                    <option value="-1" disabled>Select a group</option>
+
+            <select className="ui selection dropdown" value={selectedGroupId} onChange={(e) => { setSelectedGroupId(e.target.value); console.log(e.target.value); } } required>
+                    <option value="" disabled>Select a group</option>
                     {groups}
                 </select>
             

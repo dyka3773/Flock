@@ -53,8 +53,8 @@ namespace Flock.Controllers
         }
 
         // PUT api/<CompanyController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, Company c)
+        [HttpPut("{aid}")]
+        public void Put(int aid, Company c)
         {
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
@@ -63,7 +63,7 @@ namespace Flock.Controllers
             cmd.CommandText = 
                 String.Format(
                     "call editCompany({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')"
-                    , id, c.password, c.name, c.phone, c.country, c.zip, c.phyAddress
+                    , aid, c.password, c.name, c.phone, c.country, c.zip, c.phyAddress
                     );
             MySqlDataReader reader = cmd.ExecuteReader();
         }

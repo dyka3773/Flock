@@ -6,26 +6,10 @@ import NewCampaignCreation from './NewCampaignCreation';
 
 import getCampaigns from '../dataRequests/getCampaigns';
 import editCampaign from '../dataRequests/editCampaign';
+import { getCampsPageNum } from '../dataRequests/getPageNum';
 
 
-const formInputs = [
-    {
-        label: "Campaign Name",
-        id: "name",
-        required: true
-    },
-    {
-        label: "Groups",
-        id: "surname",
-        required: true
-    },
-    {
-        label: "Subject",
-        id: "subject",
-        required: true
-    }
-];
-
+import { dataToAccordionHeadersCampaign } from '../usefulFunctions/configs';
 
 
 const CampaignManagement = () => {
@@ -50,10 +34,12 @@ const CampaignManagement = () => {
 
         <ManagementModule
             getItems={getCampaigns}
+            getMaxPage={getCampsPageNum}
             listTitle={"Campaigns"}
             columnTitles={"name id startDate"}
             editItems={editCampaign}
             modalContents={modalContents}
+            accordionHeadersConfig ={dataToAccordionHeadersCampaign}
         />
 
     );

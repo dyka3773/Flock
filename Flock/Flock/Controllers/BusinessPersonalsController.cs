@@ -63,7 +63,7 @@ namespace Flock.Controllers
             cmd.Connection.Open();
 
             cmd.CommandText = String.Format(
-                "call editBusiness_Personal({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')", 
+                "call editBP({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')", 
                 aid, bp.password, bp.fName, bp.lName, bp.phone, bp.gender, bp.country, bp.zip);
             MySqlDataReader reader = cmd.ExecuteReader();
 

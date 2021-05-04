@@ -1,9 +1,11 @@
 ﻿import React, { useContext, useEffect, useRef, useState } from 'react';
 
 import { getAccountBasic } from '../dataRequests/getAccount';
+import getCampaigns from '../dataRequests/getCampaigns';
 import editCampaign from '../dataRequests/editCampaign';
 
-import { keysToLabel } from '../usefulFunctions/formInputs';
+import { keysToLabel } from '../usefulFunctions/configs';
+import { dataToAccordionHeadersCampaignDashboard } from '../usefulFunctions/configs';
 
 import Accordion from '../components/Accordion';
 import Form from '../components/Form';
@@ -14,7 +16,11 @@ import '../modulesCSS/Dashboard.css'
 import context from '../contexts/context';
 
 import NewContactCreation from './NewContactCreation';
+import NewCampaignCreation from './NewCampaignCreation';
+import NewGroupCreation from './NewGroupCreation';
+
 import Modal from '../components/Modal';
+
 
 
 
@@ -32,7 +38,14 @@ const Dashboard = () => {
     const token = useContext(context);
 
     useEffect(() => {
-        //setCampaigns(getDashboardCampaigns());
+        const fetchCampaigns = async () => {
+
+            const resp = await getCampaigns(token, 1, "", 10);
+            setCampaigns(resp.data);
+            
+        }
+
+        fetchCampaigns()
 
         const fetchBasicInfo = async () => {
           
@@ -60,6 +73,25 @@ const Dashboard = () => {
         fetchBasicInfo()
         
     }, [])
+
+    const onNewGroup = () => {
+
+       
+        setModalCont(
+            <NewGroupCreation />
+        )
+        openModal();
+    }
+
+    const onNewCampaign = () => {
+        setModalCont(
+            <NewCampaignCreation />
+        )
+        openModal();
+    }
+
+
+
 
     const openModal = () => {
 
@@ -92,40 +124,42 @@ const Dashboard = () => {
                 <div className="inner-inner-flex flex-item">
 
 
-                    <div className="ui segment new-group flex-item">
-                        <h1>Create a new group!</h1>
-                        <button className="ui button">Create group</button>
+                    <div className="flex-item">
+                        <div className="ui segment new-group">
+                            <h1>Create a new group!</h1>
+                            <button className="ui button" onClick={onNewGroup}>Create group</button>
+                        </div>
                     </div>
 
 
 
-
+                    <div className="flex-item">
                     <Form
-                        className="flex-item"
+                        className=""
                         label="Basic info"
                         inputs={basicInfoInputs}
                     />
-
+                    </div>
 
 
                 </div>
 
-
-               
-                    <NewContactCreation className="flex-item" /> 
+                <div className="flex-item" >
+                    <NewContactCreation /> 
+                </div>
                 
-                
-
-
-
-
-                <div className="ui segment campaigns flex-item">
+                <div className="flex-item">
+                <div className="ui segment campaigns">
                     <h1>Campaign Information</h1>
-                    { //<Accordion items={campaigns} editItems={editCampaign} />
-                    }
-                    <button className="ui button">New Campaign</button>
-                </div>
+                    <Accordion
+                        items={campaigns}
+                        editItems={editCampaign}
+                        accordionHeadersConfig={dataToAccordionHeadersCampaignDashboard }
+                    />
 
+                        <button className="ui button" onClick={onNewCampaign}>New Campaign</button>
+                </div>
+                </div>
 
             </div>
 

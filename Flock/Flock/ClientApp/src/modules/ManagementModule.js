@@ -2,14 +2,17 @@
 
 import Accordion from '../components/Accordion';
 import Form from '../components/Form';
-
 import AccordionHeader from '../components/AccordionHeader';
 import Modal from '../components/Modal';
 import GroupsList from '../components/GroupsList';
 
+import NewGroupCreation from './NewGroupCreation';
+
 import context from '../contexts/context';
 
-import {addGroup }from '../dataRequests/addGroup';
+import { addGroup } from '../dataRequests/addGroup';
+
+import useDidMountEffect from '../customHooks/useDidMountEffect'
 
 import '../modulesCSS/ManagementModule.css';
 
@@ -33,7 +36,7 @@ import '../modulesCSS/ManagementModule.css';
 
 
 
-const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => {
+const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accordionHeadersConfig, getMaxPage }) => {
 
 
     const [searchValue, setSearchValue] = useState("");
@@ -41,24 +44,71 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => 
     const [pageNum, setPageNum] = useState(1);
     const [modalCont, setModalCont] = useState(modalContents);
 
+    const maxPage = useRef(0);
     const selectedItemsRef = useRef({});
     const ref = useRef();
 
     const token = useContext(context);
 
+    const fetchItems = async () => {
+
+        console.log("pageNum", pageNum);
+        const itemss = await getItems(token, pageNum - 1, searchValue,50);
+
+        setItems(itemss.data);
+        window.scrollTo(0, 0);
+    }
+
+    const fetchMaxPage = async () => {
+        const maxP = await getMaxPage(token, searchValue,50);
+        maxPage.current = maxP.data;
+
+        console.log("maxPage.current", maxPage.current);
+
+    }
+
     useEffect(
         () => {
-            const fetchItems = async () => {
-                const itemss = await getItems(token, pageNum);
-
-                console.log("itemss.data", itemss.data);
-                setItems(itemss.data);
-                window.scrollTo(0, 0);
-            }
-            
+            fetchMaxPage();
             fetchItems();
+            
         }
-        , [pageNum]);
+        , []);
+
+    useDidMountEffect(() => {
+
+        fetchItems();
+    }, [pageNum]);
+
+
+    useDidMountEffect(() => {
+
+        const fetchI = async () => {
+            if (!(pageNum === 1)) {
+                setPageNum(1);
+                fetchMaxPage();
+            } 
+            else {
+                fetchItems();
+                fetchMaxPage();
+            }
+
+
+        }
+
+        const timeOut = setTimeout(() => {
+            fetchI();
+
+        }, 500)
+
+
+
+        return () => clearTimeout(timeOut);
+
+    }, [searchValue]);
+
+
+
 
     //console.log(items)
     const handleSelectGroups = (id) => {
@@ -73,9 +123,6 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => 
         else {
             selectedItemsRef.current = { ...selectedItemsRef.current, [id]: true }
         }
-        
-
-
     }
 
     const onGroupEdit = (selectedGroup) => {
@@ -98,40 +145,23 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => 
         ]
         setModalCont(
             <>
-            <h1>Edit Group</h1>
+                <h1>Edit Group</h1>
                 <Form
                     inputs={inputs}
-                    submit={{label: "submit", onClick: (sub) => console.log(sub)}}
+                    submit={{ label: "submit", onClick: (sub) => console.log(sub) }}
                 />
-        </>
-            
+            </>
+
         )
         openModal();
     }
 
     const onGroupAdd = (selectedGroup) => {
 
-        const inputs = [
-
-            {
-                label: "Group Name",
-                id: "name",
-                required:true
-            }
-
-        ]
+       
         setModalCont(
             <>
-                <h1>Add Group</h1>
-                <Form
-                    inputs={inputs}
-                    submit={{
-                        label: "submit", onClick: async (sub) => {
-                            console.log(sub);
-                            await addGroup(sub,token);
-                            window.alert("group added");
-                        }}}
-                />
+                <NewGroupCreation />
 
             </>
 
@@ -160,13 +190,9 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => 
 
     const nextPage = () => {
         const goToNextPage = pageNum + 1;
-        if (goToNextPage > maxPage) return;
+        if (goToNextPage > maxPage.current) return;
         setPageNum(goToNextPage);
     }
-
-    const maxPage = 5;
-
-
 
     const openModal = () => {
 
@@ -182,11 +208,6 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => 
     }
 
 
-    const accordionDescriptor = () => {
-        if (!items[0]) return;
-        const keys = Object.keys(items[0]);
-        return <AccordionHeader headerValues={keys} />;
-    }
 
     return (
         <>
@@ -225,10 +246,18 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => 
                     </div>
                     <div className="list-items">
                         <div className="accordion-descriptor">
-                            {accordionDescriptor()}
+                            <AccordionHeader headerValues={Object.values(accordionHeadersConfig)} />
                         </div>
 
-                        <Accordion items={items} selectedItems={selectedItemsRef.current} editItems={editItems} onSelect={handleSelectItems} pageNum={pageNum} />
+                        <Accordion
+                            items={items}
+                            selectedItems={selectedItemsRef.current}
+                            editItems={editItems}
+                            onSelect={handleSelectItems}
+                            pageNum={pageNum}
+                            accordionHeadersConfig={accordionHeadersConfig}
+
+                        />
 
                         <button onClick={previousPage}>previous page</button>
                         <button onClick={nextPage}>next page</button>
@@ -239,7 +268,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents }) => 
             <Modal ref={ref} onClose={closeModal}>
                 {modalCont}
             </Modal>
-            
+
         </>
 
     );
