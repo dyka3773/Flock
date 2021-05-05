@@ -25,41 +25,79 @@ drop procedure if exists `Flock`.`addNOS`;
 drop procedure if exists `Flock`.`getCampFromCAID`;
 drop procedure if exists `Flock`.`numOfPagesInConts`;
 drop procedure if exists `Flock`.`numOfPagesInCamps`;
+drop procedure if exists `Flock`.`editGroup`;
 
 DELIMITER $$
 
+CREATE PROCEDURE `Flock`.`editGroup` (
+IN gid int, in aiid int, in gname varchar(45))
+BEGIN
+
+	update Groups G
+    set G.Group_Name = gname
+    where G.GID=gid and G.AID=aiid;
+
+END$$
+
 CREATE PROCEDURE `Flock`.`numOfPagesInCamps` (
-IN AIID int, in keyword varchar(45), in ofst int)
+IN AIID int, in keyword varchar(45), in ofst int, in gid int)
 BEGIN
 IF keyword IS NULL THEN
-	select count(*)/ofst into  @pageCount 
-    from Campaign C
-    where (C.AID=AIID);
+	if gid is null then
+		select count(*)/ofst into  @pageCount 
+		from Campaign C
+		where (C.AID=AIID);
+	else
+		select count(*)/ofst into  @pageCount 
+		from Campaign C
+		where (C.AID=AIID) and C.GID=gid;
+	end if;
 ELSE
-	select count(*)/ofst into  @pageCount
-    from Campaign C
-    where (C.AID=AIID) 
-    and ( C.C_Name LIKE CONCAT('%',keyword,'%'));
+	if gid is null then
+		select count(*)/ofst into  @pageCount 
+		from Campaign C
+		where (C.AID=AIID)
+		and ( C.C_Name LIKE CONCAT('%',keyword,'%'));
+	else
+		select count(*)/ofst into  @pageCount 
+		from Campaign C
+		where (C.AID=AIID) and C.GID=gid
+		and ( C.C_Name LIKE CONCAT('%',keyword,'%'));
+	end if;
 END IF;
 
 select ceil(@pageCount);
 END$$
 
 CREATE PROCEDURE `Flock`.`numOfPagesInConts` (
-IN AIID int, in keyword varchar(45), in ofst int)
+IN AIID int, in keyword varchar(45), in ofst int, in gid int)
 BEGIN
 IF keyword IS NULL THEN
-	select count(*)/ofst into  @pageCount
-    from Contacts C
-    where (C.AID=AIID);
+	if gid is null then
+		select count(*)/ofst into  @pageCount
+		from Contacts C
+		where (C.AID=AIID);
+	else
+		select count(*)/ofst into  @pageCount
+		from Contacts C join Contacts_in_Groups CiG on (C.CID=CiG.CID)
+		where (C.AID=AIID) and CiG.GID=gid;
+	end if;
 ELSE
-	select count(*)/ofst into  @pageCount
-    from Contacts C
-    where (C.AID=aiid) 
-    and ( C.Full_Name LIKE CONCAT('%',keyword,'%') 
-		or C.Email LIKE CONCAT('%',keyword,'%'));
+	if gid is null then
+		select count(*)/ofst into  @pageCount
+		from Contacts C
+		where (C.AID=AIID)
+        and ( C.Full_Name LIKE CONCAT('%',keyword,'%') 
+			or C.Email LIKE CONCAT('%',keyword,'%'));
+	else
+		select count(*)/ofst into  @pageCount
+		from Contacts C join Contacts_in_Groups CiG on (C.CID=CiG.CID)
+		where (C.AID=AIID) and CiG.GID=gid
+        and ( C.Full_Name LIKE CONCAT('%',keyword,'%') 
+			or C.Email LIKE CONCAT('%',keyword,'%'));
+	end if;
 END IF;
-    
+
 select ceil(@pageCount);
 END$$
 
@@ -374,36 +412,67 @@ BEGIN
 END$$
 
 CREATE PROCEDURE `Flock`.`getContacts` (
-IN AIID int, in keyword varchar(45), in ofst int, in num_of_rows int)
+IN AIID int, in keyword varchar(45), in ofst int, in num_of_rows int, in gid int)
 BEGIN
 IF keyword IS NULL THEN
-	select * 
-    from Contacts C
-    where (C.AID=AIID) 
-	limit ofst, num_of_rows;
+	if gid is null then
+		select * 
+		from Contacts C
+		where (C.AID=AIID) 
+		limit ofst, num_of_rows;
+	else 
+		select * 
+		from Contacts C join Contacts_in_Groups CiG on (C.CID=CiG.CID)
+		where (C.AID=AIID) and CiG.GID=gid
+		limit ofst, num_of_rows;
+	end if;
 ELSE
-	select * 
-    from Contacts C
-    where (C.AID=aiid) 
-    and ( C.Full_Name LIKE CONCAT('%',keyword,'%') 
-		or C.Email LIKE CONCAT('%',keyword,'%'))
-	limit ofst, num_of_rows;
+	if gid is null then
+		select * 
+		from Contacts C
+		where (C.AID=AIID) 
+        and ( C.Full_Name LIKE CONCAT('%',keyword,'%') 
+			or C.Email LIKE CONCAT('%',keyword,'%'))
+		limit ofst, num_of_rows;
+	else 
+		select * 
+		from Contacts C join Contacts_in_Groups CiG on (C.CID=CiG.CID)
+		where (C.AID=AIID) and CiG.GID=gid
+        and ( C.Full_Name LIKE CONCAT('%',keyword,'%') 
+			or C.Email LIKE CONCAT('%',keyword,'%'))
+		limit ofst, num_of_rows;
+	end if;
 END IF;
 END$$
 
 create procedure `Flock`.`getCamps` (
-IN AIID int, in keyword varchar(45),in ofst int, in num_of_rows int)
+IN AIID int, in keyword varchar(45),in ofst int, in num_of_rows int, in gid int)
 begin
 IF keyword IS NULL THEN
-	select * 
-    from Campaign C
-    where (C.AID=AIID) 
-	limit ofst, num_of_rows;
+	if gid is null then
+		select * 
+		from Campaign C
+		where (C.AID=AIID) 
+		limit ofst, num_of_rows;
+	else
+		select * 
+		from Campaign C
+		where (C.AID=AIID) and C.GID=gid
+		limit ofst, num_of_rows;
+	end if;
 ELSE
-	select * 
-    from Campaign C
-    where (C.AID=AIID) 
-    and ( C.C_Name LIKE CONCAT('%',keyword,'%'))
-    limit ofst, num_of_rows;
+	if gid is null then
+		select * 
+		from Campaign C
+		where (C.AID=AIID) 
+        and ( C.C_Name LIKE CONCAT('%',keyword,'%'))
+		limit ofst, num_of_rows;
+	else
+		select * 
+		from Campaign C
+		where (C.AID=AIID) and C.GID=gid
+        and ( C.C_Name LIKE CONCAT('%',keyword,'%'))
+		limit ofst, num_of_rows;
+	end if;
 END IF;
 end$$
