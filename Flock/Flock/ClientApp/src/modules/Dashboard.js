@@ -42,7 +42,7 @@ const Dashboard = () => {
 
             const resp = await getCampaigns(token, 1, "", 10);
             setCampaigns(resp.data);
-            
+            console.log(resp.data);
         }
 
         fetchCampaigns()

@@ -61,23 +61,24 @@ const Page1 = () => {
     
         const fillUpBase = async () => {
             console.log("Filling up base");
-            const num = 25;
+            const num = 100;
+            const numcam = 10;
             setLoading(true);
 
 
-            //const camps = dummyJsonGenerator(campJsonPrototype, num);
-            //console.log(camps);
+            const camps = dummyJsonGenerator(campJsonPrototype, numcam);
+            console.log(camps);
 
-            //for (let i of camps)
-               // await addCampaign(i,2,6);
+            for (let i of camps)
+                await addCampaign(i,3,15);
 
-            //window.alert("camps succesfully added");
+            
             
 
             const entries = dummyJsonGenerator(jsonPrototype, num);
             console.log(entries);
-            console.log( await addManyContacts(entries, 2, 4));
-            window.alert("contacts succesfully added")
+            console.log( await addManyContacts(entries, 3, 15));
+            window.alert("succesfully added")
 
             setLoading(false);
 

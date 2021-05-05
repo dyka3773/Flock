@@ -49,13 +49,12 @@ namespace Flock.Controllers
 
             if (query == null)
             {
-                cmd.CommandText = String.Format("call numOfPagesInConts({0}, null, {1})", aid,numOfRows);
+                cmd.CommandText = String.Format("call numOfPagesInConts({0}, null, {1}, null)", aid,numOfRows);
             }
             else
             {
-                cmd.CommandText = String.Format("call numOfPagesInConts({0},'{1}',{2})", aid, query, numOfRows);
+                cmd.CommandText = String.Format("call numOfPagesInConts({0},'{1}',{2}, null)", aid, query, numOfRows);
             }
-
             
 
             MySqlDataReader reader = cmd.ExecuteReader();
@@ -77,11 +76,11 @@ namespace Flock.Controllers
 
             if (query == null)
             {
-                cmd.CommandText = String.Format("call getContacts({0}, null, {1}, {2})", aid, offset, numOfRows);
+                cmd.CommandText = String.Format("call getContacts({0}, null, {1}, {2}, null)", aid, offset, numOfRows);
             }
             else
             {
-                cmd.CommandText = String.Format("call getContacts({0}, '{1}', {2}, {3})", aid, query, offset, numOfRows);
+                cmd.CommandText = String.Format("call getContacts({0}, '{1}', {2}, {3}, null)", aid, query, offset, numOfRows);
             }
 
 
@@ -139,11 +138,7 @@ namespace Flock.Controllers
         public HttpResponseMessage multiplePost(List<Contact> contacts, int aid, int gid)
         {
 
-
             foreach (Contact i in contacts) {
-
-
-
 
                 using var cmd = new MySqlCommand();
                 cmd.Connection = new DBConnection().connect();
@@ -151,9 +146,6 @@ namespace Flock.Controllers
                 cmd.CommandText = String.Format("call addContact('{0}', '{1}', {2}, {3})", i.fullName, i.email, aid, gid);
 
                 custom(cmd);
-
-               
-                    
 
             }
 

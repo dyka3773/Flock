@@ -75,13 +75,17 @@ const Accordion = ({ items, editItems, onSelect, selectedItems, pageNum, accordi
            // console.log("inputs", inputs);
            
 
+            const getSelectedItem = () => {
+                return selectedItems.indexOf(item.id)===-1 ? false : true
+            }
+
             
 
             const accordionHeader = onSelect && selectedItems ? 
                 <AccordionHeader
                     headerValues={headerValues}
                     onSel={() => onSelect(item.id)}
-                    isSelected={selectedItems[item.id]}
+                    isSelected={getSelectedItem()}
                 />
                 :
                 <AccordionHeader

@@ -13,20 +13,21 @@ const ImportContacts = () => {
     const token = useContext(context)
 
     //const defaultGroup = { id: "none", name: "None" };
+    const fetchGroups = async () => {
+
+        const groupsData = await getGroups(token);
+        // console.log(groupsData);
+        //groupsData.push(defaultGroup);
+
+        const groups = groupsData.map((gr) => {
+            return <option value={gr.id} key={gr.id}>{gr.name}</option>
+        })
+
+        setGroups(groups);
+    }
 
     useEffect(() => {
-        const fetchGroups = async () => {
-
-            const groupsData = await getGroups(token);
-           // console.log(groupsData);
-            //groupsData.push(defaultGroup);
-
-            const groups = groupsData.map((gr) => {
-                return <option value={gr.id} key={gr.id}>{gr.name}</option>
-            })
-
-            setGroups(groups);
-        }
+       
 
         fetchGroups();
 
@@ -49,7 +50,7 @@ const ImportContacts = () => {
             return;
         }
 
-        csvToJson(document.querySelector("#import").files[0], selectedGroupId, token).then(() => { window.alert("Done!") })
+        csvToJson(document.querySelector("#import").files[0], selectedGroupId, token).then(() => { window.alert("Done!"); fetchGroups() })
         
     }
 

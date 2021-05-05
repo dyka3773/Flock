@@ -73,3 +73,19 @@ h1, h2, h3,.ui.header {
         height: 2.5rem;
         
     }
+
+input::-webkit-input-placeholder {
+    color: rgba(0,0,0,0.75) !important;
+}
+
+input:-moz-placeholder { /* Firefox 18- */
+    color: rgba(0,0,0,0.75) !important;
+}
+
+input::-moz-placeholder { /* Firefox 19+ */
+    color: rgba(0,0,0,0.75) !important;
+}
+
+input:-ms-input-placeholder {
+    color: rgba(0,0,0,0.75) !important;
+}

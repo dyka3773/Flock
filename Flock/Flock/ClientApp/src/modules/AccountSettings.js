@@ -68,7 +68,7 @@ const AccountSettings = () => {
 
         accInputs.push({
             id: "password",
-            label: "Confirm Password",
+            label: "Confirm Password to save changes",
             value: "password",
             type: "password",
             required: true

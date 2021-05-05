@@ -49,11 +49,11 @@ namespace Flock.Controllers
 
             if (query == null)
             {
-                cmd.CommandText = String.Format("call numOfPagesInCamps({0}, null, {1})", aid, numOfRows);
+                cmd.CommandText = String.Format("call numOfPagesInCamps({0}, null, {1}, null)", aid, numOfRows);
             }
             else
             {
-                cmd.CommandText = String.Format("call numOfPagesInCamps({0},'{1}',{2})", aid, query, numOfRows);
+                cmd.CommandText = String.Format("call numOfPagesInCamps({0},'{1}',{2}, null)", aid, query, numOfRows);
             }
 
             MySqlDataReader reader = cmd.ExecuteReader();
@@ -77,10 +77,10 @@ namespace Flock.Controllers
 
             if (query == null)
             {
-                cmd.CommandText = String.Format("call getCamps({0}, null, {1}, {2})", aid, offset, numOfRows);
+                cmd.CommandText = String.Format("call getCamps({0}, null, {1}, {2}, null)", aid, offset, numOfRows);
             }
             else {
-                cmd.CommandText = String.Format("call getCamps({0}, '{1}', {2}, {3})", aid, query, offset, numOfRows);
+                cmd.CommandText = String.Format("call getCamps({0}, '{1}', {2}, {3}, null)", aid, query, offset, numOfRows);
             }
             
            
