@@ -142,7 +142,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
             selectedItemsRef.current = selectedItemsRef.current.filter(it=>it!==id)            
         }
         else {
-            selectedItemsRef.current.push(id);
+            selectedItemsRef.current = [...selectedItemsRef.current, id]
         }
       
     }
