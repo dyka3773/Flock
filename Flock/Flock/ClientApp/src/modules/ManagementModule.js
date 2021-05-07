@@ -56,7 +56,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
 
         console.log("fetchItems", pageNum);
         const itemss = await getItems(token, pageNum - 1, searchValue, 50);
-
+        console.log(itemss);
         setItems(itemss.data);
         window.scrollTo(0, 0);
     }
@@ -83,7 +83,6 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
         fetchItems();
     }, [pageNum]);
 
-
     useDidMountEffect(() => {
 
         const fetchI = async () => {
@@ -103,8 +102,6 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
             fetchI();
 
         }, 500)
-
-
 
         return () => clearTimeout(timeOut);
 
