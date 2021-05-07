@@ -24,6 +24,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Exceptions\Exceptioning.cs~RF1c18c0b.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="ClientApp\src\images\" />
   </ItemGroup>
 

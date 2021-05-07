@@ -8,6 +8,8 @@ using System.Net;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using System.IO;
+using Flock.Exceptions;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -64,23 +66,55 @@ namespace Flock.Controllers
         }
 
 
-        [HttpGet("{aid}/{pageNum}/{numOfRows}/{query?}")]
-        public List<Contact> Get(int aid, int pageNum,int numOfRows, string query)
+        [HttpGet("{aid}/{pageNum}/{numORows}/{query?}")]
+        public List<Contact> Get(int aid, int pageNum, int numOfRows, string query, int gid) 
         {
-            int offset = numOfRows * pageNum;
+            int offset;            
+
+            if (String.IsNullOrEmpty(numOfRows.ToString()))
+                offset = 50 * pageNum;
+            else
+                offset = numOfRows * pageNum;
 
             List<Contact> contacts = new List<Contact>();
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
+            Except e = new Except();
 
             if (query == null)
             {
-                cmd.CommandText = String.Format("call getContacts({0}, null, {1}, {2}, null)", aid, offset, numOfRows);
+                cmd.CommandText = String.Format("call getContacts({0}, null, {1}, {2}, {3})", aid, offset, numOfRows, gid);
             }
-            else
+            else if (String.IsNullOrEmpty(offset.ToString()))
             {
-                cmd.CommandText = String.Format("call getContacts({0}, '{1}', {2}, {3}, null)", aid, query, offset, numOfRows);
+                cmd.CommandText = String.Format("call getContacts({0}, '{1}', null, {2}, {3})", aid, query, numOfRows, gid);
+            }
+            
+            else if (String.IsNullOrEmpty(offset.ToString()) && query == null)
+            {
+                cmd.CommandText = String.Format("call getContacts({0}, null, null, {1}, {2})", aid, numOfRows, gid);
+            }            
+            else if (!(String.IsNullOrEmpty(offset.ToString()) && query == null && String.IsNullOrEmpty(numOfRows.ToString())))
+            {
+                cmd.CommandText = String.Format("call getContacts({0}, '{1}', {2}, {3}, {4})", aid, query, offset, numOfRows, gid);
+            }
+
+            else if (String.IsNullOrEmpty(offset.ToString()) && String.IsNullOrEmpty(numOfRows.ToString()))
+            {
+                e.Fussa(numOfRows);
+            }
+            else if (query == null && String.IsNullOrEmpty(numOfRows.ToString()))
+            {
+                e.Fussa(numOfRows);
+            }
+            else if (String.IsNullOrEmpty(numOfRows.ToString()))
+            {
+                e.Fussa(numOfRows);
+            }
+            else if (String.IsNullOrEmpty(offset.ToString()) && query == null && String.IsNullOrEmpty(numOfRows.ToString()))
+            {
+                e.Fussa(numOfRows);
             }
 
 

@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Flock.Models;
 using MySql.Data.MySqlClient;
 using SendEmail;
 using System.Diagnostics;
+using Flock.Exceptions;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,12 +20,7 @@ namespace Flock.Controllers
     {
 
 
-        public CampaignsController()
-        {
-            
-
-
-        }
+        public CampaignsController(){}
 
         // GET: api/<CampaignsController>
         [HttpPost("sendCampaign/{caid}")]
@@ -64,7 +60,7 @@ namespace Flock.Controllers
 
         // GET api/<CampaignsController>/5
         [HttpGet("{aid}/{pageNum}/{numOfRows}/{query?}")]
-        public List<Campaign> Get(int aid, int pageNum,string query, int numOfRows)
+        public List<Campaign> Get(int aid, int pageNum,string query, int numOfRows, int gid)
         {
             int offset = numOfRows * pageNum;
 
@@ -74,18 +70,45 @@ namespace Flock.Controllers
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
+            Except e = new Except();
 
             if (query == null)
             {
-                cmd.CommandText = String.Format("call getCamps({0}, null, {1}, {2}, null)", aid, offset, numOfRows);
+                cmd.CommandText = String.Format("call getCamps({0}, null, {1}, {2}, {3})", aid, offset, numOfRows, gid);
             }
-            else {
-                cmd.CommandText = String.Format("call getCamps({0}, '{1}', {2}, {3}, null)", aid, query, offset, numOfRows);
+            else if (String.IsNullOrEmpty(offset.ToString()))
+            {
+                cmd.CommandText = String.Format("call getCamps({0}, '{1}', null, {2}, {3})", aid, query, numOfRows, gid);
             }
-            
-           
-            
-           
+            else if (String.IsNullOrEmpty(offset.ToString()) && query == null)
+            {
+                cmd.CommandText = String.Format("call getCamps({0}, null, null, {1}, {2})", aid, numOfRows, gid);
+            }
+            else if (!(String.IsNullOrEmpty(offset.ToString()) && query == null && String.IsNullOrEmpty(numOfRows.ToString())))
+            {
+                cmd.CommandText = String.Format("call getCamps({0}, '{1}', {2}, {3}, {4})", aid, query, offset, numOfRows, gid);
+            }
+
+            else if (String.IsNullOrEmpty(offset.ToString()) && String.IsNullOrEmpty(numOfRows.ToString()))
+            {
+                e.Fussa(numOfRows);
+            }
+            else if (query == null && String.IsNullOrEmpty(numOfRows.ToString()))
+            {
+                e.Fussa(numOfRows);
+            }
+            else if (String.IsNullOrEmpty(numOfRows.ToString()))
+            {
+                e.Fussa(numOfRows);
+            }
+            else if (String.IsNullOrEmpty(offset.ToString()) && query == null && String.IsNullOrEmpty(numOfRows.ToString()))
+            {
+                e.Fussa(numOfRows);
+            }
+
+
+
+
 
             MySqlDataReader reader = cmd.ExecuteReader();
 
