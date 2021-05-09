@@ -42,7 +42,7 @@ namespace Flock.Controllers
 
    
         [HttpGet("GetNumOfPages/{aid}/{numOfRows}/{gid?}/{query?}")]
-        public decimal GetNumOfPages(int aid, string query, int numOfRows, int gid)
+        public ActionResult GetNumOfPages(int aid, string query, int numOfRows, int gid)
         {
             List<Campaign> campaigns = new List<Campaign>();
             using var cmd = new MySqlCommand();
@@ -51,37 +51,37 @@ namespace Flock.Controllers
 
             if (gid == 0 && query == null)
             {
-                cmd.CommandText = String.Format("call numOfPagesInConts({0}, {1}, null, null)", aid, numOfRows);
+                cmd.CommandText = String.Format("call numOfPagesInConts({0}, null,{1}, null)", aid, numOfRows);
             }
             else if (query == null)
             {
-                cmd.CommandText = String.Format("call numOfPagesInConts({0}, {1}, null, {2})", aid, numOfRows, gid);
+                cmd.CommandText = String.Format("call numOfPagesInConts({0}, null, {1}, {2})", aid, numOfRows, gid);
             }
             else if (gid == 0)
             {
-                cmd.CommandText = String.Format("call numOfPagesInConts({0}, {1}, null, null)", aid, numOfRows, query);
+                cmd.CommandText = String.Format("call numOfPagesInConts({0}, '{1}', {2}, null)", aid, query, numOfRows);
             }
             else
             {
-                cmd.CommandText = String.Format("call numOfPagesInConts({0}, {1}, {2}, {3})", aid, query, numOfRows, gid);
+                cmd.CommandText = String.Format("call numOfPagesInConts({0}, '{1}', {2}, {3})", aid, query, numOfRows, gid);
             }
 
             try
             {
                 MySqlDataReader reader = cmd.ExecuteReader();
                 reader.Read();
-                return (decimal)reader.GetValue(0);
+                return Ok(reader.GetValue(0).ToString());
             }
             catch (MySqlException sqle)
             {
 
                 Debug.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAA");
-                return 0;
+                return NotFound();
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                return 0;
+                return NotFound();
 
             }
 
@@ -247,21 +247,20 @@ namespace Flock.Controllers
         }
 
         [HttpDelete("multipleDelete/{id}")]
-        public HttpResponseMessage multipleDelete(List<String> C, int id)
+        public ActionResult multipleDelete(List<String> C, int id)
         {
             String CIDS = "";
             foreach (String cont in C)
             {
-                CIDS = String.Concat(cont, "|");
+                CIDS = String.Concat(cont+"|", CIDS);
             }
 
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
-            cmd.CommandText = String.Format("call deleteManyContacts({0}, {1})", CIDS, id);
+            cmd.CommandText = String.Format("call deleteManyContacts('{0}', {1})", CIDS, id);
 
-            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
-            return response;
+            return Ok();
         }
     }
 }
