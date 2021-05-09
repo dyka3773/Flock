@@ -41,28 +41,53 @@ namespace Flock.Controllers
         }
 
    
-        [HttpGet("GetNumOfPages/{aid}/{numOfRows}/{query?}")]
-        public decimal GetNumOfPages(int aid, string query, int numOfRows)
+        [HttpGet("GetNumOfPages/{aid}/{numOfRows}/{gid?}/{query?}")]
+        public decimal GetNumOfPages(int aid, string query, int numOfRows, int gid)
         {
             List<Campaign> campaigns = new List<Campaign>();
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            if (query == null)
+            if (gid == 0 && query == null)
             {
-                cmd.CommandText = String.Format("call numOfPagesInConts({0}, null, {1}, null)", aid,numOfRows);
+                cmd.CommandText = String.Format("call numOfPagesInConts({0}, {1}, null, null)", aid, numOfRows);
+            }
+            else if (query == null)
+            {
+                cmd.CommandText = String.Format("call numOfPagesInConts({0}, {1}, null, {2})", aid, numOfRows, gid);
+            }
+            else if (gid == 0)
+            {
+                cmd.CommandText = String.Format("call numOfPagesInConts({0}, {1}, null, null)", aid, numOfRows, query);
             }
             else
             {
-                cmd.CommandText = String.Format("call numOfPagesInConts({0},'{1}',{2}, null)", aid, query, numOfRows);
+                cmd.CommandText = String.Format("call numOfPagesInConts({0}, {1}, {2}, {3})", aid, query, numOfRows, gid);
             }
+
+            try
+            {
+                MySqlDataReader reader = cmd.ExecuteReader();
+                reader.Read();
+                return (decimal)reader.GetValue(0);
+            }
+            catch (MySqlException sqle)
+            {
+
+                Debug.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAA");
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return 0;
+
+            }
+
+            
             
 
-            MySqlDataReader reader = cmd.ExecuteReader();
-            reader.Read();
-
-            return (decimal)reader.GetValue(0);
         }
 
 
@@ -76,31 +101,37 @@ namespace Flock.Controllers
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
-          
+
+            if (gid == 0 && query == null)
+            {
+                cmd.CommandText = String.Format("call getContacts({0}, null,{1}, {2}, null)", aid, offset, numOfRows);
+            }
+            else if (query == null)
+            {
+                cmd.CommandText = String.Format("call getContacts({0}, null, {1}, {2}, {3})", aid, offset, numOfRows, gid);
+            }
+            else if (gid == 0)
+            {
+                cmd.CommandText = String.Format("call getContacts({0},'{1}', {2}, {3}, null)", aid, query, offset, numOfRows);
+            }
+            else
+            {
+                cmd.CommandText = String.Format("call getContacts({0}, '{1}', {2}, {3},{4})", aid, query, offset, numOfRows, gid);
+            }
 
             try
             {
-                if (pageNum < 0 || numOfRows <= 0)
-                {
-                    throw new Exception("replace me");
-                }
+                MySqlDataReader reader = cmd.ExecuteReader();
 
+                while (reader.Read())
+                {
 
-                if (gid == 0 && query == null) 
-                {
-                    cmd.CommandText = String.Format("call getContacts({0}, null,{1}, {2}, null)", aid ,offset, numOfRows);
-                }
-                else if (query == null)
-                {
-                    cmd.CommandText = String.Format("call getContacts({0}, null, {1}, {2}, {3})", aid, offset, numOfRows, gid);
-                }
-                else if (gid == 0)
-                {
-                    cmd.CommandText = String.Format("call getContacts({0},'{1}', {2}, {3}, null)", aid, query, offset, numOfRows);
-                }
-                else
-                {
-                    cmd.CommandText = String.Format("call getContacts({0}, '{1}', {2}, {3},{4})", aid, query ,offset, numOfRows, gid);
+                    contacts.Add(new Contact
+                    {
+                        id = (int)reader.GetValue(0),
+                        fullName = reader.GetValue(1).ToString(),
+                        email = reader.GetValue(2).ToString()
+                    });
                 }
 
             }
@@ -114,27 +145,7 @@ namespace Flock.Controllers
                 Debug.WriteLine(ex);
                 return null;
 
-            }
-
-
-
-
-           
-            MySqlDataReader reader = cmd.ExecuteReader();
-
-            while (reader.Read())
-            {
-
-                contacts.Add(new Contact
-                {
-                    id = (int)reader.GetValue(0),
-                    fullName = reader.GetValue(1).ToString(),
-                    email = reader.GetValue(2).ToString()
-                });
-
-
-
-            }
+            }       
 
             cmd.Connection.Close();
             return contacts;
@@ -233,6 +244,24 @@ namespace Flock.Controllers
 
 
             cmd.Connection.Close();
+        }
+
+        [HttpDelete("multipleDelete/{id}")]
+        public HttpResponseMessage multipleDelete(List<String> C, int id)
+        {
+            String CIDS = "";
+            foreach (String cont in C)
+            {
+                CIDS = String.Concat(cont, "|");
+            }
+
+            using var cmd = new MySqlCommand();
+            cmd.Connection = new DBConnection().connect();
+            cmd.Connection.Open();
+            cmd.CommandText = String.Format("call deleteManyContacts({0}, {1})", CIDS, id);
+
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            return response;
         }
     }
 }

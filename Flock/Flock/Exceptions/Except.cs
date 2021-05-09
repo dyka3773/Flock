@@ -7,31 +7,19 @@ using System.Diagnostics;
 
 namespace Flock.Exceptions
 {
-    public class Except
+    public class CustomException : Exception
     {
-        public void Fussa(int except)
+        public CustomException(string messageA) : base(messageA)
         {
-            try
-            {
-                String.IsNullOrEmpty(except.ToString());
-            }            
-            catch (DirectoryNotFoundException ex)
-            {
-                Debug.WriteLine($"The directory was not found: '{ex}'");
-            }
-            catch (FileNotFoundException ex)
-            {
-                Debug.WriteLine($"The file was not found: '{ex}'");
-            }            
-            catch (IOException ex)
-            {
-                Debug.WriteLine($"The file could not be opened: '{ex}'");
-            }
-            catch (ArgumentException ex)
-            {
-                Debug.WriteLine($"The argument that passed is invalid: '{ex}'");
-            }
-        }
 
+        }   
+    }
+
+    public class IOException : Exception
+    {
+        public IOException(string messageA) : base(messageA)
+        {
+
+        }
     }
 }
