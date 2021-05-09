@@ -7,10 +7,15 @@ const Modal = React.forwardRef(({onClose,children}, ref) => {
 
     return (
         <div className="ui custom-modal" ref={ref} onClick={onClose}>
-            <div className="segment ui">
-                <button className="ui basic button close" onClick={onClose}>
-                    X
-                </button>
+            <div className="ui segment">
+                <div className="button-wrapper">
+                    <button className="ui button close" onClick={onClose}>
+                        X
+                    </button>
+                </div>
+                    
+                
+                
                 {children}
             </div>
         </div>

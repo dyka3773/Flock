@@ -1,32 +1,38 @@
 ﻿import React, { useState, useEffect, useRef, useContext } from 'react';
+
 import getGroups from '../dataRequests/getGroups';
+import deleteGroup from '../dataRequests/deleteGroup';
+import addGroup from '../dataRequests/addGroup';
+
 import '../componentCSS/GroupsList.css';
+
 import context from '../contexts/context';
 
-import NewGroupCreation from '../modules/NewGroupCreation';
 
-const GroupsList = ({ handleSelectGroups, onGroupEdit, onGroupDelete, editable=true, onGroupAdd}) => {
+const GroupsList = ({ setSelectedGroup, selectedGroup, onGroupEdit, editable = true }) => {
 
     const [groups, setGroups] = useState([]);
-    const [selectedGroup, setSelectedGroup] = useState(null);
+    const [addOpened, setAddOpened] = useState(false);
+    const [newGroupName, setNewGroupName] = useState("");
 
     const token = useContext(context);
 
-    useEffect(() => {
-        const fetchGroups = async () => {
-            const groups = await getGroups(token);
-            setGroups(groups);
-        }
+    const fetchGroups = async () => {
+        const groups = await getGroups(token);
+        setGroups(groups);
+    }
 
+    useEffect(() => {
         fetchGroups();
+        
+        
 
     },[])
 
-    useEffect(() => {
 
-        handleSelectGroups(selectedGroup);
-
-    }, [selectedGroup])
+    const onGroupDelete = (selectedGroupId) => {
+        deleteGroup(selectedGroupId, token).then(() => { window.alert("Done"); fetchGroups();setSelectedGroup(0); });
+    }
 
     const editGroup = () => {
 
@@ -54,12 +60,12 @@ const GroupsList = ({ handleSelectGroups, onGroupEdit, onGroupDelete, editable=t
         const radioClicked = (id) => {
             
             if (selectedGroup === id) {
-                setSelectedGroup(null)
+                setSelectedGroup(0)
             }
 
         }
 
-
+      
 
         return (
             <div className="field" key={id}>
@@ -83,7 +89,29 @@ const GroupsList = ({ handleSelectGroups, onGroupEdit, onGroupDelete, editable=t
     return (
         <div className="groups-list">
             {retGroups}
-            <button className="ui button" onClick={onGroupAdd}>Add Group</button>
+            <button className="ui button add-group" onClick={() => setAddOpened(!addOpened)}>Add Group</button>
+            {
+                addOpened
+                    ?
+                    <div style={{ display: "flex" }}>
+                        <input type="text" className="ui input" value={newGroupName} onChange={(e) => setNewGroupName(e.target.value)} />
+                        <button onClick={
+                            async () => {
+                                await addGroup(newGroupName, token)
+                                    .then(() => {
+                                        window.alert("Done");
+                                        fetchGroups(token);
+                                        setAddOpened(false);
+                                        
+                                    })
+                            }
+                        }
+                        >
+                            +</button>
+                    </div>
+                    :
+                    <></>
+            }
         </div>
             );
 

@@ -47,7 +47,7 @@ const NewCampaignCreation = () => {
         inputValues.startDate = startDate;
         inputValues.endDate = endDate;
 
-        addCampaign(inputValues, token, selectedGroup).then(window.alert("done"));
+        addCampaign(inputValues, token, selectedGroup).then(window.alert("Done!"));
         
        
     }

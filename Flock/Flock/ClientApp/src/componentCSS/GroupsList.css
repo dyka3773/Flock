@@ -13,3 +13,7 @@
         right: 0;
        
     }
+
+    .groups-list>.add-group{
+        margin:0.5rem;
+    }

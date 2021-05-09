@@ -133,7 +133,7 @@ const Dashboard = () => {
 
 
 
-                    <div className="flex-item">
+                    <div className="flex-item basic-info">
                     <Form
                         className=""
                         label="Basic info"

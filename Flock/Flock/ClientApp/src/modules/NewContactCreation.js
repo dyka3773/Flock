@@ -10,19 +10,19 @@ import { addContact } from '../dataRequests/addContact';
 
 import { newContactFormInputs } from '../usefulFunctions/formInputs';
 
-const NewContactCreation = () => {
+const NewContactCreation = ({onComplete}) => {
 
     const [selectedGroup, setSelectedGroup] = useState("");
 
     const token = useContext(context)
 
     const handleFormSubmit = (sub) => {
-        addContact(sub, token, selectedGroup).then(window.alert("done"));
+        addContact(sub, token, selectedGroup).then(window.alert("Done!"));
         
     }
     
 
-    return <>
+    return <div>
         <Form
             label="Add a new contact:"
             inputs={newContactFormInputs}
@@ -30,7 +30,7 @@ const NewContactCreation = () => {
         >
             <GroupsDropdown selectedGroup={selectedGroup} setSelectedGroup={ setSelectedGroup}/>
         </Form>
-    </>
+    </div>
 
 
 

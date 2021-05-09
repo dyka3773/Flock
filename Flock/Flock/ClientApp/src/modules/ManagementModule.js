@@ -10,8 +10,6 @@ import NewGroupCreation from './NewGroupCreation';
 
 import context from '../contexts/context';
 
-import { addGroup } from '../dataRequests/addGroup';
-
 import useDidMountEffect from '../customHooks/useDidMountEffect'
 
 import '../modulesCSS/ManagementModule.css';
@@ -42,60 +40,72 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
 
 
     const [searchValue, setSearchValue] = useState("");
-    const [items, setItems] = useState([]);
+    const [itemsMaxPage, setItemsMaxPage] = useState({ items: [], maxPage: 0 });
     const [pageNum, setPageNum] = useState(1);
     const [modalCont, setModalCont] = useState(modalContents);
-    const [maxPage, setMaxPage] = useState(0);
+    const [selectedGroup, setSelectedGroup] = useState(0);
 
     const selectedItemsRef = useRef([]);
     const ref = useRef();
 
     const token = useContext(context);
 
+    console.log("rerender");
+
     const fetchItems = async () => {
 
-        console.log("fetchItems", pageNum);
-        const itemss = await getItems(token, pageNum - 1, searchValue, 50);
-        console.log(itemss);
-        setItems(itemss.data);
+        const itemss = await getItems(token, pageNum - 1, searchValue, 50, selectedGroup);
         window.scrollTo(0, 0);
+        return itemss.data;
     }
 
     const fetchMaxPage = async () => {
         const maxP = await getMaxPage(token, searchValue, 50);
-        setMaxPage(maxP.data);
+        return maxP.data;
+    }
 
-        console.log("getMaxPage", maxP);
+    const fetchItemsMaxPage = async () => {
+        const items = await fetchItems();
+        const maxPage = await fetchMaxPage();
+
+        setItemsMaxPage({ ...itemsMaxPage, items: items, maxPage: maxPage });
 
     }
 
     useEffect(
         () => {
-            
-            fetchItems();
-            fetchMaxPage();
+            fetchItemsMaxPage();
 
         }
         , []);
 
     useDidMountEffect(() => {
+        const func = async () => {
+            const items = await fetchItems();
+            setItemsMaxPage({ ...itemsMaxPage, items: items });
+        }
 
-        fetchItems();
+        func();
+       
+
     }, [pageNum]);
 
     useDidMountEffect(() => {
 
         const fetchI = async () => {
             if (!(pageNum === 1)) {
-                setPageNum(1);
-                fetchMaxPage();
+                const func = async () => {
+                    setPageNum(1);
+                    const maxPage = await fetchMaxPage();
+                    setItemsMaxPage({ ...itemsMaxPage, maxPage: maxPage });
+                }
+
+                func();
             }
             else {
-                fetchItems();
-                fetchMaxPage();
+                fetchItemsMaxPage();
+               
             }
-
-
         }
 
         const timeOut = setTimeout(() => {
@@ -107,6 +117,9 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
 
     }, [searchValue]);
 
+    useDidMountEffect(() => {
+        fetchItemsMaxPage();
+    }, [selectedGroup]);
 
 
     const deleteItems = () => {
@@ -123,15 +136,23 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
         } else {
             
         }
-
-       
        
     }
 
-    const handleSelectGroups = (id) => {
 
-        console.log(id);
+    const onComplete = () => {
+        const func = async () => {
+            const items = await fetchItems();
+            setItemsMaxPage({ ...itemsMaxPage, items: items })
+        }
+
+        func();
+
+       
+
     }
+
+   
 
     const handleSelectItems = (id) => {
 
@@ -175,22 +196,8 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
         openModal();
     }
 
-    const onGroupAdd = (selectedGroup) => {
 
-
-        setModalCont(
-            <>
-                <NewGroupCreation />
-
-            </>
-
-        )
-        openModal();
-    }
-
-    const onGroupDelete = (selectedGroupId) => {
-        console.log("delete", selectedGroupId);
-    }
+   
 
     const toggleSidebar = () => {
         const sidebar = document.querySelector(".sidebar");
@@ -209,7 +216,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
 
     const nextPage = () => {
         const goToNextPage = pageNum + 1;
-        if (goToNextPage > maxPage) return;
+        if (goToNextPage > itemsMaxPage.maxPage) return;
         setPageNum(goToNextPage);
     }
 
@@ -219,11 +226,13 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
 
     }
 
-    const closeModal = (e) => {
+    const closeModal = async (e) => {
 
         if (ref.current.firstChild.contains(e.target) && !(e.target.className.includes("close")))
             return;
         ref.current.style.display = "none";
+        fetchItemsMaxPage();
+        
     }
 
 
@@ -250,10 +259,10 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
                     <div className="ui segment groups">
                         <h5>Groups:</h5>
                         <GroupsList
-                            handleSelectGroups={handleSelectGroups}
+                            setSelectedGroup={setSelectedGroup}
+                            selectedGroup={selectedGroup}
                             onGroupEdit={onGroupEdit}
-                            onGroupDelete={onGroupDelete}
-                            onGroupAdd={onGroupAdd}
+                            
                         />
                     </div>
                 </div>
@@ -269,7 +278,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
                         </div>
 
                         <Accordion
-                            items={items}
+                            items={itemsMaxPage.items}
                             selectedItems={selectedItemsRef.current}
                             editItems={editItems}
                             onSelect={handleSelectItems}
@@ -284,7 +293,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
                             >
                                 <img src={previous} />
                             </button>
-                            <span>{pageNum} / {maxPage}</span>
+                            <span>{pageNum} / {itemsMaxPage.maxPage}</span>
                             <button
                                 className="icon-button"
                                 onClick={nextPage}

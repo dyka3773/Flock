@@ -83,14 +83,14 @@ namespace Flock.Controllers
         }
 
         // POST apis/<GroupsController>/5
-        [HttpPost("{aid}")]
-        public void Post(Group gr, int aid)
+        [HttpPost("{aid}/{gname}")]
+        public void Post(int aid, string gname )
         {
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = String.Format("call addGroup({0}, '{1}')", aid, gr.name);
+            cmd.CommandText = String.Format("call addGroup({0}, '{1}')", aid, gname);
             MySqlDataReader reader = cmd.ExecuteReader();
 
 
@@ -113,14 +113,14 @@ namespace Flock.Controllers
         }
 
         // DELETE api/<GroupsController>/5
-        [HttpDelete("{aid}")]
-        public void Delete(Group gr, int aid)
+        [HttpDelete("{gid}/{aid}")]
+        public void Delete(int gid, int aid)
         {
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
-            cmd.CommandText = String.Format("call deleteGroup({0}, {1})", gr.id, aid);
+            cmd.CommandText = String.Format("call deleteGroup({0}, {1})", gid, aid);
             MySqlDataReader reader = cmd.ExecuteReader();
 
 
