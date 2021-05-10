@@ -57,7 +57,6 @@ namespace Flock.Controllers
 
                 }
 
-                cmd.Connection.Close();
                 result = Ok(group);
             }
             catch (MySqlException msql)
@@ -71,8 +70,7 @@ namespace Flock.Controllers
            
             cmd.Connection.Close();
             return result;
-            
-            
+ 
         }
 
        
