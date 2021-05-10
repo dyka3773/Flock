@@ -36,7 +36,7 @@ import previous from '../images/icons/Previous.png';
 
 
 
-const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accordionHeadersConfig, getMaxPage }) => {
+const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accordionHeadersConfig, getMaxPage, deleteItems }) => {
 
 
     const [searchValue, setSearchValue] = useState("");
@@ -122,7 +122,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
     }, [selectedGroup]);
 
 
-    const deleteItems = () => {
+    const onDeleteItemsClick = () => {
 
         const length = selectedItemsRef.current.length;
 
@@ -132,7 +132,19 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
         }
 
         if (window.confirm(`You are about to delete ${length} items. Proceed?`)) {
-            console.log('Deleted', selectedItemsRef.current)
+
+            const ar = [...selectedItemsRef.current];
+
+            deleteItems(ar, token)
+                .then(() => {
+                    window.alert("Done!");
+                    fetchItemsMaxPage();
+                    selectedItemsRef.current = [];
+                })
+                .catch(() => {
+                    window.alert("There was an error");
+                });
+            
         } else {
             
         }
@@ -231,7 +243,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
         if (ref.current.firstChild.contains(e.target) && !(e.target.className.includes("close")))
             return;
         ref.current.style.display = "none";
-        fetchItemsMaxPage();
+       
         
     }
 
@@ -270,7 +282,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
                 <div className="list" >
                     <div id="head">
                         <h1>{listTitle}</h1>
-                        <button className="ui red button" onClick={deleteItems}>Delete</button>
+                        <button className="ui red button" onClick={onDeleteItemsClick}>Delete</button>
                     </div>
                     <div className="list-items">
                         <div className="accordion-descriptor">

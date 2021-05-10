@@ -7,26 +7,26 @@ import NewCampaignCreation from './NewCampaignCreation';
 import getCampaigns from '../dataRequests/getCampaigns';
 import editCampaign from '../dataRequests/editCampaign';
 import { getCampsPageNum } from '../dataRequests/getPageNum';
-
+import { deleteCampaigns } from '../dataRequests/deleteCampaigns';
 
 import { dataToAccordionHeadersCampaign } from '../usefulFunctions/configs';
 
 
 const CampaignManagement = () => {
 
-   
+
 
     const onCancel = () => {
         console.log("cancelled");
     }
 
 
-    
 
-    
+
+
 
     const modalContents = (
-        <NewCampaignCreation  />
+        <NewCampaignCreation />
     )
 
 
@@ -39,7 +39,8 @@ const CampaignManagement = () => {
             columnTitles={"name id startDate"}
             editItems={editCampaign}
             modalContents={modalContents}
-            accordionHeadersConfig ={dataToAccordionHeadersCampaign}
+            accordionHeadersConfig={dataToAccordionHeadersCampaign}
+            deleteItems={deleteCampaigns}
         />
 
     );

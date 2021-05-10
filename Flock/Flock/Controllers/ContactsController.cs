@@ -353,8 +353,8 @@ namespace Flock.Controllers
             }
         }
 
-        [HttpDelete("multipleDelete/{id}")]
-        public ActionResult multipleDelete(List<String> C, int id)
+        [HttpDelete("multipleDelete/{aid}")]
+        public ActionResult multipleDelete(List<int> C, int aid)
         {
             try
             {

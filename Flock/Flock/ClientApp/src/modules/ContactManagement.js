@@ -6,6 +6,7 @@ import NewContactCreation from './NewContactCreation';
 import getContacts from '../dataRequests/getContacts'
 import editContact from '../dataRequests/editContact';
 import { getContsPageNum } from '../dataRequests/getPageNum';
+import { deleteContacts } from '../dataRequests/deleteContacts';
 
 import { dataToAccordionHeadersContact } from '../usefulFunctions/configs';
 
@@ -31,7 +32,8 @@ const ContactManagement = () => {
             columnTitles={"name surname email"}
             editItems={editContact}
             modalContents={modalContents}
-            accordionHeadersConfig ={dataToAccordionHeadersContact}
+            accordionHeadersConfig={dataToAccordionHeadersContact}
+            deleteItems={deleteContacts}
         />
         
         );

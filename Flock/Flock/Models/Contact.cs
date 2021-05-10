@@ -15,7 +15,7 @@ namespace Flock.Models
 
         public override string ToString()
         {
-            return "email: " + email + "full name: "+fullName;
+            return "id: "+id+" email: " + email + "full name: "+fullName;
         }
         //public getEditable List(return editableFields);
 

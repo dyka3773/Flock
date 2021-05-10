@@ -343,6 +343,7 @@ namespace Flock.Controllers
                     CAIDS = String.Concat(cont + "|", CAIDS);
                 }
 
+
                 using var cmd = new MySqlCommand();
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
