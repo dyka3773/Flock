@@ -30,6 +30,8 @@ namespace Flock.Controllers
         [HttpGet("{aid}")]
         public ActionResult Get(int aid)
         {
+            using var cmd = new MySqlCommand();
+            ActionResult result = BadRequest();
             try
             {
                 if (aid < 0)
@@ -37,7 +39,7 @@ namespace Flock.Controllers
                     throw new GeneralException("Wrong parameters");
                 }
                 List<Group> group = new List<Group>();
-                using var cmd = new MySqlCommand();
+                
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
 
@@ -45,26 +47,32 @@ namespace Flock.Controllers
 
                 MySqlDataReader reader = cmd.ExecuteReader();
 
-                while (reader.Read()) {
+                while (reader.Read())
+                {
                     group.Add(new Group
                     {
                         id = (int)reader.GetValue(0),
                         name = reader.GetValue(1).ToString()
-                    }); 
+                    });
 
                 }
 
-            cmd.Connection.Close();
-            return Ok(group);
+                cmd.Connection.Close();
+                result = Ok(group);
             }
             catch (MySqlException msql)
             {
-                return BadRequest(msql.ToString());
+                result = BadRequest(msql.ToString());
             }
             catch (GeneralException ex)
             {
-                return BadRequest(ex.ToString());
+                result = BadRequest(ex.ToString());
             }
+           
+            cmd.Connection.Close();
+            return result;
+            
+            
         }
 
        
