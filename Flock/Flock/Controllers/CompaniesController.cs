@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
+using Flock.Exceptions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -29,42 +30,62 @@ namespace Flock.Controllers
             return null;
         }
 
-        // GET apis/<CompanyController>/5
-        [HttpGet("{id}")]
-        public void Get(int id)
-        {
-        }
-
         // POST api/<CompanyController>
         [HttpPost]
-        public void Post(Company c)
+        public ActionResult Post(Company c)
         {
-            using var cmd = new MySqlCommand();
-            cmd.Connection = new DBConnection().connect();
-            cmd.Connection.Open();
+            try
+            {
+                using var cmd = new MySqlCommand();
+                cmd.Connection = new DBConnection().connect();
+                cmd.Connection.Open();
 
-            cmd.CommandText = 
-                String.Format(
-                    "call addCompany('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')"
-                    , c.email, c.password, c.name, c.phone, c.country, c.zip, c.phyAddress
-                    );
-            MySqlDataReader reader = cmd.ExecuteReader();
+                cmd.CommandText = 
+                    String.Format(
+                        "call addCompany('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')"
+                        , c.email, c.password, c.name, c.phone, c.country, c.zip, c.phyAddress
+                        );
+                MySqlDataReader reader = cmd.ExecuteReader();
+                return Ok();
+            }
+
+            catch (MySqlException msql)
+            {
+                return BadRequest(msql.ToString());
+            }
         }
 
         // PUT api/<CompanyController>/5
         [HttpPut("{aid}")]
-        public void Put(int aid, Company c)
+        public ActionResult Put(int aid, Company c)
         {
-            using var cmd = new MySqlCommand();
-            cmd.Connection = new DBConnection().connect();
-            cmd.Connection.Open();
+            try
+            {
+                if (aid < 0)
+                {
+                    throw new GeneralException("Wrong parameters");
+                }
 
-            cmd.CommandText = 
-                String.Format(
-                    "call editCompany({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')"
-                    , aid, c.password, c.name, c.phone, c.country, c.zip, c.phyAddress
-                    );
-            MySqlDataReader reader = cmd.ExecuteReader();
+                using var cmd = new MySqlCommand();
+                cmd.Connection = new DBConnection().connect();
+                cmd.Connection.Open();
+
+                cmd.CommandText =
+                    String.Format(
+                        "call editCompany({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')"
+                        , aid, c.password, c.name, c.phone, c.country, c.zip, c.phyAddress
+                        );
+                MySqlDataReader reader = cmd.ExecuteReader();
+                return Ok();
+            }
+            catch (GeneralException ex)
+            {
+                return BadRequest(ex.ToString());
+            }
+            catch (MySqlException msql)
+            {
+                return BadRequest(msql.ToString());
+            }
         }
 
         // DELETE api/<CompanyController>/5

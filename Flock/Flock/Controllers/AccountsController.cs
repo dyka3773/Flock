@@ -1,4 +1,5 @@
-﻿using Flock.Models;
+﻿using Flock.Exceptions;
+using Flock.Models;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using System;
@@ -107,75 +108,93 @@ namespace Flock.Controllers
 
 
 
-        public Account Get(int id)
+        public ActionResult Get(int id)
         {
-            Account account;
-            using var cmd = new MySqlCommand();
-            cmd.Connection = new DBConnection().connect();
-            cmd.Connection.Open();
+            try
+            {
+                if (id < 0)
+                {
+                    throw new GeneralException("Wrong parameters");
+                }
+                Account account;
+                using var cmd = new MySqlCommand();
+                cmd.Connection = new DBConnection().connect();
+                cmd.Connection.Open();
 
-            cmd.CommandText = "getAccDetails(" + id + ")";
+                cmd.CommandText = "getAccDetails(" + id + ")";
 
-            MySqlDataReader reader = cmd.ExecuteReader();
-            reader.Read();
+                MySqlDataReader reader = cmd.ExecuteReader();
+                reader.Read();
 
-            account = getAccountFactory(reader, id);
+                account = getAccountFactory(reader, id);
 
-            cmd.Connection.Close();
+                cmd.Connection.Close();
+    
+                return Ok(account);
+            }
+            catch (MySqlException msql)
+            {
+                return BadRequest(msql.ToString());
+            }
+            catch (GeneralException ex)
+            {
+                return BadRequest(ex.ToString());
+            }
 
-            return account;
-           
         }
 
 
         public Account getAccountFactory(MySqlDataReader reader, int id)
         {
-
             int type = (int)reader.GetValue(2);
 
             Account returnAcc;
 
 
             //business pers
-            if (type == 0)
-            {
-                returnAcc = new BusinessPersonal
+                if (type == 0)
                 {
-                    email = reader.GetValue(0).ToString(),
-                    password = reader.GetValue(1).ToString(),
-                    type = (int)reader.GetValue(2),
-                    numOfCamps = (int)reader.GetValue(3),
-                    numOfConts = (int)reader.GetValue(4),
-                    numOfSent = (int)reader.GetValue(5),
-                    fName = reader.GetValue(6).ToString(),
-                    lName = reader.GetValue(7).ToString(),
-                    phone = reader.GetValue(8).ToString(),
-                    gender = reader.GetValue(9).ToString(),
-                    country = reader.GetValue(10).ToString(),
-                    zip = reader.GetValue(11).ToString(),
-                    id = id
-                };
-            }
-            else if (type == 1) //company
-            {
-                returnAcc = new Company
+                    returnAcc = new BusinessPersonal
+                    {
+                        email = reader.GetValue(0).ToString(),
+                        password = reader.GetValue(1).ToString(),
+                        type = (int)reader.GetValue(2),
+                        numOfCamps = (int)reader.GetValue(3),
+                        numOfConts = (int)reader.GetValue(4),
+                        numOfSent = (int)reader.GetValue(5),
+                        fName = reader.GetValue(6).ToString(),
+                        lName = reader.GetValue(7).ToString(),
+                        phone = reader.GetValue(8).ToString(),
+                        gender = reader.GetValue(9).ToString(),
+                        country = reader.GetValue(10).ToString(),
+                        zip = reader.GetValue(11).ToString(),
+                        id = id
+                    };
+                }
+                else if (type == 1) //company
                 {
-                    email = reader.GetValue(0).ToString(),
-                    password = reader.GetValue(1).ToString(),
-                    type = (int)reader.GetValue(2),
-                    numOfCamps = (int)reader.GetValue(3),
-                    numOfConts = (int)reader.GetValue(4),
-                    numOfSent = (int)reader.GetValue(5),
-                    name = reader.GetValue(6).ToString(),
-                    phone = reader.GetValue(8).ToString(),
-                    country = reader.GetValue(7).ToString(),
-                    zip = reader.GetValue(10).ToString(),
-                    phyAddress = reader.GetValue(9).ToString(),
-                    id = id,
-                };
+                    returnAcc = new Company
+                    {
+                        email = reader.GetValue(0).ToString(),
+                        password = reader.GetValue(1).ToString(),
+                        type = (int)reader.GetValue(2),
+                        numOfCamps = (int)reader.GetValue(3),
+                        numOfConts = (int)reader.GetValue(4),
+                        numOfSent = (int)reader.GetValue(5),
+                        name = reader.GetValue(6).ToString(),
+                        phone = reader.GetValue(8).ToString(),
+                        country = reader.GetValue(7).ToString(),
+                        zip = reader.GetValue(10).ToString(),
+                        phyAddress = reader.GetValue(9).ToString(),
+                        id = id,
+                    };
 
-            }
-            else return null;
+                }
+                else
+                { 
+                    return null;            
+                }   
+                
 
 
             return returnAcc;

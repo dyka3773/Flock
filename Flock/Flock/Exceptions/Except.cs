@@ -7,19 +7,21 @@ using System.Diagnostics;
 
 namespace Flock.Exceptions
 {
-    public class CustomException : Exception
+    public class GeneralException : Exception
     {
-        public CustomException(string messageA) : base(messageA)
+        public GeneralException(string messageA) : base(messageA)
         {
 
         }   
     }
 
-    public class IOException : Exception
+    public class MultiplePostException : Exception
     {
-        public IOException(string messageA) : base(messageA)
+        public MultiplePostException(string messageB) : base(messageB)
         {
 
         }
     }
+
+
 }
