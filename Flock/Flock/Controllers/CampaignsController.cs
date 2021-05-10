@@ -75,7 +75,7 @@ namespace Flock.Controllers
                 }
                 else if (query == null)
                 {
-                    cmd.CommandText = String.Format("call numOfPagesInCamps({0}, {1}, null, {2})", aid, numOfRows, gid);
+                    cmd.CommandText = String.Format("call numOfPagesInCamps({0}, null, {1}, {2})", aid, numOfRows, gid);
                 }
                 else if (gid == 0)
                 {
@@ -89,11 +89,6 @@ namespace Flock.Controllers
                 MySqlDataReader reader = cmd.ExecuteReader();
                 reader.Read();
                 decimal dec = (decimal)reader.GetValue(0);
-
-                if (dec == 0)
-                {
-                    throw new GeneralException("Number of pages is 0");
-                }
 
                 return Ok(dec);
             }

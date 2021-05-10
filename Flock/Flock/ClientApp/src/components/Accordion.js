@@ -26,7 +26,7 @@ for each array item one accordion item is rendered
 
 
 
-const Accordion = ({ items, editItems, onSelect, selectedItems, pageNum, accordionHeadersConfig  }) => {
+const Accordion = ({ items, editItems, onSelect, selectedItems, pageNum, accordionHeadersConfig, selectedGroup }) => {
     const [activeIndex, setActiveIndex] = useState(null);
 
     const token = useContext(context);
@@ -44,7 +44,7 @@ const Accordion = ({ items, editItems, onSelect, selectedItems, pageNum, accordi
 
     }
 
-    useEffect(() => { setActiveIndex(null) }, [pageNum])
+    useEffect(() => { setActiveIndex(null) }, [pageNum, selectedGroup])
     
 
     
@@ -113,7 +113,9 @@ const Accordion = ({ items, editItems, onSelect, selectedItems, pageNum, accordi
                             submit={{
                                 label: "edit",
                                 onClick: (sub) => {
-                                    editItems(token, { ...sub, ["id"]: item.id }).then(() => window.alert("Done"));
+                                    editItems(token, { ...sub, ["id"]: item.id })
+                                        .then(() => window.alert("Done"))
+                                        .catch(() => window.alert("There was a problem, please try again later"));
                                 }}}
                         />
 

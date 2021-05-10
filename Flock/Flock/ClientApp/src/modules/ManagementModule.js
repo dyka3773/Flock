@@ -60,7 +60,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
     }
 
     const fetchMaxPage = async () => {
-        const maxP = await getMaxPage(token, searchValue, 50);
+        const maxP = await getMaxPage(token, searchValue, 50, selectedGroup);
         return maxP.data;
     }
 
@@ -69,7 +69,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
         const maxPage = await fetchMaxPage();
 
         setItemsMaxPage({ ...itemsMaxPage, items: items, maxPage: maxPage });
-
+       
     }
 
     useEffect(
@@ -118,7 +118,18 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
     }, [searchValue]);
 
     useDidMountEffect(() => {
-        fetchItemsMaxPage();
+
+        const func = async () => {
+            if (pageNum === 1) {
+                fetchItemsMaxPage();
+            } else {
+                const maxPage = await fetchMaxPage();
+                setItemsMaxPage({ ...itemsMaxPage, maxPage: maxPage });
+                setPageNum(1)
+            }
+        }
+        func();
+        
     }, [selectedGroup]);
 
 
@@ -159,9 +170,6 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
         }
 
         func();
-
-       
-
     }
 
    
@@ -292,10 +300,11 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
                         <Accordion
                             items={itemsMaxPage.items}
                             selectedItems={selectedItemsRef.current}
-                            editItems={editItems}
+                            editItems={(token, subs) => editItems(token, subs).then(fetchItemsMaxPage)}
                             onSelect={handleSelectItems}
                             pageNum={pageNum}
                             accordionHeadersConfig={accordionHeadersConfig}
+                            selectedGroup={selectedGroup}
 
                         />
                         <div className="pagination-buttons">
