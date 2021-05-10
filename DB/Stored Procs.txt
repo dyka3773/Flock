@@ -44,22 +44,22 @@ IN AIID int, in keyword varchar(45), in ofst int, in gid int)
 BEGIN
 IF keyword IS NULL THEN
 	if gid is null then
-		select count(*)/ofst into  @pageCount 
+		select count(*)/ofst into @pageCount 
 		from Campaign C
 		where (C.AID=AIID);
 	else
-		select count(*)/ofst into  @pageCount 
+		select count(*)/ofst into @pageCount 
 		from Campaign C
 		where (C.AID=AIID) and C.GID=gid;
 	end if;
 ELSE
 	if gid is null then
-		select count(*)/ofst into  @pageCount 
+		select count(*)/ofst into @pageCount 
 		from Campaign C
 		where (C.AID=AIID)
 		and ( C.C_Name LIKE CONCAT('%',keyword,'%'));
 	else
-		select count(*)/ofst into  @pageCount 
+		select count(*)/ofst into @pageCount 
 		from Campaign C
 		where (C.AID=AIID) and C.GID=gid
 		and ( C.C_Name LIKE CONCAT('%',keyword,'%'));
@@ -228,7 +228,7 @@ BEGIN
 END$$
 
 CREATE PROCEDURE `Flock`.`deleteManyCamps` (
-in caids varchar(1000), in aiid int)
+in caids varchar(1000000), in aiid int)
 BEGIN
 	-- Αναγκαστικά θα γίνει με φουλ μπακάλικο τρόπο αυτό για να μην έχω 354654 κλήσεις στη βάση
     while (locate('|',caids)>0) 		-- caids is something like '65|98|23|12|1'
@@ -250,7 +250,7 @@ BEGIN
 END$$
 
 CREATE PROCEDURE `Flock`.`deleteManyContacts` (
-in cids varchar(1000), in aiid int)
+in cids varchar(1000000), in aiid int)
 BEGIN
 	-- Αναγκαστικά θα γίνει με φουλ μπακάλικο τρόπο αυτό για να μην έχω 354654 κλήσεις στη βάση
     while (locate('|',cids)>0) 		-- cids is something like '65|98|23|12|1'
