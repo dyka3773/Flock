@@ -1,5 +1,6 @@
 ﻿using Flock.Controllers;
 using Flock.Models;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,16 +21,39 @@ namespace SendEmail
             return frequency;
         }
 
-        public EmailService(int campaignId) { 
+        public EmailService(int campaignId) {
             //Receives campaignId and the coresponding aid and sends the campaign contents to the
             //group (specified in camp.groupId) of the account (known by the aid)
-            camp = new CampaignsController().getCampFromCaid(campaignId);
+            ActionResult actionResult = new CampaignsController().getCampFromCaid(campaignId);
 
-            frequency = camp.frequency;
+            var contentResult = actionResult as OkObjectResult;
+            Object toBeCamp = contentResult.Value;
+            try
+            {
+                camp = (Campaign)toBeCamp;
+            }
+            catch (Exception e) {
+                return;
+            }
+
+             frequency = camp.frequency;
+
             
-            Debug.WriteLine(camp.ToString());
 
-            contacts = new GroupsController().GetContacts(camp.AID, camp.GID);
+            actionResult = new GroupsController().GetContacts(camp.AID, camp.GID);
+
+            contentResult = actionResult as OkObjectResult;
+            Object toBeCont = contentResult.Value;
+            try
+            {
+                contacts = (List<Contact>)toBeCont;
+            }
+            catch (Exception e)
+            {
+                return;
+            }
+
+            Debug.WriteLine("campaign: "+camp.ToString()+" contacts: "+contacts.ToString());
 
         }
 

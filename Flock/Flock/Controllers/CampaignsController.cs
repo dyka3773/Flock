@@ -25,7 +25,7 @@ namespace Flock.Controllers
 
         public CampaignsController() { }
 
-        // GET: api/<CampaignsController>
+      
         [HttpPost("sendCampaign/{caid}")]
         public ActionResult sendCampaign(int caid)
         {
@@ -40,7 +40,7 @@ namespace Flock.Controllers
                 string fr = email.getFrequency();
 
 
-                email.mailSender();
+                //email.mailSender();
                 return Ok();
             }
             catch (GeneralException ex)
@@ -108,10 +108,10 @@ namespace Flock.Controllers
 
 
 
-
+            
         }
 
-        // GET api/<CampaignsController>/5
+        
         [HttpGet("{aid}/{pageNum}/{numOfRows}/{gid?}/{query?}")]
         public ActionResult Get(int aid, int pageNum, string query, int numOfRows, int gid)
         {

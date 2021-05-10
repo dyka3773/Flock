@@ -358,13 +358,13 @@ namespace Flock.Controllers
         {
             try
             {
-                if (id < 0)
+                if (aid < 0)
                 {
                     throw new GeneralException("Wrong parameters");
                 }
 
                 String CIDS = "";
-                foreach (String cont in C)
+                foreach (int cont in C)
                 {
                     CIDS = String.Concat(cont + "|", CIDS);
                 }
@@ -372,7 +372,7 @@ namespace Flock.Controllers
                 using var cmd = new MySqlCommand();
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
-                cmd.CommandText = String.Format("call deleteManyContacts('{0}', {1})", CIDS, id);
+                cmd.CommandText = String.Format("call deleteManyContacts('{0}', {1})", CIDS, aid);
 
                 return Ok();
             }
