@@ -110,6 +110,8 @@ namespace Flock.Controllers
 
         public ActionResult Get(int id)
         {
+            using var cmd = new MySqlCommand();
+            ActionResult result = BadRequest();
             try
             {
                 if (id < 0)
@@ -117,7 +119,7 @@ namespace Flock.Controllers
                     throw new GeneralException("Wrong parameters");
                 }
                 Account account;
-                using var cmd = new MySqlCommand();
+                
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
 
@@ -127,10 +129,8 @@ namespace Flock.Controllers
                 reader.Read();
 
                 account = getAccountFactory(reader, id);
-
-                cmd.Connection.Close();
-    
-                return Ok(account);
+                
+                result =  Ok(account);
             }
             catch (MySqlException msql)
             {
@@ -140,6 +140,8 @@ namespace Flock.Controllers
             {
                 return BadRequest(ex.ToString());
             }
+            cmd.Connection.Close();
+            return result;
 
         }
 

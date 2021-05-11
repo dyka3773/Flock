@@ -41,7 +41,7 @@ namespace Flock.Controllers
 
 
                 //email.mailSender();
-                return Ok();
+                
             }
             catch (GeneralException ex)
             {
@@ -51,6 +51,7 @@ namespace Flock.Controllers
             {
                 return BadRequest(msql.ToString());
             }
+            return Ok();
         }
 
         // GET api/<CampaignsController>/5
@@ -59,6 +60,7 @@ namespace Flock.Controllers
         {
             List<Campaign> campaigns = new List<Campaign>();
             using var cmd = new MySqlCommand();
+            ActionResult result = BadRequest();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
 
@@ -89,8 +91,9 @@ namespace Flock.Controllers
                 MySqlDataReader reader = cmd.ExecuteReader();
                 reader.Read();
                 decimal dec = (decimal)reader.GetValue(0);
+                result = Ok(dec);
 
-                return Ok(dec);
+
             }
             catch (MySqlException msql)
             {
@@ -100,10 +103,11 @@ namespace Flock.Controllers
             {
                 return BadRequest(ex.ToString());
             }
+            return result;
 
 
 
-            
+
         }
 
         
@@ -111,7 +115,7 @@ namespace Flock.Controllers
         public ActionResult Get(int aid, int pageNum, string query, int numOfRows, int gid)
         {
             int offset = numOfRows * pageNum;
-
+            ActionResult result = BadRequest();
             List<Campaign> campaigns = new List<Campaign>();
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
@@ -162,9 +166,9 @@ namespace Flock.Controllers
                         GID = (int)reader.GetValue(11)
                     });
                 }
+                result = Ok(campaigns);
 
-                cmd.Connection.Close();
-                return Ok(campaigns);
+
             }
             catch (MySqlException msql)
             {
@@ -174,6 +178,8 @@ namespace Flock.Controllers
             {
                 return BadRequest(ex.ToString());
             }
+            cmd.Connection.Close();
+            return result;
 
 
         }
@@ -181,6 +187,8 @@ namespace Flock.Controllers
 
         public ActionResult getCampFromCaid(int caid)
         {
+            using var cmd = new MySqlCommand();
+            ActionResult result = BadRequest();
             try
             {
                 if (caid < 0)
@@ -188,7 +196,7 @@ namespace Flock.Controllers
                     throw new GeneralException("Wrong Parameters");
                 }
                 Campaign campaign;
-                using var cmd = new MySqlCommand();
+                
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
 
@@ -212,8 +220,8 @@ namespace Flock.Controllers
                     AID = (int)reader.GetValue(10),
                     GID = (int)reader.GetValue(11)
                 };
-                cmd.Connection.Close();
-                return Ok(campaign);
+                result = Ok(campaign);
+
             }
             catch (MySqlException msql)
             {
@@ -223,6 +231,8 @@ namespace Flock.Controllers
             {
                 return BadRequest(ex.ToString());
             }
+            cmd.Connection.Close();
+            return result;
         }
     
 
@@ -233,13 +243,15 @@ namespace Flock.Controllers
         [HttpPost("{aid}/{gid}")]
         public ActionResult Post(Campaign camp, int aid, int gid)
         {
+            using var cmd = new MySqlCommand();
+            ActionResult result = BadRequest();
             try
             {
                 if (gid < 0 || aid < 0)
                 {
                     throw new GeneralException("Wrong Parameters");
                 }
-                using var cmd = new MySqlCommand();
+                
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
 
@@ -247,8 +259,9 @@ namespace Flock.Controllers
                     camp.subject, camp.text, camp.startDate, camp.endDate, camp.name, camp.frequency, null, aid, gid);
                 MySqlDataReader reader = cmd.ExecuteReader();
 
-                cmd.Connection.Close();
-                return Ok();
+                result = Ok();
+
+                
             }
             catch (MySqlException msql)
             {
@@ -258,28 +271,31 @@ namespace Flock.Controllers
             {
                 return BadRequest(ex.ToString());
             }
+            cmd.Connection.Close();
+            return result;
         }
 
         // PUT api/<CampaignsController>/5
         [HttpPut("{aid}")]
         public ActionResult Put(int aid, Campaign camp)
         {
+            using var cmd = new MySqlCommand();
+            ActionResult result = BadRequest();
             try
             {
                 if (aid < 0)
                 {
                     throw new GeneralException("Wrong Parameters");
                 }
-                using var cmd = new MySqlCommand();
+                
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
 
                 cmd.CommandText = String.Format("call editCampaign({0}, '{1}', {2}, '{3}', '{4}', '{5}', '{6}')", camp.id, camp.name, aid, camp.subject, camp.text, camp.endDate, camp.frequency);
                 MySqlDataReader reader = cmd.ExecuteReader();
 
+                result = Ok();
 
-                cmd.Connection.Close();
-                return Ok();
             }
             catch (MySqlException msql)
             {
@@ -289,6 +305,8 @@ namespace Flock.Controllers
             {
                 return BadRequest(ex.ToString());
             }
+            cmd.Connection.Close();
+            return result;
 
         }
 
@@ -296,21 +314,23 @@ namespace Flock.Controllers
         [HttpDelete("{id}/{cid}")]
         public ActionResult Delete(int id, Campaign camp)
         {
+            using var cmd = new MySqlCommand();
+            ActionResult result = BadRequest();
             try
             {
                 if (id < 0)
                 {
                     throw new GeneralException("Wrong parameters");
                 }
-                using var cmd = new MySqlCommand();
+                
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
 
                 cmd.CommandText = String.Format("call deleteCamp({0}, {1})", camp.id, id);
 
                 MySqlDataReader reader = cmd.ExecuteReader();
-                cmd.Connection.Close();
-                return Ok();
+
+                result = Ok();
             }
             catch (MySqlException msql)
             {
@@ -320,11 +340,15 @@ namespace Flock.Controllers
             {
                 return BadRequest(ex.ToString());
             }
+            cmd.Connection.Close();
+            return result;
         }
 
         [HttpDelete("multipleDelete/{id}")]
         public ActionResult multipleDelete(List<String> C, int id)
         {
+            using var cmd = new MySqlCommand();
+            ActionResult result = BadRequest();
             try
             {
                 if (id < 0)
@@ -338,13 +362,13 @@ namespace Flock.Controllers
                     CAIDS = String.Concat(cont + "|", CAIDS);
                 }
 
-
-                using var cmd = new MySqlCommand();
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
                 cmd.CommandText = String.Format("call deleteManyCamps('{0}', {1})", CAIDS, id);
-                                
-                return Ok();
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                result = Ok();
+
             }
             catch (MySqlException msql)
             {
@@ -354,6 +378,8 @@ namespace Flock.Controllers
             {
                 return BadRequest(ex.ToString());
             }
+            cmd.Connection.Close();
+            return result;
         }
     }
 }

@@ -46,6 +46,7 @@ namespace Flock.Controllers
         {
             List<Contact> contacts = new List<Contact>();
             using var cmd = new MySqlCommand();
+            ActionResult result = BadRequest();
             cmd.Connection = new DBConnection().connect();
             cmd.Connection.Open();
            
@@ -77,12 +78,7 @@ namespace Flock.Controllers
                 reader.Read();
                 decimal dec = (decimal)reader.GetValue(0);
 
-                if (dec == 0)
-                {
-                    throw new GeneralException("Number of pages is 0");
-                }
-
-                return Ok(dec);
+                result = Ok(dec);
             }
             catch (MySqlException msql)
             {
@@ -92,7 +88,8 @@ namespace Flock.Controllers
             {
                 return BadRequest(ex.ToString());
             }
-
+            cmd.Connection.Close();
+            return result;
 
         }
 
@@ -102,7 +99,7 @@ namespace Flock.Controllers
         {
             int offset = numOfRows * pageNum;
 
-
+            ActionResult result = BadRequest();
             List<Contact> contacts = new List<Contact>();
             using var cmd = new MySqlCommand();
             cmd.Connection = new DBConnection().connect();
@@ -146,8 +143,9 @@ namespace Flock.Controllers
                     });
                 }
 
-                cmd.Connection.Close();
-                return Ok(contacts);
+                result = Ok();
+
+                
             }
             catch (MySqlException msql)
             {
@@ -157,14 +155,16 @@ namespace Flock.Controllers
             {
                 return BadRequest(ex.ToString());
             }
-
-            
+            cmd.Connection.Close();
+            return result;
         }
 
         // POST api/<ContacsController>/5
         [HttpPost("{aid}")]
         public ActionResult Post(Contact cont, int aid)
         {
+            using var cmd = new MySqlCommand();
+            ActionResult result = BadRequest();
             try
             {
                 if (aid < 0)
@@ -172,15 +172,13 @@ namespace Flock.Controllers
                     throw new GeneralException("Wrong parameters");
                 }
 
-                using var cmd = new MySqlCommand();
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
 
                 cmd.CommandText = String.Format("call addContact('{0}', '{1}', {2}, {3})", cont.fullName, cont.email, aid, "null");
                 MySqlDataReader reader = cmd.ExecuteReader();
+                result = Ok();
 
-                cmd.Connection.Close();
-                return Ok();
             }
 
             catch (MySqlException msql)
@@ -191,28 +189,29 @@ namespace Flock.Controllers
             {
                 return BadRequest(ex.ToString());
             }
+            cmd.Connection.Close();
+            return result;
         }
 
         // POST api/<ContacsController>/5 for not null
         [HttpPost("{aid}/{gid}")]
         public ActionResult Post(Contact cont, int aid, int gid)
         {
+            using var cmd = new MySqlCommand();
+            ActionResult result = BadRequest();
             try
             {
                 if (aid < 0 || gid < 0)
                 {
                     throw new GeneralException("Wrong parameters");
                 }
-                using var cmd = new MySqlCommand();
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
 
                 cmd.CommandText = String.Format("call addContact('{0}', '{1}', {2}, {3})", cont.fullName, cont.email, aid, gid);
                 MySqlDataReader reader = cmd.ExecuteReader();
+                result = Ok();
 
-
-                cmd.Connection.Close();
-                return Ok();
             }
             catch (MySqlException msql)
             {
@@ -222,6 +221,8 @@ namespace Flock.Controllers
             {
                 return BadRequest(ex.ToString());
             }
+            cmd.Connection.Close();
+            return result;
         }
 
         // POST api/<ContacsController>/5 for not null
@@ -230,6 +231,8 @@ namespace Flock.Controllers
         {
             String WrongCred = "";
             bool Check = false;
+            using var cmd = new MySqlCommand();
+            ActionResult result = BadRequest();
             try
             {
                 if (aid < 0 || gid < 0)
@@ -240,7 +243,6 @@ namespace Flock.Controllers
                 foreach (Contact i in contacts)
                 {
 
-                    using var cmd = new MySqlCommand();
                     cmd.Connection = new DBConnection().connect();
                     cmd.Connection.Open();
                     cmd.CommandText = String.Format("call addContact('{0}', '{1}', {2}, {3})", i.fullName, i.email, aid, gid);
@@ -258,7 +260,7 @@ namespace Flock.Controllers
                 {
                     return Ok("These Contacts were not added: " + WrongCred);
                 }
-                return Ok();
+                result = Ok();
 
             }
             catch (MySqlException msql)
@@ -273,6 +275,7 @@ namespace Flock.Controllers
             {
                 return BadRequest(ex.ToString());
             }
+            return result;
              
         }
 
@@ -291,22 +294,22 @@ namespace Flock.Controllers
         [HttpPut("{aid}")]
         public ActionResult Put(Contact cont, int aid)
         {
+            using var cmd = new MySqlCommand();
+            ActionResult result = BadRequest();
             try
             {
                 if (aid < 0)
                 {
                     throw new GeneralException("Wrong parameters");
                 }
-                using var cmd = new MySqlCommand();
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
 
                 cmd.CommandText = String.Format("call editContact({0}, {1}, '{2}', '{3}')", cont.id, aid, cont.fullName, cont.email);
                 MySqlDataReader reader = cmd.ExecuteReader();
+                result = Ok();
 
-
-                cmd.Connection.Close();
-                return Ok();
+                
             }
             catch (MySqlException msql)
             {
@@ -316,6 +319,8 @@ namespace Flock.Controllers
             {
                 return BadRequest(ex.ToString());
             }
+            cmd.Connection.Close();
+            return result;
 
         }
         //cont.getEditable();
@@ -326,22 +331,21 @@ namespace Flock.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete(Contact cont, int id)
         {
+            using var cmd = new MySqlCommand();
+            ActionResult result = BadRequest();
             try
             {
                 if (id < 0)
                 {
                     throw new GeneralException("Wrong parameters");
                 }
-                using var cmd = new MySqlCommand();
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
 
                 cmd.CommandText = String.Format("call deleteContact({0}, {1})", cont.id, id);
                 MySqlDataReader reader = cmd.ExecuteReader();
+                result = Ok();
 
-
-                cmd.Connection.Close();
-                return Ok();
             }
             catch (MySqlException msql)
             {
@@ -351,11 +355,15 @@ namespace Flock.Controllers
             {
                 return BadRequest(ex.ToString());
             }
+            cmd.Connection.Close();
+            return result;
         }
 
         [HttpDelete("multipleDelete/{aid}")]
         public ActionResult multipleDelete(List<int> C, int aid)
         {
+            using var cmd = new MySqlCommand();
+            ActionResult result = BadRequest();
             try
             {
                 if (aid < 0)
@@ -369,12 +377,13 @@ namespace Flock.Controllers
                     CIDS = String.Concat(cont + "|", CIDS);
                 }
 
-                using var cmd = new MySqlCommand();
+                
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
                 cmd.CommandText = String.Format("call deleteManyContacts('{0}', {1})", CIDS, aid);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                result = Ok();
 
-                return Ok();
             }
             catch (MySqlException msql)
             {
@@ -384,6 +393,8 @@ namespace Flock.Controllers
             {
                 return BadRequest(ex.ToString());
             }
+            cmd.Connection.Close();
+            return result;
         }
     }
 }

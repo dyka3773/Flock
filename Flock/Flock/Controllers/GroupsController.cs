@@ -76,15 +76,16 @@ namespace Flock.Controllers
        
         public ActionResult GetContacts(int aid, int gid )
         {
+            using var cmd = new MySqlCommand();
+            ActionResult result = BadRequest();
             try
             {
                 if (aid < 0 || gid < 0)
                 {
                     throw new GeneralException("Wrong Parameters");
-                }
-                Console.WriteLine("awdawd");
+                }                
                 List<Contact> contacts = new List<Contact>();
-                using var cmd = new MySqlCommand();
+                
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
 
@@ -103,11 +104,8 @@ namespace Flock.Controllers
                         fullName = reader.GetValue(1).ToString(),
                         email = reader.GetValue(2).ToString()
                     });
-
                 }
-
-                cmd.Connection.Close();
-                return Ok(contacts);
+                result = Ok(contacts);
             }
             catch (MySqlException msql)
             {
@@ -117,29 +115,33 @@ namespace Flock.Controllers
             {
                 return BadRequest(ex.ToString());
             }
+            cmd.Connection.Close();
+            return result;
+             // I should return Contacts
         }
 
         // POST apis/<GroupsController>/5
         [HttpPost("{aid}/{gname}")]
         public ActionResult Post(int aid, string gname )
         {
+            using var cmd = new MySqlCommand();
+            ActionResult result = BadRequest();
             try
             {
                 if (aid < 0 || aid < 0)
                 {
                     throw new GeneralException("Wrong Parameters");
                 }
-                using var cmd = new MySqlCommand();
+                
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
 
                 cmd.CommandText = String.Format("call addGroup({0}, '{1}')", aid, gname);
                 MySqlDataReader reader = cmd.ExecuteReader();
+                result = Ok();
 
 
-                cmd.Connection.Close();
 
-                return Ok();
             }
             catch (MySqlException msql)
             {
@@ -149,29 +151,31 @@ namespace Flock.Controllers
             {
                 return BadRequest(ex.ToString());
             }
+            cmd.Connection.Close();
+            return result;
+            
         }
 
         // PUT api/<GroupsController>/5
         [HttpPut("{id}")]
         public ActionResult Put(Group gr, int aid)
         {
+            using var cmd = new MySqlCommand();
+            ActionResult result = BadRequest();
             try
             {
                 if (aid< 0 || aid< 0)
                 {
                     throw new GeneralException("Wrong Parameters");
                 }
-                using var cmd = new MySqlCommand();
+                
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
 
                 cmd.CommandText = String.Format("call editGroup({0}, {1}, '{2}')", gr.id, aid, gr.name);
                 MySqlDataReader reader = cmd.ExecuteReader();
+                result = Ok();
 
-
-                cmd.Connection.Close();
-
-                return Ok();
             }
             catch (MySqlException msql)
             {
@@ -181,29 +185,29 @@ namespace Flock.Controllers
             {
                 return BadRequest(ex.ToString());
             }
+            cmd.Connection.Close();
+            return result;
         }
 
         // DELETE api/<GroupsController>/5
         [HttpDelete("{gid}/{aid}")]
         public ActionResult Delete(int gid, int aid)
         {
+            using var cmd = new MySqlCommand();
+            ActionResult result = BadRequest();
             try
             {
                 if (aid< 0 || aid< 0)
                 {
                     throw new GeneralException("Wrong Parameters");
                 }
-                using var cmd = new MySqlCommand();
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
 
                 cmd.CommandText = String.Format("call deleteGroup({0}, {1})", gid, aid);
                 MySqlDataReader reader = cmd.ExecuteReader();
+                result = Ok();
 
-
-                cmd.Connection.Close();
-
-                return Ok();
             }
             catch (MySqlException msql)
             {
@@ -213,6 +217,8 @@ namespace Flock.Controllers
             {
                 return BadRequest(ex.ToString());
             }
+            cmd.Connection.Close();
+            return result;
         }
     }
 }

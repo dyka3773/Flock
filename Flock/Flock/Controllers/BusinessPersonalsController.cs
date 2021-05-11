@@ -38,9 +38,11 @@ namespace Flock.Controllers
         [HttpPost]
         public ActionResult Post(BusinessPersonal bp)
         {
+            using var cmd = new MySqlCommand();
+            ActionResult result = BadRequest();
             try
             { 
-                using var cmd = new MySqlCommand();
+                
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
 
@@ -51,29 +53,33 @@ namespace Flock.Controllers
                          );
 
                 MySqlDataReader reader = cmd.ExecuteReader();
+                result = Ok();
 
 
-                cmd.Connection.Close();
-                return Ok();
+
             }
 
             catch (MySqlException msql)
             {
                 return BadRequest(msql.ToString());
             }
+            cmd.Connection.Close();
+            return result;
         }
 
         
         [HttpPut("{aid}")]
         public ActionResult Put(int aid, BusinessPersonal bp)
         {
+            using var cmd = new MySqlCommand();
+            ActionResult result = BadRequest();
             try
             {
                 if (aid < 0)
                 {
                     throw new GeneralException("Wrong parameters");
                 }
-                using var cmd = new MySqlCommand();
+                
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
 
@@ -81,8 +87,8 @@ namespace Flock.Controllers
                     "call editBP({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')",
                     aid, bp.password, bp.fName, bp.lName, bp.phone, bp.gender, bp.country, bp.zip);
                 MySqlDataReader reader = cmd.ExecuteReader();
-                cmd.Connection.Close();
-                return Ok();
+                result = Ok();
+
             }
             catch (GeneralException ex)
             {
@@ -92,6 +98,8 @@ namespace Flock.Controllers
             {
                 return BadRequest(msql.ToString());
             }
+            cmd.Connection.Close();
+            return result;
         }
 
         

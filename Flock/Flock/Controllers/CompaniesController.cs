@@ -34,9 +34,11 @@ namespace Flock.Controllers
         [HttpPost]
         public ActionResult Post(Company c)
         {
+            using var cmd = new MySqlCommand();
+            ActionResult result = BadRequest();
             try
             {
-                using var cmd = new MySqlCommand();
+                
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
 
@@ -46,19 +48,24 @@ namespace Flock.Controllers
                         , c.email, c.password, c.name, c.phone, c.country, c.zip, c.phyAddress
                         );
                 MySqlDataReader reader = cmd.ExecuteReader();
-                return Ok();
+                result = Ok();
+
             }
 
             catch (MySqlException msql)
             {
                 return BadRequest(msql.ToString());
             }
+            cmd.Connection.Close();
+            return result;
         }
 
         // PUT api/<CompanyController>/5
         [HttpPut("{aid}")]
         public ActionResult Put(int aid, Company c)
         {
+            using var cmd = new MySqlCommand();
+            ActionResult result = BadRequest();
             try
             {
                 if (aid < 0)
@@ -66,7 +73,6 @@ namespace Flock.Controllers
                     throw new GeneralException("Wrong parameters");
                 }
 
-                using var cmd = new MySqlCommand();
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
 
@@ -76,7 +82,7 @@ namespace Flock.Controllers
                         , aid, c.password, c.name, c.phone, c.country, c.zip, c.phyAddress
                         );
                 MySqlDataReader reader = cmd.ExecuteReader();
-                return Ok();
+                result = Ok();
             }
             catch (GeneralException ex)
             {
@@ -86,6 +92,8 @@ namespace Flock.Controllers
             {
                 return BadRequest(msql.ToString());
             }
+            cmd.Connection.Close();
+            return result;
         }
 
         // DELETE api/<CompanyController>/5
