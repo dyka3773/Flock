@@ -416,7 +416,7 @@ namespace Flock.Controllers
                 cmd.ExecuteReader();
 
 
-                return Ok();
+                result = Ok();
 
             }
             catch (MySqlException ex)
