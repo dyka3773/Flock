@@ -70,15 +70,17 @@ const Page1 = () => {
             console.log(camps);
 
             for (let i of camps)
-                await addCampaign(i,3,15);
+                await addCampaign(i,2,6);
 
             
             
 
             const entries = dummyJsonGenerator(jsonPrototype, num);
             console.log(entries);
-            console.log( await addManyContacts(entries, 3, 15));
+            console.log( await addManyContacts(entries, 2, 6));
             window.alert("succesfully added")
+
+
 
             setLoading(false);
 

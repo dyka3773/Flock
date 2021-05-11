@@ -146,15 +146,15 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
 
             const ar = [...selectedItemsRef.current];
 
+            console.log(ar);
+
             deleteItems(ar, token)
                 .then(() => {
                     window.alert("Done!");
                     fetchItemsMaxPage();
                     selectedItemsRef.current = [];
                 })
-                .catch(() => {
-                    window.alert("There was an error");
-                });
+               
             
         } else {
             

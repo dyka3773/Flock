@@ -11,20 +11,29 @@ using System.Threading.Tasks;
 
 namespace SendEmail
 {
-    class EmailService
+    public class EmailService
     {
-        private List<Contact> contacts;
-        private Campaign camp;
-        private string frequency;
+        public List<Contact> contacts;
+        public Campaign camp;
+        public long frequency;
 
-        public String getFrequency() {
+        public long getFrequency() {
             return frequency;
         }
 
-        public EmailService(int campaignId) {
+        public EmailService(Contact cont, Campaign camp, long frequency) {
+
+            this.contacts = new List<Contact>();
+            this.contacts.Add(cont);
+
+            this.camp = camp;
+
+            this.frequency = frequency;
+            
+            
             //Receives campaignId and the coresponding aid and sends the campaign contents to the
             //group (specified in camp.groupId) of the account (known by the aid)
-            ActionResult actionResult = new CampaignsController().getCampFromCaid(campaignId);
+           /* ActionResult actionResult = new CampaignsController().getCampFromCaid(campaignId);
 
             var contentResult = actionResult as OkObjectResult;
             Object toBeCamp = contentResult.Value;
@@ -53,11 +62,11 @@ namespace SendEmail
                 return;
             }
 
-            Debug.WriteLine("campaign: "+camp.ToString()+" contacts: "+contacts.ToString());
+            Debug.WriteLine("campaign: "+camp.ToString()+" contacts: "+contacts.ToString());*/
 
         }
 
-        public void mailSender()
+        public void  mailSender()
         {
             foreach (Contact c in contacts)
             {
@@ -68,14 +77,14 @@ namespace SendEmail
         }
         //uses contacts (list object) field to send a predeterminded message to the specified adresses 
 
-        public async void customSend(SmtpClient client,MailMessage mailMessage) {
+        private async void customSend(SmtpClient client,MailMessage mailMessage) {
 
             Random rnd = new Random();
             await client.SendMailAsync(mailMessage);
         }
         //sends asynchronously a message with a fixed client
 
-        public MailMessage mail(Contact c) 
+        private MailMessage mail(Contact c) 
         {
             MailMessage mailMessage = new MailMessage();
             mailMessage.From = new MailAddress(getUserName());
@@ -87,7 +96,7 @@ namespace SendEmail
         //creates a mail message based on the recipient 
         //each time this method is called a new message is constructed with fixed sender and content but the recipient varies
 
-        public SmtpClient userClient(Contact c) 
+        private SmtpClient userClient(Contact c) 
         {
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.UseDefaultCredentials = false;
@@ -98,13 +107,13 @@ namespace SendEmail
         }
         //creates a client based on the users credentials
 
-        public string getUserName()
+        private string getUserName()
         {
             return "flockflockflockflockflock@gmail.com";
         }
         //gets the adress of the sender
 
-        public string getPass()
+        private string getPass()
         {
             return "flock69a!";
         }

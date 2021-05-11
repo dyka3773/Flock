@@ -11,6 +11,7 @@ using Flock.Exceptions;
 using System.Data.Common;
 using System.Net.Http;
 using System.Net;
+using Flock.Schedulers;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -23,9 +24,53 @@ namespace Flock.Controllers
     {
 
 
-        public CampaignsController() { }
+        
 
-      
+        [HttpPost("temp/{select}")]
+        public void temp(int select)
+        {
+
+            switch (select) {
+                case 1:
+                    EmailService ems1 = new EmailService(
+                        new Contact { fullName = "stef", email = "stefetoufe@gmail.com" },
+                        new Campaign { text = "every 1.0 minutes ems1", subject = "1.0 minutes ems1" },
+                        60000
+                        ); EmailerHelper.addEmail(ems1); 
+                    break;
+
+                case 2:
+                    EmailService ems2 = new EmailService(
+                        new Contact { fullName = "stef", email = "stefetoufe@gmail.com" },
+                        new Campaign { text = "every 3.0 minutes ems2", subject = "3.0 minutes ems2" },
+                         60000 * 3
+                        ); EmailerFiveSecondsHelper.addEmail(ems2); 
+                    break;
+
+                case 3:
+                    EmailService ems3 = new EmailService(
+                        new Contact { fullName = "stef", email = "stefetoufe@gmail.com" },
+                        new Campaign { text = "every 3.0 minutes ems3", subject = "3.0 minutes ems3" },
+                        60000 * 3
+                        );
+                    EmailerFiveSecondsHelper.addEmail(ems3);
+                    break;
+
+                case 4:
+                    EmailService ems4 = new EmailService(
+                        new Contact { fullName = "stef", email = "stefetoufe@gmail.com" },
+                        new Campaign { text = "every 1.0 minutes ems4", subject = "1.0 minutes ems4" },
+                        60000
+                        );
+                    EmailerHelper.addEmail(ems4);
+                    break;
+
+            }
+           
+        }
+
+
+
         [HttpPost("sendCampaign/{caid}")]
         public ActionResult sendCampaign(int caid)
         {
@@ -35,9 +80,9 @@ namespace Flock.Controllers
                 {
                     throw new GeneralException("Wrong Parameters");
                 }
-                EmailService email = new EmailService(caid);
+                //EmailService email = new EmailService(caid);
 
-                string fr = email.getFrequency();
+                //string fr = email.getFrequency();
 
 
                 //email.mailSender();
@@ -150,21 +195,24 @@ namespace Flock.Controllers
 
                 while (reader.Read())
                 {
-
-                    campaigns.Add(new Campaign
+                    Campaign cam = new Campaign
                     {
                         id = (int)reader.GetValue(0),
                         subject = reader.GetValue(1).ToString(),
                         text = reader.GetValue(2).ToString(),
-                        startDate = reader.GetValue(3).ToString(),
-                        endDate = reader.GetValue(4).ToString(),
-                        creationDate = reader.GetValue(5).ToString(),
+                        startDate = DateTime.Parse(reader.GetValue(3).ToString()).ToShortDateString(),
+                        endDate = DateTime.Parse(reader.GetValue(4).ToString()).ToShortDateString(),
+                        creationDate = DateTime.Parse(reader.GetValue(5).ToString()).ToShortDateString(),
                         name = reader.GetValue(6).ToString(),
                         frequency = reader.GetValue(7).ToString(),
                         numOfContacts = (uint)reader.GetValue(8),
                         AID = (int)reader.GetValue(10),
                         GID = (int)reader.GetValue(11)
-                    });
+                    };
+                    campaigns.Add(cam);
+
+                    Debug.WriteLine($" In Debug {cam.startDate}");
+
                 }
                 result = Ok(campaigns);
 
@@ -210,10 +258,10 @@ namespace Flock.Controllers
                 {
                     id = (int)reader.GetValue(0),
                     subject = reader.GetValue(1).ToString(),
-                    text = reader.GetValue(2).ToString(),
-                    startDate = reader.GetValue(3).ToString(),
-                    endDate = reader.GetValue(4).ToString(),
-                    creationDate = reader.GetValue(5).ToString(),
+                    text =reader.GetValue(2).ToString(),
+                    startDate = DateTime.Parse(reader.GetValue(3).ToString()).ToShortDateString(),
+                    endDate = DateTime.Parse(reader.GetValue(4).ToString()).ToShortDateString(),
+                    creationDate = DateTime.Parse(reader.GetValue(5).ToString()).ToShortDateString(),
                     name = reader.GetValue(6).ToString(),
                     frequency = reader.GetValue(7).ToString(),
                     numOfContacts = (uint)reader.GetValue(8),
@@ -344,42 +392,46 @@ namespace Flock.Controllers
             return result;
         }
 
-        [HttpDelete("multipleDelete/{id}")]
-        public ActionResult multipleDelete(List<String> C, int id)
+        [HttpDelete("multipleDelete/{aid}")]
+        public ActionResult multipleDelete(List<int> C, int aid)
         {
             using var cmd = new MySqlCommand();
             ActionResult result = BadRequest();
             try
             {
-                if (id < 0)
+                if (aid < 0)
                 {
                     throw new GeneralException("Wrong parameters");
                 }
 
                 String CAIDS = "";
-                foreach (String cont in C)
+                foreach (int id in C)
                 {
-                    CAIDS = String.Concat(cont + "|", CAIDS);
+                    CAIDS = String.Concat(id + "|", CAIDS);
                 }
 
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
-                cmd.CommandText = String.Format("call deleteManyCamps('{0}', {1})", CAIDS, id);
-                MySqlDataReader reader = cmd.ExecuteReader();
+                cmd.CommandText = String.Format("call deleteManyCamps('{0}', {1})", CAIDS, aid);
+                cmd.ExecuteReader();
 
-                result = Ok();
+
+                return Ok();
 
             }
-            catch (MySqlException msql)
+            catch (MySqlException ex)
             {
-                return BadRequest(msql.ToString());
+                return BadRequest(ex.ToString());
             }
             catch (GeneralException ex)
             {
                 return BadRequest(ex.ToString());
             }
+
             cmd.Connection.Close();
             return result;
+
+        
         }
     }
 }

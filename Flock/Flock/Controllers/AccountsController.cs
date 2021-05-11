@@ -134,22 +134,31 @@ namespace Flock.Controllers
             }
             catch (MySqlException msql)
             {
-                return BadRequest(msql.ToString());
+                result = BadRequest(msql.ToString());
             }
             catch (GeneralException ex)
             {
-                return BadRequest(ex.ToString());
+                result = BadRequest(ex.ToString());
             }
+
             cmd.Connection.Close();
             return result;
+
 
         }
 
 
-        public Account getAccountFactory(MySqlDataReader reader, int id)
+        private Account getAccountFactory(MySqlDataReader reader, int id)
         {
-            int type = (int)reader.GetValue(2);
-
+            int type = 0;
+            try
+            {
+                type = (int)reader.GetValue(2);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
             Account returnAcc;
 
 

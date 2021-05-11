@@ -9,19 +9,19 @@ namespace Flock.Models
     {
         public int id { get; set; } //non editable
 
-        public String subject { get; set; }
+        public string subject { get; set; }
 
-        public String text { get; set; }
+        public string text { get; set; }
 
-        public String startDate { get; set; }//non editable
+        public string startDate { get; set; }//non editable
 
-        public String endDate { get; set; }
+        public string endDate { get; set; }
 
-        public String creationDate { get; set; }//non editable
+        public string creationDate { get; set; }//non editable
 
-        public String name { get; set; }
+        public string name { get; set; }
 
-        public String frequency { get; set; }
+        public string frequency { get; set; }
 
         public uint numOfContacts { get; set; } //non editable
 
@@ -30,7 +30,7 @@ namespace Flock.Models
         public int AID { get; set; } //non editable
 
         public override String ToString() {
-            return "id " + id + " name " + name + " groupId " + GID+ " AID "+AID;
+            return "id " + id + " text " + text + " frequency " + frequency + " subject " + subject;
         }
     }
 }

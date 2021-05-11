@@ -31,7 +31,7 @@ const NewCampaignCreation = () => {
     const [editorValue, setEditorValue] = useState("");
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
-    const [frequency, setFrequency] = useState("Once");
+    const [frequency, setFrequency] = useState("ONCE");
 
     const [selectedGroup, setSelectedGroup] = useState("");
 
@@ -80,11 +80,13 @@ const NewCampaignCreation = () => {
                 <div>
                     <h3>Frequency:</h3>
                     <select className="ui selection dropdown" value={frequency} onChange={(e) => setFrequency(e.target.value)}>
-                        <option value="Once">Once</option>
-                        <option value="Every Day">Every Day</option>
-                        <option value="Every Week">Every Week</option>
-                        <option value="Every Month">Every Month</option>
-                        <option value="Every Year">Every Year</option>
+                        <option value="ONCE">Once</option>
+                        <option value="EVERY_DAY">Every Day</option>
+                        <option value="EVERY_WEEK">Every Week</option>
+                        <option value="EVERY_MONTH">Every Month</option>
+                        <option value="EVERY_YEAR">Every Year</option>
+                        <option value="30">Every 30 seconds</option>
+                        <option value="80">Every 80 seconds</option>
                     </select>
                 </div>
             </Form>
