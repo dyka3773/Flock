@@ -104,7 +104,9 @@ END$$
 CREATE PROCEDURE `Flock`.`getCampFromCAID` (
 IN caiid int)
 BEGIN
-	select * from Campaign where CAID=caiid;
+	select C.CAID, C.`Subject`, C.`Text` , C.Start_Date, C.End_Date, C.`C_Name` , F.F_Name, C.Num_of_Conts, C.Attachment, C.`AID`, C.GID 
+    from Campaign C join Frequencies F on (C.FID=F.FID) 
+    where F.CAID=caiid;
 END$$
 
 CREATE PROCEDURE `Flock`.`addNOS` (
@@ -190,8 +192,14 @@ END$$
 CREATE PROCEDURE `Flock`.`editCampaign` (
 in caiid int, in cname varchar(45), in aid int , in subject varchar(100), in text mediumtext, in endDate date, in frequency varchar(45))
 BEGIN
+
+	set @fiid = null;
+	select F.FID into @fiid
+	from Frequencies F
+	where F.F_Name=frequency;
+
 	update Campaign C
-    set C.C_Name = cname, C.Subject = subject, C.Text = text, C.End_Date = endDate, C.Frequency = frequency
+    set C.C_Name = cname, C.Subject = subject, C.Text = text, C.End_Date = endDate, C.FID = @fiid
     where C.CAID=caiid and C.AID=aid;
 END$$
 
@@ -215,8 +223,8 @@ CREATE PROCEDURE `Flock`.`getCampsInGroup` (
 in aid int, in gid int)
 BEGIN
 	select C.CAID, C.Subject, C.Text, C.Start_Date, C.End_Date, C.Creation_Date,
-    C.C_Name, C.Frequency, C.Num_of_Conts, C.Attachment, C.AID, C.GID
-    from Campaign C join Groups G on (C.GID=G.GID)
+    C.C_Name, F.F_Name, C.Num_of_Conts, C.Attachment, C.AID, C.GID
+    from Campaign C join Groups G on (C.GID=G.GID) join Frequencies F on (C.FID=F.FID)
     where C.AID=aid AND C.GID=gid;
 END$$
 
@@ -300,13 +308,21 @@ in sub varchar(100), in text mediumtext, in start date, in endDate date,
 in cname varchar(45), in frequency varchar(45), in attachment blob, in aid int, in gid int)
 BEGIN
 	set @checking = null;
-	select G.aid into @checking from Groups G where G.GID=gid and G.AID=aid;
+    set @fiid = null;
+    
+	select G.aid into @checking 
+    from Groups G 
+    where G.GID=gid and G.AID=aid;
 	
     if @checking is not null then
     
 		select count(CIG.CID) into @NOC 
         from Contacts_in_Groups CIG join Groups G on (CIG.GID=G.GID)
         where G.GID=gid;
+        
+        select F.FID into @fiid
+        from Frequencies F
+        where F.F_Name=frequency;
     
 		INSERT INTO `Flock`.`Campaign`
 		(`Subject`,
@@ -315,7 +331,7 @@ BEGIN
 		`End_Date`,
 		`Creation_Date`,
 		`C_Name`,
-		`Frequency`,
+		`FID`,
 		`Num_of_Conts`,
 		`Attachment`,
 		`AID`,
@@ -325,9 +341,9 @@ BEGIN
 		text,
 		start,
 		endDate,
-		current_date(),
+		current_timestamp(),
 		cname,
-		frequency,
+		@fiid,
 		@NOC,
 		attachment,
 		aid,
@@ -450,26 +466,26 @@ IN AIID int, in keyword varchar(45),in ofst int, in num_of_rows int, in gid int)
 begin
 IF keyword IS NULL THEN
 	if gid is null then
-		select * 
-		from Campaign C
+		select C.CAID, C.`Subject`, C.`Text` , C.Start_Date, C.End_Date, C.`C_Name` , F.F_Name, C.Num_of_Conts, C.Attachment, C.`AID`, C.GID
+		from Campaign C join Frequencies F on (C.FID=F.FID)
 		where (C.AID=AIID) 
 		limit ofst, num_of_rows;
 	else
-		select * 
-		from Campaign C
+		select C.CAID, C.`Subject`, C.`Text` , C.Start_Date, C.End_Date, C.`C_Name` , F.F_Name, C.Num_of_Conts, C.Attachment, C.`AID`, C.GID 
+		from Campaign C join Frequencies F on (C.FID=F.FID)
 		where (C.AID=AIID) and C.GID=gid
 		limit ofst, num_of_rows;
 	end if;
 ELSE
 	if gid is null then
-		select * 
-		from Campaign C
+		select C.CAID, C.`Subject`, C.`Text` , C.Start_Date, C.End_Date, C.`C_Name` , F.F_Name, C.Num_of_Conts, C.Attachment, C.`AID`, C.GID
+		from Campaign C join Frequencies F on (C.FID=F.FID)
 		where (C.AID=AIID) 
         and ( C.C_Name LIKE CONCAT('%',keyword,'%'))
 		limit ofst, num_of_rows;
 	else
-		select * 
-		from Campaign C
+		select C.CAID, C.`Subject`, C.`Text` , C.Start_Date, C.End_Date, C.`C_Name` , F.F_Name, C.Num_of_Conts, C.Attachment, C.`AID`, C.GID
+		from Campaign C join Frequencies F on (C.FID=F.FID)
 		where (C.AID=AIID) and C.GID=gid
         and ( C.C_Name LIKE CONCAT('%',keyword,'%'))
 		limit ofst, num_of_rows;

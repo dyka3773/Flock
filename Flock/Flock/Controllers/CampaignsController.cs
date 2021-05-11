@@ -248,7 +248,7 @@ namespace Flock.Controllers
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
 
-                cmd.CommandText = "getCampFromCAID(" + caid + ")";
+                cmd.CommandText = "call getCampFromCAID(" + caid + ")";
 
                 MySqlDataReader reader = cmd.ExecuteReader();
 
