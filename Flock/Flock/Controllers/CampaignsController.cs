@@ -142,11 +142,11 @@ namespace Flock.Controllers
             }
             catch (MySqlException msql)
             {
-                return BadRequest(msql.ToString());
+                result = BadRequest(msql.ToString());
             }
             catch (GeneralException ex)
             {
-                return BadRequest(ex.ToString());
+                result = BadRequest(ex.ToString());
             }
             return result;
 
@@ -220,11 +220,11 @@ namespace Flock.Controllers
             }
             catch (MySqlException msql)
             {
-                return BadRequest(msql.ToString());
+                result = BadRequest(msql.ToString());
             }
             catch (GeneralException ex)
             {
-                return BadRequest(ex.ToString());
+                result = BadRequest(ex.ToString());
             }
             cmd.Connection.Close();
             return result;
@@ -273,11 +273,11 @@ namespace Flock.Controllers
             }
             catch (MySqlException msql)
             {
-                return BadRequest(msql.ToString());
+                result = BadRequest(msql.ToString());
             }
             catch (GeneralException ex)
             {
-                return BadRequest(ex.ToString());
+                result = BadRequest(ex.ToString());
             }
             cmd.Connection.Close();
             return result;
@@ -313,11 +313,11 @@ namespace Flock.Controllers
             }
             catch (MySqlException msql)
             {
-                return BadRequest(msql.ToString());
+                result = BadRequest(msql.ToString());
             }
             catch (GeneralException ex)
             {
-                return BadRequest(ex.ToString());
+                result = BadRequest(ex.ToString());
             }
             cmd.Connection.Close();
             return result;
@@ -347,11 +347,11 @@ namespace Flock.Controllers
             }
             catch (MySqlException msql)
             {
-                return BadRequest(msql.ToString());
+                result = BadRequest(msql.ToString());
             }
             catch (GeneralException ex)
             {
-                return BadRequest(ex.ToString());
+                result = BadRequest(ex.ToString());
             }
             cmd.Connection.Close();
             return result;
@@ -382,11 +382,11 @@ namespace Flock.Controllers
             }
             catch (MySqlException msql)
             {
-                return BadRequest(msql.ToString());
+                result = BadRequest(msql.ToString());
             }
             catch (GeneralException ex)
             {
-                return BadRequest(ex.ToString());
+                result = BadRequest(ex.ToString());
             }
             cmd.Connection.Close();
             return result;
@@ -421,11 +421,11 @@ namespace Flock.Controllers
             }
             catch (MySqlException ex)
             {
-                return BadRequest(ex.ToString());
+                result = BadRequest(ex.ToString());
             }
             catch (GeneralException ex)
             {
-                return BadRequest(ex.ToString());
+                result = BadRequest(ex.ToString());
             }
 
             cmd.Connection.Close();

@@ -61,7 +61,7 @@ namespace Flock.Controllers
 
             catch (MySqlException msql)
             {
-                return BadRequest(msql.ToString());
+                result = BadRequest(msql.ToString());
             }
             cmd.Connection.Close();
             return result;
@@ -92,11 +92,11 @@ namespace Flock.Controllers
             }
             catch (GeneralException ex)
             {
-                return BadRequest(ex.ToString());
+                result = BadRequest(ex.ToString());
             }
             catch (MySqlException msql)
             {
-                return BadRequest(msql.ToString());
+                result = BadRequest(msql.ToString());
             }
             cmd.Connection.Close();
             return result;
