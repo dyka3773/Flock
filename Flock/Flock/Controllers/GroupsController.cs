@@ -67,7 +67,11 @@ namespace Flock.Controllers
             {
                 result = BadRequest(ex.ToString());
             }
-           
+            catch (Exception ex)
+            {
+                result = BadRequest(ex.ToString());
+            }
+
             cmd.Connection.Close();
             return result;
  
@@ -115,6 +119,10 @@ namespace Flock.Controllers
             {
                 result = BadRequest(ex.ToString());
             }
+            catch (Exception ex)
+            {
+                result = BadRequest(ex.ToString());
+            }
             cmd.Connection.Close();
             return result;
              // I should return Contacts
@@ -148,6 +156,10 @@ namespace Flock.Controllers
                 result = BadRequest(msql.ToString());
             }
             catch (GeneralException ex)
+            {
+                result = BadRequest(ex.ToString());
+            }
+            catch (Exception ex)
             {
                 result = BadRequest(ex.ToString());
             }
@@ -185,6 +197,10 @@ namespace Flock.Controllers
             {
                 result = BadRequest(ex.ToString());
             }
+            catch (Exception ex)
+            {
+                result = BadRequest(ex.ToString());
+            }
             cmd.Connection.Close();
             return result;
         }
@@ -214,6 +230,10 @@ namespace Flock.Controllers
                 result = BadRequest(msql.ToString());
             }
             catch (GeneralException ex)
+            {
+                result = BadRequest(ex.ToString());
+            }
+            catch (Exception ex)
             {
                 result = BadRequest(ex.ToString());
             }

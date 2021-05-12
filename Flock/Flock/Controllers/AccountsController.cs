@@ -140,6 +140,10 @@ namespace Flock.Controllers
             {
                 result = BadRequest(ex.ToString());
             }
+            catch (Exception ex)
+            {
+                result = BadRequest(ex.ToString());
+            }
 
             cmd.Connection.Close();
             return result;
