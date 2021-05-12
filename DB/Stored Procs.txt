@@ -190,7 +190,7 @@ BEGIN
 END$$
 
 CREATE PROCEDURE `Flock`.`editCampaign` (
-IN caiid INT, IN cname VARCHAR(45), IN aid INT , IN subject VARCHAR(100), IN text MEDIUMTEXT, IN endDate DATETIME, IN frequency VARCHAR(45))
+IN caiid INT, IN cname VARCHAR(45), IN aid INT , IN subject VARCHAR(100), IN text MEDIUMTEXT, IN frequency VARCHAR(45))
 BEGIN
 
 	SET @fiid = NULL;
@@ -199,7 +199,7 @@ BEGIN
 	WHERE F.F_Name=frequency;
 
 	UPDATE Campaign C
-    SET C.C_Name = cname, C.Subject = subject, C.Text = text, C.End_Date = endDate, C.FID = @fiid
+    SET C.C_Name = cname, C.Subject = subject, C.Text = text, C.FID = @fiid
     WHERE C.CAID=caiid AND C.AID=aid;
 END$$
 

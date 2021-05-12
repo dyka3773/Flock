@@ -331,7 +331,7 @@ namespace Flock.Controllers
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
 
-                cmd.CommandText = String.Format("call editCampaign({0}, '{1}', {2}, '{3}', '{4}', '{5}', '{6}')", camp.id, camp.name, aid, camp.subject, camp.text, camp.endDate, camp.frequency);
+                cmd.CommandText = String.Format("call editCampaign({0}, '{1}', {2}, '{3}', '{4}', '{5}')", camp.id, camp.name, aid, camp.subject, camp.text, camp.frequency);
                 MySqlDataReader reader = cmd.ExecuteReader();
 
                 result = Ok();
