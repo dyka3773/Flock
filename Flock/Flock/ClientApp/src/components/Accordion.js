@@ -66,10 +66,11 @@ const Accordion = ({ items, editItems, onSelect, selectedItems, pageNum, accordi
                     const dataToForm = dataToFormInputs[key];
                     const inp = {...dataToForm, ["value"]:item[key]};
                     inputs.push(inp);
+                    if (accordionHeadersConfig[key]) {
+                        headerValues.push(inp.value);
+                    } 
                 } 
-                if (accordionHeadersConfig[key]) {
-                    headerValues.push(item[key]);
-                } 
+                
             }
              
            // console.log("inputs", inputs);

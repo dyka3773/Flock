@@ -11,6 +11,7 @@ import context from '../contexts/context';
 
 import getGroups from '../dataRequests/getGroups';
 import { addCampaign } from '../dataRequests/addCampaign';
+import { scheduleCampaign, scheduleCampaignOnce } from '../dataRequests/scheduleCampaign'
 
 const formInputs = [
     {
@@ -40,17 +41,21 @@ const NewCampaignCreation = () => {
 
     const btn = tab === 0 ? <button className="tab-btn ui button" onClick={() => setTab(1)}>Next</button> : <button className="tab-btn ui button" onClick={() => setTab(0)}>previous</button>
 
-    const onSubmit = (inputValues) => {
+    const onSubmit = async (inputValues) => {
 
-        inputValues.text = editorValue;
-        inputValues.frequency = frequency;
-        inputValues.startDate = startDate;
-        inputValues.endDate = endDate;
+        console.log(startDate);
 
-        addCampaign(inputValues, token, selectedGroup).then(window.alert("Done!"));
-        
-       
-    }
+        const res = await addCampaign({ ...inputValues, text: editorValue, frequency: frequency, startDate: startDate, endDate: endDate }
+            , token, selectedGroup).then(window.alert("Done!"));
+
+        if (frequency === 'ONCE') {
+            scheduleCampaignOnce(res.data);
+        } else {
+            scheduleCampaign(res.data);
+        }
+
+
+    };
 
 
     const modalContent2 = (

@@ -50,12 +50,11 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
 
     const token = useContext(context);
 
-    console.log("rerender");
-
     const fetchItems = async () => {
 
         const itemss = await getItems(token, pageNum - 1, searchValue, 50, selectedGroup);
         window.scrollTo(0, 0);
+        console.log(itemss);
         return itemss.data;
     }
 
@@ -67,6 +66,8 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
     const fetchItemsMaxPage = async () => {
         const items = await fetchItems();
         const maxPage = await fetchMaxPage();
+
+        
 
         setItemsMaxPage({ ...itemsMaxPage, items: items, maxPage: maxPage });
        

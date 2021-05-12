@@ -27,7 +27,6 @@ namespace Flock
                 }).ConfigureServices(services =>
                     {
                         services.AddHostedService<BackgroundEmailer>();
-                        services.AddHostedService<BackgroundEmailerFiveSeconds>();
                     } 
                 );
     }

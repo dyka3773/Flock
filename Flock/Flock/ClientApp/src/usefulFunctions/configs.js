@@ -11,17 +11,20 @@ export const dataToFormInputs = { //for contacts and campaigns
     startDate: {
         id: "startDate",
         label: "Start Date",
-        readOnly: true
+        readOnly: true,
+        type: "date"
     },
     endDate: {
         id: "endDate",
         label: "End Date",
-        readOnly: true
+        readOnly: true,
+        type:"date"
     },
     creationDate: {
         id: "creationDate",
         label: "Creation Date",
-        readOnly: true
+        readOnly: true,
+        type: "date"
     },
     name: {
         id: "name",

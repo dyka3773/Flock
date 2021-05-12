@@ -1,11 +1,13 @@
 ﻿import axios from 'axios';
 
-const scheduleCampaign = async () => {
+export const scheduleCampaign = (campaignId) => {
 
-    
-
-
+    return axios.post(`apis/Campaigns/sendCampaign/${campaignId}`);
 
 }
 
-export default scheduleCampaign;
+export const scheduleCampaignOnce = (campaignId) => {
+
+    return axios.post(`apis/Campaigns/sendCampaignOnce/${campaignId}`);
+
+}

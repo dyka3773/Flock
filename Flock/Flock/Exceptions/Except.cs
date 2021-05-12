@@ -23,5 +23,13 @@ namespace Flock.Exceptions
         }
     }
 
+    public class CampaignIsNullException : Exception
+    {
+        public CampaignIsNullException(string messageB) : base(messageB)
+        {
+
+        }
+    }
+
 
 }

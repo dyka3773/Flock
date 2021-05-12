@@ -1,4 +1,5 @@
 ﻿using Flock.Controllers;
+using Flock.Exceptions;
 using Flock.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,45 +14,64 @@ namespace SendEmail
 {
     public class EmailService
     {
-        public List<Contact> contacts;
-        public Campaign camp;
-        public long frequency;
+        private List<Contact> contacts;
+        private Campaign camp;
+        private DateTime previousSend;
 
-        public long getFrequency() {
-            return frequency;
+        public String getFrequency() {
+            return camp.frequency;
         }
 
-        public EmailService(Contact cont, Campaign camp, long frequency) {
+        public DateTime getStartDate()
+        {
+            return camp.startDate;
+        }
 
+        public DateTime getPreviousSend() {
+            return previousSend;
+        
+        }
+
+        public String ToString() {
+            return "camp name" + camp.name;
+        }
+
+        public void setPreviousSend(DateTime newD)
+        {
+            this.previousSend = newD;
+        }
+
+        public EmailService(int caid) {
+            /*
             this.contacts = new List<Contact>();
             this.contacts.Add(cont);
 
             this.camp = camp;
 
-            this.frequency = frequency;
+            this.frequency = frequency;*/
             
             
             //Receives campaignId and the coresponding aid and sends the campaign contents to the
             //group (specified in camp.groupId) of the account (known by the aid)
-           /* ActionResult actionResult = new CampaignsController().getCampFromCaid(campaignId);
+          
 
-            var contentResult = actionResult as OkObjectResult;
-            Object toBeCamp = contentResult.Value;
+           
             try
             {
-                camp = (Campaign)toBeCamp;
+                camp = new CampaignsController().getCampFromCaid(caid);
+                if (camp == null) throw new CampaignIsNullException("getCampFromCaid returned null");
             }
-            catch (Exception e) {
+            catch (CampaignIsNullException e) {
+                Debug.WriteLine(e.Message);
                 return;
             }
 
-             frequency = camp.frequency;
-
+            previousSend = camp.startDate;
             
 
-            actionResult = new GroupsController().GetContacts(camp.AID, camp.GID);
+            ActionResult actionResult = new GroupsController().GetContacts(camp.AID, camp.GID);
 
-            contentResult = actionResult as OkObjectResult;
+            var contentResult = actionResult as OkObjectResult;
             Object toBeCont = contentResult.Value;
             try
             {
@@ -62,12 +82,13 @@ namespace SendEmail
                 return;
             }
 
-            Debug.WriteLine("campaign: "+camp.ToString()+" contacts: "+contacts.ToString());*/
+            Debug.WriteLine("campaign: "+camp.ToString()+" contacts: "+contacts.ToString());
 
         }
 
         public void  mailSender()
         {
+            Debug.WriteLine("in mailSender");
             foreach (Contact c in contacts)
             {
                 Debug.WriteLine(c.ToString());

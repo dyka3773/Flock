@@ -143,7 +143,7 @@ namespace Flock.Controllers
                     });
                 }
 
-                result = Ok();
+                result = Ok(contacts);
 
                 
             }

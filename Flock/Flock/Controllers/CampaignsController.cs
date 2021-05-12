@@ -24,80 +24,8 @@ namespace Flock.Controllers
     {
 
 
-        
 
-        [HttpPost("temp/{select}")]
-        public void temp(int select)
-        {
-
-            switch (select) {
-                case 1:
-                    EmailService ems1 = new EmailService(
-                        new Contact { fullName = "stef", email = "stefetoufe@gmail.com" },
-                        new Campaign { text = "every 1.0 minutes ems1", subject = "1.0 minutes ems1" },
-                        60000
-                        ); EmailerHelper.addEmail(ems1); 
-                    break;
-
-                case 2:
-                    EmailService ems2 = new EmailService(
-                        new Contact { fullName = "stef", email = "stefetoufe@gmail.com" },
-                        new Campaign { text = "every 3.0 minutes ems2", subject = "3.0 minutes ems2" },
-                         60000 * 3
-                        ); EmailerFiveSecondsHelper.addEmail(ems2); 
-                    break;
-
-                case 3:
-                    EmailService ems3 = new EmailService(
-                        new Contact { fullName = "stef", email = "stefetoufe@gmail.com" },
-                        new Campaign { text = "every 3.0 minutes ems3", subject = "3.0 minutes ems3" },
-                        60000 * 3
-                        );
-                    EmailerFiveSecondsHelper.addEmail(ems3);
-                    break;
-
-                case 4:
-                    EmailService ems4 = new EmailService(
-                        new Contact { fullName = "stef", email = "stefetoufe@gmail.com" },
-                        new Campaign { text = "every 1.0 minutes ems4", subject = "1.0 minutes ems4" },
-                        60000
-                        );
-                    EmailerHelper.addEmail(ems4);
-                    break;
-
-            }
-           
-        }
-
-
-
-        [HttpPost("sendCampaign/{caid}")]
-        public ActionResult sendCampaign(int caid)
-        {
-            try
-            {
-                if (caid < 0)
-                {
-                    throw new GeneralException("Wrong Parameters");
-                }
-                //EmailService email = new EmailService(caid);
-
-                //string fr = email.getFrequency();
-
-
-                //email.mailSender();
-                
-            }
-            catch (GeneralException ex)
-            {
-                return BadRequest(ex.ToString());
-            }
-            catch (MySqlException msql)
-            {
-                return BadRequest(msql.ToString());
-            }
-            return Ok();
-        }
+       
 
         // GET api/<CampaignsController>/5
         [HttpGet("GetNumOfPages/{aid}/{numOfRows}/{gid?}/{query?}")]
@@ -195,27 +123,30 @@ namespace Flock.Controllers
 
                 while (reader.Read())
                 {
-                    Campaign cam = new Campaign
-                    {
-                        id = (int)reader.GetValue(0),
-                        subject = reader.GetValue(1).ToString(),
-                        text = reader.GetValue(2).ToString(),
-                        startDate = DateTime.Parse(reader.GetValue(3).ToString()).ToShortDateString(),
-                        endDate = DateTime.Parse(reader.GetValue(4).ToString()).ToShortDateString(),
-                        creationDate = DateTime.Parse(reader.GetValue(5).ToString()).ToShortDateString(),
-                        name = reader.GetValue(6).ToString(),
-                        frequency = reader.GetValue(7).ToString(),
-                        numOfContacts = (uint)reader.GetValue(8),
-                        AID = (int)reader.GetValue(10),
-                        GID = (int)reader.GetValue(11)
-                    };
-                    campaigns.Add(cam);
 
-                    Debug.WriteLine($" In Debug {cam.startDate}");
+                    try {
+                        Campaign cam = new Campaign
+                        {
+                            id = (int)reader.GetValue(0),
+                            subject = reader.GetValue(1).ToString(),
+                            text = reader.GetValue(2).ToString(),
+                            startDate = DateTime.Parse(reader.GetValue(3).ToString()).Date,
+                            endDate = DateTime.Parse(reader.GetValue(4).ToString()).Date,
+                            creationDate = DateTime.Parse(reader.GetValue(5).ToString()).Date,
+                            name = reader.GetValue(6).ToString(),
+                            frequency = reader.GetValue(7).ToString(),
+                            numOfContacts = (uint)reader.GetValue(8),
+                            AID = (int)reader.GetValue(10),
+                            GID = (int)reader.GetValue(11)
+                        };
+                        campaigns.Add(cam);
+
+                    } catch (Exception e) { 
+                       
+                    }
 
                 }
                 result = Ok(campaigns);
-
 
             }
             catch (MySqlException msql)
@@ -226,6 +157,11 @@ namespace Flock.Controllers
             {
                 result = BadRequest(ex.ToString());
             }
+            catch (Exception ex)
+            {
+                result = BadRequest(ex.ToString());
+            }
+
             cmd.Connection.Close();
             return result;
 
@@ -233,17 +169,17 @@ namespace Flock.Controllers
         }
 
 
-        public ActionResult getCampFromCaid(int caid)
+        public Campaign getCampFromCaid(int caid)
         {
             using var cmd = new MySqlCommand();
-            ActionResult result = BadRequest();
+            Campaign camp;
             try
             {
                 if (caid < 0)
                 {
                     throw new GeneralException("Wrong Parameters");
                 }
-                Campaign campaign;
+                
                 
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
@@ -254,33 +190,35 @@ namespace Flock.Controllers
 
                 reader.Read();
 
-                campaign = new Campaign
+                camp = new Campaign
                 {
                     id = (int)reader.GetValue(0),
                     subject = reader.GetValue(1).ToString(),
                     text =reader.GetValue(2).ToString(),
-                    startDate = DateTime.Parse(reader.GetValue(3).ToString()).ToShortDateString(),
-                    endDate = DateTime.Parse(reader.GetValue(4).ToString()).ToShortDateString(),
-                    creationDate = DateTime.Parse(reader.GetValue(5).ToString()).ToShortDateString(),
+                    startDate = DateTime.Parse(reader.GetValue(3).ToString()).Date,
+                    endDate = DateTime.Parse(reader.GetValue(4).ToString()).Date,
+                    creationDate = DateTime.Parse(reader.GetValue(5).ToString()).Date,
                     name = reader.GetValue(6).ToString(),
                     frequency = reader.GetValue(7).ToString(),
                     numOfContacts = (uint)reader.GetValue(8),
                     AID = (int)reader.GetValue(10),
                     GID = (int)reader.GetValue(11)
                 };
-                result = Ok(campaign);
+               
 
             }
             catch (MySqlException msql)
             {
-                result = BadRequest(msql.ToString());
+                Debug.WriteLine(msql.Message);
+                camp = null;
             }
             catch (GeneralException ex)
             {
-                result = BadRequest(ex.ToString());
+                Debug.WriteLine(ex.Message);
+                camp = null;
             }
             cmd.Connection.Close();
-            return result;
+            return camp;
         }
     
 
@@ -307,7 +245,8 @@ namespace Flock.Controllers
                     camp.subject, camp.text, camp.startDate, camp.endDate, camp.name, camp.frequency, null, aid, gid);
                 MySqlDataReader reader = cmd.ExecuteReader();
 
-                result = Ok();
+                reader.Read();
+                result = Ok(reader.GetValue(0));
 
                 
             }
@@ -321,6 +260,59 @@ namespace Flock.Controllers
             }
             cmd.Connection.Close();
             return result;
+        }
+
+        [HttpPost("sendCampaign/{caid}")]
+        public ActionResult sendCampaign(int caid)
+        {
+            try
+            {
+                if (caid < 0)
+                {
+                    throw new GeneralException("Wrong Parameters");
+                }
+
+                EmailService email = new EmailService(caid);
+
+                EmailerHelper.addEmail(email);
+            
+
+            }
+            catch (GeneralException ex)
+            {
+                return BadRequest(ex.ToString());
+            }
+            catch (MySqlException msql)
+            {
+                return BadRequest(msql.ToString());
+            }
+            return Ok();
+        }
+
+        [HttpPost("sendCampaignOnce/{caid}")]
+        public ActionResult sendCampaignOnce(int caid)
+        {
+            try
+            {
+                if (caid < 0)
+                {
+                    throw new GeneralException("Wrong Parameters");
+                }
+
+                EmailService email = new EmailService(caid);
+
+                email.mailSender();
+
+            }
+            catch (GeneralException ex)
+            {
+                return BadRequest(ex.ToString());
+            }
+            catch (MySqlException msql)
+            {
+                return BadRequest(msql.ToString());
+            }
+            return Ok();
         }
 
         // PUT api/<CampaignsController>/5
@@ -357,6 +349,8 @@ namespace Flock.Controllers
             return result;
 
         }
+
+       
 
         // DELETE api/<CampaignsController>/5
         [HttpDelete("{id}/{cid}")]

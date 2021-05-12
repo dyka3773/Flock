@@ -91,6 +91,11 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
         (input) => {
             
             const val = values[input.id];
+            if (input.type === 'date') {
+                const d = new Date(input.value);
+
+                input.value = `${d.getUTCDate()+1}/${d.getUTCMonth()+1}/${d.getUTCFullYear()}`;
+            }
 
             const inputField = input.readOnly ? <input
                 value={input.value}

@@ -26,6 +26,7 @@ namespace Flock.Schedulers
             this.logger = logger;
 
         }
+
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             await DoRealWork(stoppingToken);
@@ -36,9 +37,9 @@ namespace Flock.Schedulers
             while (!stoppingToken.IsCancellationRequested)
             {
 
-                logger.LogInformation("20 seconds");
+                logger.LogInformation("30 seconds");
                 EmailerHelper.sendEmails();
-                await Task.Delay(20000, stoppingToken);
+                await Task.Delay(30000, stoppingToken);
 
 
 
@@ -56,8 +57,31 @@ namespace Flock.Schedulers
         {
             foreach (EmailService em in service)
             {
-                Debug.WriteLine(em.camp.ToString());
-                em.mailSender();
+                double freq;
+                if (em.getFrequency() == "30")
+                    freq = 30;
+                else if (em.getFrequency() == "80")
+                    freq = 80;
+                else {
+                    return;
+                }
+
+                DateTime prevDat = em.getPreviousSend();
+                DateTime timeNow = DateTime.Now;
+
+                
+
+                double timeDiff = (timeNow - prevDat).TotalSeconds;
+
+                Debug.WriteLine("in background Emailer and time has passed, " +
+                    "timeDiff is:"+timeDiff+
+                    " EmailService is:"+ em.ToString());
+
+                if (timeDiff >= freq) {
+                    em.setPreviousSend(timeNow);
+                    em.mailSender();
+                }
+                    
             }
 
         }

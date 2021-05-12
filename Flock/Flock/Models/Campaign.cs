@@ -13,11 +13,11 @@ namespace Flock.Models
 
         public string text { get; set; }
 
-        public string startDate { get; set; }//non editable
+        public DateTime startDate { get; set; }//non editable
 
-        public string endDate { get; set; }
+        public DateTime endDate { get; set; }
 
-        public string creationDate { get; set; }//non editable
+        public DateTime creationDate { get; set; }//non editable
 
         public string name { get; set; }
 
