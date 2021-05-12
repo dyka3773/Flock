@@ -1,87 +1,87 @@
-drop table if exists `Flock`.`Business_Personal`;
-drop table if exists `Flock`.`Company`;
-drop table if exists `Flock`.`Contacts_in_Groups`;
-drop table if exists `Flock`.`Contacts`;
-drop table if exists `Flock`.`Campaign`;
-drop table if exists `Flock`.`Groups`;
-drop table if exists `Flock`.`Accounts`;
-drop table if exists `Flock`.`Frequencies`;
+DROP TABLE IF EXISTS `Flock`.`Business_Personal`;
+DROP TABLE IF EXISTS `Flock`.`Company`;
+DROP TABLE IF EXISTS `Flock`.`Contacts_in_Groups`;
+DROP TABLE IF EXISTS `Flock`.`Contacts`;
+DROP TABLE IF EXISTS `Flock`.`Campaign`;
+DROP TABLE IF EXISTS `Flock`.`Groups`;
+DROP TABLE IF EXISTS `Flock`.`Accounts`;
+DROP TABLE IF EXISTS `Flock`.`Frequencies`;
 
 CREATE TABLE IF NOT EXISTS `Flock`.`Frequencies` (
-  `FID` int(11) NOT NULL,
-  `F_Name` varchar(45) NOT NULL,
+  `FID` INT NOT NULL AUTO_INCREMENT,
+  `F_Name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`FID`),
-  constraint thisFrequencyAlreadyExists Unique(F_Name)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  CONSTRAINT thisFrequencyAlreadyExists UNIQUE(F_Name)
+) ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
 CREATE TABLE IF NOT EXISTS `Flock`.`Accounts` (
   `AID` INT NOT NULL AUTO_INCREMENT,
   `Email` VARCHAR(45) NOT NULL,
   `Passwd` VARCHAR(45) NOT NULL,
   `Type` INT NOT NULL,
-  `Num_of_Camps` int(10) NOT NULL,
-  `Num_of_Conts` int(10) NOT NULL,
-  `Num_of_Sent` int(10) NOT NULL,
+  `Num_of_Camps` INT(10) NOT NULL,
+  `Num_of_Conts` INT(10) NOT NULL,
+  `Num_of_Sent` INT(10) NOT NULL,
   PRIMARY KEY (`AID`),
   CONSTRAINT emailAlreadyExistsInDB UNIQUE (`Email`)
   )
 COMMENT = '// If type = 0 then Account is Personal\n// If type = 1 then Account is Company';
 
 CREATE TABLE IF NOT EXISTS `Flock`.`Business_Personal` (
-  `AID` int(11) NOT NULL,
-  `F_Name` varchar(45) NOT NULL,
-  `L_Name` varchar(45) NOT NULL,
-  `Phone` varchar(45) NOT NULL,
-  `Gender` varchar(45) NOT NULL,
-  `Country` varchar(45) NOT NULL,
-  `ZIP` varchar(45) NOT NULL,
+  `AID` INT(11) NOT NULL,
+  `F_Name` VARCHAR(45) NOT NULL,
+  `L_Name` VARCHAR(45) NOT NULL,
+  `Phone` VARCHAR(45) NOT NULL,
+  `Gender` VARCHAR(45) NOT NULL,
+  `Country` VARCHAR(45) NOT NULL,
+  `ZIP` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`AID`),
   CONSTRAINT `fk_AID_from_Business_Personal` FOREIGN KEY (`AID`) REFERENCES `Accounts` (`AID`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
 CREATE TABLE IF NOT EXISTS `Flock`.`Company` (
-  `AID` int(11) NOT NULL,
-  `C_Name` varchar(45) NOT NULL,
-  `Phone` varchar(45) NOT NULL,
-  `Country` varchar(45) NOT NULL,
-  `ZIP` varchar(45) NOT NULL,
-  `Phy_Address` varchar(45) NOT NULL,
+  `AID` INT(11) NOT NULL,
+  `C_Name` VARCHAR(45) NOT NULL,
+  `Phone` VARCHAR(45) NOT NULL,
+  `Country` VARCHAR(45) NOT NULL,
+  `ZIP` VARCHAR(45) NOT NULL,
+  `Phy_Address` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`AID`),
   CONSTRAINT `fk_AID_from_Company` FOREIGN KEY (`AID`) REFERENCES `Accounts` (`AID`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
 CREATE TABLE IF NOT EXISTS `Flock`.`Contacts` (
   `CID` INT NOT NULL AUTO_INCREMENT,
   `Full_Name` VARCHAR(45) NOT NULL,
   `Email` VARCHAR(45) NOT NULL,
-  `AID` int(11) NOT NULL,
+  `AID` INT(11) NOT NULL,
   PRIMARY KEY (`CID`),
   CONSTRAINT emailAlreadyExistsInAccount UNIQUE (`Email`,`AID`),
   CONSTRAINT `fk_AID_from_Contacts` FOREIGN KEY (`AID`) REFERENCES `Accounts` (`AID`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
 CREATE TABLE IF NOT EXISTS `Flock`.`Groups` (
-  `GID` int(11) NOT NULL AUTO_INCREMENT,
-  `Group_Name` varchar(45) NOT NULL,
-  `AID` int(11) NOT NULL,
+  `GID` INT(11) NOT NULL AUTO_INCREMENT,
+  `Group_Name` VARCHAR(45) NOT NULL,
+  `AID` INT(11) NOT NULL,
   PRIMARY KEY (`GID`),
   CONSTRAINT groupAlreadyExistsInAccount UNIQUE (`Group_Name`,`AID`),
   CONSTRAINT `fk_AID_from_Groups` FOREIGN KEY (`AID`) REFERENCES `Accounts` (`AID`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
 CREATE TABLE IF NOT EXISTS `Flock`.`Campaign` (
-  `CAID` int(11) NOT NULL AUTO_INCREMENT,
-  `Subject` varchar(100) NOT NULL,
-  `Text` mediumtext,
-  `Start_Date` datetime NOT NULL,
-  `End_Date` datetime DEFAULT NULL,
-  `Creation_Date` datetime NOT NULL,
-  `C_Name` varchar(45) NOT NULL,
-  `FID` int(11) NOT NULL,
-  `Num_of_Conts` int(11) unsigned zerofill NOT NULL,
-  `Attachment` blob,
-  `AID` int(11) NOT NULL,
-  `GID` int(11) NOT NULL,
+  `CAID` INT(11) NOT NULL AUTO_INCREMENT,
+  `Subject` VARCHAR(100) NOT NULL,
+  `Text` MEDIUMTEXT,
+  `Start_Date` DATETIME NOT NULL,
+  `End_Date` DATETIME DEFAULT NULL,
+  `Creation_Date` DATETIME NOT NULL,
+  `C_Name` VARCHAR(45) NOT NULL,
+  `FID` INT(11) NOT NULL,
+  `Num_of_Conts` INT(11) UNSIGNED ZEROFILL NOT NULL,
+  `Attachment` BLOB,
+  `AID` INT(11) NOT NULL,
+  `GID` INT(11) NOT NULL,
   PRIMARY KEY (`CAID`),
   KEY `fk_AID_from_Camps` (`AID`),
   KEY `fk_GID_from_Camps` (`GID`),
@@ -90,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `Flock`.`Campaign` (
   CONSTRAINT `fk_GID_from_Camps` FOREIGN KEY (`GID`) REFERENCES `Groups` (`GID`) ON UPDATE NO ACTION,
   CONSTRAINT `fk_FID_from_Camps` FOREIGN KEY (`FID`) REFERENCES `Frequencies` (`FID`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT thisCnameAlreadyExistsInThisUser UNIQUE (`C_Name`,`AID`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  ) ENGINE=INNODB DEFAULT CHARSET=UTF8MB4;
 
 CREATE TABLE IF NOT EXISTS `Flock`.`Contacts_in_Groups` (
   `CID` INT NOT NULL,
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `Flock`.`Contacts_in_Groups` (
     REFERENCES `Flock`.`Contacts` (`CID`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION);
-
+    
 INSERT INTO `Flock`.`Frequencies`
 (`F_Name`)
 VALUES

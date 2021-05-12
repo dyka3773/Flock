@@ -104,9 +104,9 @@ END$$
 CREATE PROCEDURE `Flock`.`getCampFromCAID` (
 IN caiid INT)
 BEGIN
-	SELECT C.CAID, C.`Subject`, C.`Text` , C.Start_Date, C.End_Date, C.`C_Name` , F.F_Name, C.Num_of_Conts, C.Attachment, C.`AID`, C.GID 
+	SELECT C.CAID, C.`Subject`, C.`Text` , C.Start_Date, C.End_Date, C.Creation_Date, C.`C_Name` , F.F_Name, C.Num_of_Conts, C.Attachment, C.`AID`, C.GID
     FROM Campaign C JOIN Frequencies F ON (C.FID=F.FID) 
-    WHERE F.CAID=caiid;
+    WHERE C.CAID=caiid;
 END$$
 
 CREATE PROCEDURE `Flock`.`addNOS` (
@@ -304,18 +304,15 @@ BEGIN
 END$$
 
 CREATE PROCEDURE `Flock`.`addCampaign` (
-IN sub VARCHAR(100), IN text MEDIUMTEXT, IN start DATETIME, IN endDate DATETIME, 
+IN sub VARCHAR(100), IN email_text MEDIUMTEXT, IN startDate varchar(60), IN endDate varchar(60), 
 IN cname VARCHAR(45), IN frequency VARCHAR(45), IN attachment BLOB, IN aid INT, IN gid INT)
 BEGIN
 	SET @checking = NULL;
     SET @fiid = NULL;
     
-	SELECT 
-    G.aid
-INTO @checking FROM
-    Groups G
-WHERE
-    G.GID = gid AND G.AID = aid;
+	SELECT G.aid INTO @checking 
+    FROM Groups G
+	WHERE G.GID = gid AND G.AID = aid;
 	
     IF @checking IS NOT NULL THEN
     
@@ -323,12 +320,9 @@ WHERE
         FROM Contacts_in_Groups CIG JOIN Groups G ON (CIG.GID=G.GID)
         WHERE G.GID=gid;
         
-SELECT 
-    F.FID
-INTO @fiid FROM
-    Frequencies F
-WHERE
-    F.F_Name = frequency;
+		SELECT F.FID INTO @fiid 
+		FROM Frequencies F
+		WHERE F.F_Name = frequency;
     
 		INSERT INTO `Flock`.`Campaign`
 		(`Subject`,
@@ -344,8 +338,8 @@ WHERE
 		`GID`)
 		VALUES
 		(sub,
-		text,
-		start,
+		email_text,
+		startDate,
 		endDate,
 		UTC_TIMESTAMP(),
 		cname,
@@ -357,6 +351,7 @@ WHERE
 	
     END IF;
 
+	SELECT LAST_INSERT_ID();
 END$$
 
 CREATE PROCEDURE `Flock`.`addContact` (
@@ -472,29 +467,29 @@ IN AIID INT, IN keyword VARCHAR(45),IN ofst INT, IN num_of_rows INT, IN gid INT)
 BEGIN
 IF keyword IS NULL THEN
 	IF gid IS NULL THEN
-		SELECT C.CAID, C.`Subject`, C.`Text` , C.Start_Date, C.End_Date, C.`C_Name` , F.F_Name, C.Num_of_Conts, C.Attachment, C.`AID`, C.GID
+		SELECT C.CAID, C.`Subject`, C.`Text` , C.Start_Date, C.End_Date, C.Creation_Date, C.`C_Name` , F.F_Name, C.Num_of_Conts, C.Attachment, C.`AID`, C.GID
 		FROM Campaign C JOIN Frequencies F ON (C.FID=F.FID)
 		WHERE (C.AID=AIID) 
-		LIMIT OFST, NUM_OF_ROWS;
+		LIMIT ofst, num_of_rows;
 	ELSE
-		SELECT C.CAID, C.`Subject`, C.`Text` , C.Start_Date, C.End_Date, C.`C_Name` , F.F_Name, C.Num_of_Conts, C.Attachment, C.`AID`, C.GID 
+		SELECT C.CAID, C.`Subject`, C.`Text` , C.Start_Date, C.End_Date, C.Creation_Date, C.`C_Name` , F.F_Name, C.Num_of_Conts, C.Attachment, C.`AID`, C.GID
 		FROM Campaign C JOIN Frequencies F ON (C.FID=F.FID)
 		WHERE (C.AID=AIID) AND C.GID=gid
-		LIMIT OFST, NUM_OF_ROWS;
+		LIMIT ofst, num_of_rows;
 	END IF;
 ELSE
 	IF gid IS NULL THEN
-		SELECT C.CAID, C.`Subject`, C.`Text` , C.Start_Date, C.End_Date, C.`C_Name` , F.F_Name, C.Num_of_Conts, C.Attachment, C.`AID`, C.GID
+		SELECT C.CAID, C.`Subject`, C.`Text` , C.Start_Date, C.End_Date, C.Creation_Date, C.`C_Name` , F.F_Name, C.Num_of_Conts, C.Attachment, C.`AID`, C.GID
 		FROM Campaign C JOIN Frequencies F ON (C.FID=F.FID)
 		WHERE (C.AID=AIID) 
         AND ( C.C_Name LIKE CONCAT('%',keyword,'%'))
-		LIMIT OFST, NUM_OF_ROWS;
+		LIMIT ofst, num_of_rows;
 	ELSE
-		SELECT C.CAID, C.`Subject`, C.`Text` , C.Start_Date, C.End_Date, C.`C_Name` , F.F_Name, C.Num_of_Conts, C.Attachment, C.`AID`, C.GID
+		SELECT C.CAID, C.`Subject`, C.`Text` , C.Start_Date, C.End_Date, C.Creation_Date, C.`C_Name` , F.F_Name, C.Num_of_Conts, C.Attachment, C.`AID`, C.GID
 		FROM Campaign C JOIN Frequencies F ON (C.FID=F.FID)
 		WHERE (C.AID=AIID) AND C.GID=gid
         AND ( C.C_Name LIKE CONCAT('%',keyword,'%'))
-		LIMIT OFST, NUM_OF_ROWS;
+		LIMIT ofst, num_of_rows;
 	END IF;
 END IF;
 END$$
