@@ -110,11 +110,16 @@ BEGIN
 END$$
 
 CREATE PROCEDURE `Flock`.`addNOS` (
-IN aiid INT, IN newNOS INT)
+IN caiid INT, IN newNOS INT)
 BEGIN
+
+	SELECT C.AID INTO @AIID
+    FROM Campaign C
+    WHERE C.CAID = caiid;
+	
 	UPDATE Accounts A
     SET A.Num_of_Sent = A.Num_of_Sen + newNOS
-    WHERE A.AID=aiid;
+    WHERE A.AID=@AIID;
 END$$
 
 CREATE PROCEDURE `Flock`.`deleteAcc` (
