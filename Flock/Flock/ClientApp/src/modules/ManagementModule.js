@@ -50,6 +50,8 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
 
     const token = useContext(context);
 
+    console.log("rerender")
+
     const fetchItems = async () => {
 
         const itemss = await getItems(token, pageNum - 1, searchValue, 50, selectedGroup);
@@ -252,8 +254,8 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
         if (ref.current.firstChild.contains(e.target) && !(e.target.className.includes("close")))
             return;
         ref.current.style.display = "none";
-       
-        
+
+        fetchItemsMaxPage();
     }
 
 

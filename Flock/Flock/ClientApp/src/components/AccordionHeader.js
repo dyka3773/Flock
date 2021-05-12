@@ -17,9 +17,9 @@ const AccordionHeader = ({headerValues, onSel, isSelected}) => {
             <div className={`titles ${selected ? "selected" : ""}`} >
                 {headerValues ?
                     <>
-                        <div className={`title1`} key={headerValues[0]}>{headerValues[0]}</div>
-                        <div className={`title2`} key={headerValues[1]}>{headerValues[1]}</div>
-                        <div className={`title3`} key={headerValues[2]}>{headerValues[2]}</div></>
+                        <div className={`title1`} key={0}>{headerValues[0]}</div>
+                        <div className={`title2`} key={1}>{headerValues[1]}</div>
+                        <div className={`title3`} key={2}>{headerValues[2]}</div></>
                     :
                     <></>
                     }

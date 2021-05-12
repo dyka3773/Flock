@@ -32,7 +32,7 @@ namespace SendEmail
         
         }
 
-        public String ToString() {
+        public override String ToString() {
             return "camp name" + camp.name;
         }
 
@@ -86,19 +86,19 @@ namespace SendEmail
 
         }
 
-        public void  mailSender()
+        public async void mailSender()
         {
             Debug.WriteLine("in mailSender");
             foreach (Contact c in contacts)
             {
                 Debug.WriteLine(c.ToString());
                 
-                customSend(userClient(c),mail(c));
+                await customSend(userClient(c),mail(c));
             }
         }
         //uses contacts (list object) field to send a predeterminded message to the specified adresses 
 
-        private async void customSend(SmtpClient client,MailMessage mailMessage) {
+        private async Task customSend(SmtpClient client,MailMessage mailMessage) {
 
             Random rnd = new Random();
             await client.SendMailAsync(mailMessage);

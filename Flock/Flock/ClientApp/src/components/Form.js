@@ -88,7 +88,7 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
    
     const items = inputs.map(
         
-        (input) => {
+        (input, index) => {
             
             const val = values[input.id];
             if (input.type === 'date') {
@@ -115,7 +115,7 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
 
 
             return (
-                <React.Fragment key={input.id}>
+                <React.Fragment key={index}>
                     <label>{input.label}</label>
                     {inputField}
                 </React.Fragment>
