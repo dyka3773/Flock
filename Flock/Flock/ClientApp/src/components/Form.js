@@ -85,42 +85,41 @@ const Form = ({ label, cancel, submit, inputs, children}) => {
         }
 
     };
-   
-    const items = inputs.map(
-        
-        (input, index) => {
-            
-            const val = values[input.id];
-            if (input.type === 'date') {
-                const d = new Date(input.value);
 
-                input.value = `${d.getUTCDate()+1}/${d.getUTCMonth()+1}/${d.getUTCFullYear()}`;
-            }
+        const items = inputs.map(
 
-            const inputField = input.readOnly ? <input
-                value={input.value}
-                className={input.type}
-                readOnly={true}
-                />
-                :
-                <input
-                    type={input.type ? input.type : "text"}
-                    onChange={(e) => handleFieldChange(input.id, e.target.value)}
-                    value={val || ''}
+            (input, index) => {
+
+                const val = values[input.id];
+               
+
+                const inputField = input.readOnly ? <input
+                    value={input.value}
                     className={input.type}
-                    readOnly={false}
-                    placeholder={input.value}
-                    required={input.required ? true : false}
+                    readOnly={true}
                 />
+                    :
+                    <input
+                        type={input.type ? input.type : "text"}
+                        onChange={(e) => handleFieldChange(input.id, e.target.value)}
+                        value={val || ''}
+                        className={input.type}
+                        readOnly={false}
+                        placeholder={input.value}
+                        required={input.required ? true : false}
+                    />
+                //inputs need to be moved to seperate components
 
-
-            return (
-                <React.Fragment key={index}>
-                    <label>{input.label}</label>
-                    {inputField}
-                </React.Fragment>
-            )
-        });
+                return (
+                    <React.Fragment key={index}>
+                        <label>{input.label}</label>
+                        {inputField}
+                    </React.Fragment>
+                )
+            });
+        
+   
+    
 
     return (
         <form className="ui form segment" onSubmit={onSubmit}>

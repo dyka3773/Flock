@@ -223,7 +223,8 @@ namespace Flock.Controllers
             }
             catch (Exception ex)
             {
-                result = BadRequest(ex.ToString());
+                Debug.WriteLine(ex.Message);
+                camp = null;
             }
             cmd.Connection.Close();
             return camp;
@@ -277,6 +278,7 @@ namespace Flock.Controllers
         [HttpPost("sendCampaign/{caid}")]
         public ActionResult sendCampaign(int caid)
         {
+            ActionResult result = NotFound();
             try
             {
                 if (caid < 0)
@@ -287,27 +289,28 @@ namespace Flock.Controllers
                 EmailService email = new EmailService(caid);
 
                 EmailerHelper.addEmail(email);
-            
 
+                result = Ok();
             }
             catch (GeneralException ex)
             {
-                return BadRequest(ex.ToString());
+                result = BadRequest(ex.ToString());
             }
             catch (MySqlException msql)
             {
-                return BadRequest(msql.ToString());
+                result = BadRequest(msql.ToString());
             }
             catch (Exception ex)
             {
                 result = BadRequest(ex.ToString());
             }
-            return Ok();
+            return result;
         }
 
         [HttpPost("sendCampaignOnce/{caid}")]
         public ActionResult sendCampaignOnce(int caid)
         {
+            ActionResult result = NotFound();
             try
             {
                 if (caid < 0)
@@ -319,20 +322,21 @@ namespace Flock.Controllers
 
                 email.mailSender();
 
+                result = Ok();
             }
             catch (GeneralException ex)
             {
-                return BadRequest(ex.ToString());
+                result = BadRequest(ex.ToString());
             }
             catch (MySqlException msql)
             {
-                return BadRequest(msql.ToString());
+                result = BadRequest(msql.ToString());
             }
             catch (Exception ex)
             {
                 result = BadRequest(ex.ToString());
             }
-            return Ok();
+            return result;
         }
 
         // PUT api/<CampaignsController>/5

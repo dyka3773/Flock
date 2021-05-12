@@ -43,7 +43,7 @@ const NewCampaignCreation = () => {
 
     const onSubmit = async (inputValues) => {
 
-        console.log(startDate);
+        console.log(startDate, "  ", endDate);
 
         const res = await addCampaign({ ...inputValues, text: editorValue, frequency: frequency, startDate: startDate, endDate: endDate }
             , token, selectedGroup).then(window.alert("Done!"));
@@ -108,20 +108,12 @@ const NewCampaignCreation = () => {
 
     const modalContents = [modalContent, modalContent2];
 
-
-    
-
-
-
-
     return (
         <div className="multitab-modal-content">
             <div>{modalContents[tab]}</div>
             <div>{btn}</div>
         </div>
-        );
-
-
+    );
 }
 
 
