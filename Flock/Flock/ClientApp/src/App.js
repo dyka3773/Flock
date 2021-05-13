@@ -24,7 +24,7 @@ import logo from "./images/logo.png";
 const App = () => {
 
     const [hidden, setHidden] = useState("");
-    const [token, setToken] = useState(2);
+    const [token, setToken] = useState(null);
    
     
 

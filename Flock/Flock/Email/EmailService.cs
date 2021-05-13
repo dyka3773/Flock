@@ -17,6 +17,7 @@ namespace SendEmail
         private List<Contact> contacts;
         private Campaign camp;
         private DateTime previousSend;
+        private int caid;
 
         public String getFrequency() {
             return camp.frequency;
@@ -49,25 +50,57 @@ namespace SendEmail
             this.camp = camp;
 
             this.frequency = frequency;*/
-            
-            
+
+
             //Receives campaignId and the coresponding aid and sends the campaign contents to the
             //group (specified in camp.groupId) of the account (known by the aid)
-          
-
-           
             try
             {
                 camp = new CampaignsController().getCampFromCaid(caid);
                 if (camp == null) throw new CampaignIsNullException("getCampFromCaid returned null");
             }
-            catch (CampaignIsNullException e) {
+            catch (CampaignIsNullException e)
+            {
                 Debug.WriteLine(e.Message);
                 return;
             }
 
             previousSend = camp.startDate;
-            
+
+
+            ActionResult actionResult = new GroupsController().GetContacts(camp.AID, camp.GID);
+
+            var contentResult = actionResult as OkObjectResult;
+            Object toBeCont = contentResult.Value;
+            try
+            {
+                contacts = (List<Contact>)toBeCont;
+            }
+            catch (Exception e)
+            {
+                return;
+            }
+            this.caid = caid;
+         
+
+        }
+
+        public async void mailSender()
+        {
+
+            try
+            {
+                camp = new CampaignsController().getCampFromCaid(caid);
+                if (camp == null) throw new CampaignIsNullException("getCampFromCaid returned null");
+            }
+            catch (CampaignIsNullException e)
+            {
+                Debug.WriteLine(e.Message);
+                return;
+            }
+
+            previousSend = camp.startDate;
+
 
             ActionResult actionResult = new GroupsController().GetContacts(camp.AID, camp.GID);
 
@@ -82,12 +115,7 @@ namespace SendEmail
                 return;
             }
 
-            Debug.WriteLine("campaign: "+camp.ToString()+" contacts: "+contacts.ToString());
-
-        }
-
-        public async void mailSender()
-        {
+            Debug.WriteLine("campaign: " + camp.ToString() + " contacts: " + contacts.ToString());
             Debug.WriteLine("in mailSender");
             foreach (Contact c in contacts)
             {

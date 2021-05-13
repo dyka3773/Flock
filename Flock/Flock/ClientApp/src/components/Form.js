@@ -14,6 +14,7 @@ import '../componentCSS/Form.css';
             label: "label1",
             id:"1",
             type:"password", //optional
+            required:true
             
         },
         {

@@ -134,9 +134,9 @@ namespace Flock.Controllers
                             id = (int)reader.GetValue(0),
                             subject = reader.GetValue(1).ToString(),
                             text = reader.GetValue(2).ToString(),
-                            startDate = DateTime.ParseExact(reader.GetValue(3).ToString(), "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
-                            endDate = DateTime.ParseExact(reader.GetValue(4).ToString(), "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
-                            creationDate = DateTime.ParseExact(reader.GetValue(5).ToString(), "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
+                            startDate = DateTime.Parse(reader.GetValue(3).ToString()),
+                            endDate = DateTime.Parse(reader.GetValue(4).ToString()),
+                            creationDate = DateTime.Parse(reader.GetValue(5).ToString()),
                             name = reader.GetValue(6).ToString(),
                             frequency = reader.GetValue(7).ToString(),
                             numOfContacts = (uint)reader.GetValue(8),
@@ -199,9 +199,9 @@ namespace Flock.Controllers
                     id = (int)reader.GetValue(0),
                     subject = reader.GetValue(1).ToString(),
                     text =reader.GetValue(2).ToString(),
-                    startDate = DateTime.ParseExact(reader.GetValue(3).ToString(), "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
-                    endDate = DateTime.ParseExact(reader.GetValue(4).ToString(), "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
-                    creationDate = DateTime.ParseExact(reader.GetValue(5).ToString(), "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
+                    startDate = DateTime.Parse(reader.GetValue(3).ToString()),
+                    endDate = DateTime.Parse(reader.GetValue(4).ToString()),
+                    creationDate = DateTime.Parse(reader.GetValue(5).ToString()),
                     name = reader.GetValue(6).ToString(),
                     frequency = reader.GetValue(7).ToString(),
                     numOfContacts = (uint)reader.GetValue(8),
@@ -356,7 +356,7 @@ namespace Flock.Controllers
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
 
-                cmd.CommandText = String.Format("call editCampaign({0}, '{1}', {2}, '{3}', '{4}', '{5}', '{6}')", camp.id, camp.name, aid, camp.subject, camp.text, camp.endDate, camp.frequency);
+                cmd.CommandText = String.Format("call editCampaign({0}, '{1}', {2}, '{3}', '{4}', '{5}')", camp.id, camp.name, aid, camp.subject, camp.text, camp.frequency);
                 MySqlDataReader reader = cmd.ExecuteReader();
 
                 result = Ok();
