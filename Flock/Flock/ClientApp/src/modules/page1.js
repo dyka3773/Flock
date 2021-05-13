@@ -3,9 +3,9 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
 import Form from '../components/Form';
-import Accordion from '../components/Accordion';
+import Accordion from '../components/FormAccordion';
 import AccordionHeader from '../components/AccordionHeader';
-import MarkdownEditView from './MarkdownEditView';
+import MarkdownEditView from '../components/MarkdownEditView';
 import dummyJsonGenerator from '../usefulFunctions/dummyJsonGenerator'
 import { addManyContacts } from '../dataRequests/addContact';
 import context from '../contexts/context';

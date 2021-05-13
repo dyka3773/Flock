@@ -2,7 +2,7 @@
 
 import Calendar from 'react-calendar';
 
-import MarkdownEditView from './MarkdownEditView';
+import MarkdownEditView from '../components/MarkdownEditView';
 
 import Form from '../components/Form';
 import GroupsDropdown from '../components/GroupsDropdown';

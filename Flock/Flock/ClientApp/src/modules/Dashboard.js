@@ -7,7 +7,7 @@ import editCampaign from '../dataRequests/editCampaign';
 import { keysToLabel } from '../usefulFunctions/configs';
 import { dataToAccordionHeadersCampaignDashboard } from '../usefulFunctions/configs';
 
-import Accordion from '../components/Accordion';
+import Accordion from '../components/FormAccordion';
 import Form from '../components/Form';
 import ImportContacts from '../components/ImportContacts';
 

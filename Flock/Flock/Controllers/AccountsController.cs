@@ -104,6 +104,8 @@ namespace Flock.Controllers
             cmd.Connection.Close();
 
             return account.getBasicInfo();
+
+            
         }
 
 

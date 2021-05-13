@@ -1,6 +1,6 @@
 ﻿import React, { useState, useEffect, useRef, useContext } from 'react';
 
-import Accordion from '../components/Accordion';
+import Accordion from '../components/FormAccordion';
 import Form from '../components/Form';
 import AccordionHeader from '../components/AccordionHeader';
 import Modal from '../components/Modal';

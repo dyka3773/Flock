@@ -16,5 +16,9 @@ module.exports = {
             base: '"Montserrat", sans-serif',
             fontSize: '62.5%'
         }
-    }
+    },
+    require: [
+        path.join(__dirname, './src/componentCSS/Modal.css')
+    ]
+      
 };

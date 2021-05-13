@@ -8,6 +8,7 @@ import '../componentCSS/GroupsList.css';
 
 import context from '../contexts/context';
 
+import GroupsDropdown from './GroupsDropdown';
 
 const GroupsList = ({ setSelectedGroup, selectedGroup, onGroupEdit, editable = true }) => {
 

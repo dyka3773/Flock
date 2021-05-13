@@ -1,8 +1,8 @@
 ﻿import React, { useContext, useEffect, useState } from 'react';
 import '../componentCSS/Accordion.css';
 import { dataToFormInputs, dataToAccordionHeaders } from '../usefulFunctions/configs';
-import AccordionHeader from '../components/AccordionHeader';
-import Form from '../components/Form';
+import AccordionHeader from './AccordionHeader';
+import Form from './Form';
 import context from '../contexts/context'
 
 /*Accordion receives an array of objects following the below structure
@@ -26,7 +26,7 @@ for each array item one accordion item is rendered
 
 
 
-const Accordion = ({ items, editItems, onSelect, selectedItems, pageNum, accordionHeadersConfig, selectedGroup }) => {
+const FormAccordion = ({ items, editItems, onSelect, selectedItems, pageNum, accordionHeadersConfig, selectedGroup }) => {
     const [activeIndex, setActiveIndex] = useState(null);
 
     const token = useContext(context);
@@ -135,4 +135,4 @@ const Accordion = ({ items, editItems, onSelect, selectedItems, pageNum, accordi
 
 }
 
-export default Accordion;
+export default FormAccordion;

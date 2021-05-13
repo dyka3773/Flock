@@ -18,7 +18,7 @@ Every input object can be assigned the following properties
 * **value** : Assigns the default value of the input field. (Will be rendered as either value or placeholder depending of readonly is true or false)
 * **readOnly** : Describes weather the input field will be editable by the user. Readonly fields appear disabled-like to the user
 * **required** : Sets the html Required attribute. Its validated on form submission
-* **id** : A unique id used for the internal identification of react components, can be anything but it must be unique in the inputs array
+* **id** : A unique id used for the internal identification of react components, can be anything but it must be unique in the inputs array. This is required
  
 
 
@@ -67,3 +67,5 @@ const formInputs = [
 
 
 ```
+
+
