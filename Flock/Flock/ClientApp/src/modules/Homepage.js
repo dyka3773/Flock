@@ -16,7 +16,7 @@ const Homepage = () => {
 
             <div className="title-block">
             <img src={logo} className="ui centered medium circular image" />
-                <h1 className="ui header centered">Flock is Lorem Ipsum</h1>
+                <h1 className="ui header centered">Our emails travel faster than a Flock of pigeons</h1>
             </div>
 
             <div>
@@ -89,14 +89,14 @@ const Homepage = () => {
                     </a>
                     <a className="item">
                         <div className="content">
-                            <h3 className="header">It support Markdown</h3>
-                            <div className="description">Some people love to use custom made texts, like heading or bold. Flock is having you covered. Every campaign that we use support Markdown, making customization a playful job for the user</div>
+                            <h3 className="header">It supports Markdown</h3>
+                            <div className="description">Some people love to use custom made texts, like heading or bold. Flock is having you covered. Every campaign that we use supports Markdown, making customization a playful job for the user</div>
                         </div>
                     </a>
                     <a className="item">
                         <div className="content">
                             <h3 className="header">The coloring</h3>
-                        <div className="description">Plenty of users have problem with bright colors, or using Dark Mode instead. Flock's colors are chosen in a way that the eyes will be protected from the brightness, thus working with our site is not eye tiredness</div>
+                        <div className="description">Plenty of users have problem with bright colors, so they just use Dark Mode instead. Flock's colors are chosen in a way that the eyes will be protected from the brightness, thus working with our site is not eye tiring</div>
                         </div>
                     </a>
                 </div>
