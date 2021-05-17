@@ -1,9 +1,13 @@
 # What is Flock?
 Flock is a mock mass email service created for a university assignment. 
 
-## Clone the repo using
+## Installation
 ```bash
 git clone https://github.com/dyka3773/Flock.git your_file_name
+```
+Then navigate to the ClientApp and run
+```bash
+npm install
 ```
 
 ## Usage / Features
@@ -37,6 +41,17 @@ git clone https://github.com/dyka3773/Flock.git your_file_name
     * Στράτος Σκαρλάτος
     * Θάνος Ψαρράς
 
+## Front end docs
+To view the documentation of the components used in the UI, do the following:
+* Navigate to `ClientApp` in a terminal. 
+* Then run `npx styleguidist server`
+* Then navigate to `http://localhost:6060/` in a browser
+
+To build the docs as a seperate package 
+* Navigate to `ClientApp` in a terminal. 
+* Then run `npx styleguidist build`
+
+For more info see: https://react-styleguidist.js.org/docs/getting-started
 
 ## Contributing
 Pull requests are welcome. 
