@@ -56,7 +56,7 @@ To build the docs as a seperate package
 
 For more info see: https://react-styleguidist.js.org/docs/getting-started
 
-#### A note from the front end developer:
+##### A note from the front end developer:
 > At the time i hadnt looked into any state management technology and didnt have enough time to invest in educating myself with one of them. As such, the state management in the project is a bit messy and complicated. We hope to intergrate Redux with our front end some time in the near future.
 
 ## Contributing
