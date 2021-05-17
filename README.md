@@ -3,7 +3,7 @@ Flock is a mock mass email service created for a university assignment.
 
 ## Clone the repo using
 ```bash
-git clone https://github.com/libgit2/libgit2
+git clone https://github.com/dyka3773/Flock.git your_file_name
 ```
 
 ## Usage / Features
@@ -30,11 +30,12 @@ git clone https://github.com/libgit2/libgit2
 
 * Front-End Developer
     * Στέφανος Τουφεξής
-    * Στράτος Σκαρλάτος
 
 * Back-End Developer
     * Ηρακλής Κόνσούλας
     * Στέφανος Τουφεξής
+    * Στράτος Σκαρλάτος
+    * Θάνος Ψαρράς
 
 
 ## Contributing
