@@ -47,7 +47,7 @@ npm install
 ## Front end docs
 To view the documentation of the components used in the UI, do the following:
 * Navigate to `ClientApp` in a terminal. 
-* Then run `npx styleguidist server`
+* Then run ```bash npx styleguidist server``` 
 * Then navigate to `http://localhost:6060/` in a browser
 
 To build the docs as a seperate package 
