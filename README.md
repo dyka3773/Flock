@@ -8,7 +8,7 @@ We used React in the Front end and asp.net core connected with a mysql database 
 ```bash
 git clone https://github.com/dyka3773/Flock.git your_file_name
 ```
-Then navigate to the ClientApp and run
+Then navigate to the ClientApp and run to install all the node packages
 ```bash
 npm install
 ```
