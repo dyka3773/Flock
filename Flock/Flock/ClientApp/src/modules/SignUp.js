@@ -123,10 +123,10 @@ const SignUp = () => {
             delete (sub.confirmPassword)
             const aa = async () => {
                 const resp = await companySignup(sub);
-                console.log(resp);
+                window.alert("Done")
             }
             aa();
-            
+           
         }
 
     }
@@ -138,9 +138,10 @@ const SignUp = () => {
             delete (sub.confirmPassword)
             const aa = async () => {
                 const resp = await personalSignup(sub);
-                console.log(resp);
+                window.alert("Done")
             }
             aa();
+            
 
         }
 
