@@ -1,6 +1,9 @@
 # What is Flock?
 Flock is a mock mass email service created for a university assignment. 
 
+## Tech stack
+We used React in the Front end and asp.net core connected with a mysql database in the backend 
+
 ## Installation
 ```bash
 git clone https://github.com/dyka3773/Flock.git your_file_name
@@ -52,6 +55,9 @@ To build the docs as a seperate package
 * Then run `npx styleguidist build`
 
 For more info see: https://react-styleguidist.js.org/docs/getting-started
+
+#### A note from the front end developer:
+> At the time i hadnt looked into any state management technology and didnt have enough time to invest in educating myself with one of them. As such, the state management in the project is a bit messy and complicated. We hope to intergrate Redux with our front end some time in the near future.
 
 ## Contributing
 Pull requests are welcome. 
