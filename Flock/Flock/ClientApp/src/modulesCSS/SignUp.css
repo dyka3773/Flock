@@ -1,0 +1,15 @@
+﻿.sign-up {
+    min-height:90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction:column;
+}
+
+    .sign-up .radios .radio {
+        padding:10px;
+    }
+
+    .sign-up .ui.form.segment{
+        width:50em;
+    }

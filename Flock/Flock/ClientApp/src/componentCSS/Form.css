@@ -1,0 +1,55 @@
+﻿body {
+}
+
+
+
+.ui.form.segment input{
+    margin-bottom:15px;
+    
+}
+
+.ui.form.segment>.inputs {
+   padding:10px;
+}
+
+.ui.form.segment > .form-children {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 10px;
+}
+
+.ui.form.segment .form-children>div {
+    margin:5px;
+}
+
+.ui.form.segment>.buttons{
+    padding:10px;
+    text-align:right;
+}
+
+.ui.form.segment > .inputs > input::-webkit-input-placeholder {
+    color: rgba(0,0,0,0.75);
+}
+
+.ui.form.segment > .inputs > input:-moz-placeholder { /* Firefox 18- */
+    color: rgba(0,0,0,0.75);
+}
+
+.ui.form.segment > .inputs > input::-moz-placeholder { /* Firefox 19+ */
+    color: rgba(0,0,0,0.75);
+}
+
+.ui.form.segment > .inputs > input:-ms-input-placeholder {
+    color: rgba(0,0,0,0.75);
+}
+
+div:not(.basic-info)>.ui.form.segment:not(.basic-info) > .inputs > input:read-only {
+    cursor: pointer;
+    background-color: rgba(0,0,0,0.1);
+}
+
+.ui.form.segment:not(.basic-info) > .inputs > input:read-only {
+    cursor: pointer;
+}

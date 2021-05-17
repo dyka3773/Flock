@@ -1,0 +1,89 @@
+﻿
+.accordion-header {
+    position: relative;
+    
+}
+
+    .accordion-header * {
+        display: inline-block;
+    }
+
+
+    .accordion-header .titles {
+        width: 100%;
+        display: flex;
+       justify-content:space-between;
+        height: 1.5rem;
+        
+        
+    }
+        .accordion-header .titles.selected {
+            text-decoration: line-through;
+            color:rgba(0,0,0,0.3);
+        }
+
+        .accordion-header .titles .title1 {
+            width:25%;
+            white-space: nowrap;
+            overflow: hidden;
+           
+        }
+        .accordion-header .titles .title2 {
+            width: 25%;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .accordion-header .titles .title3 {
+            width: 25%;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .accordion-header .titles .buttons {
+            width: 25%;
+            text-align: right;
+        }
+
+
+        .Dashboard .accordion-header .titles .title1 {
+            width: 50%;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .Dashboard .accordion-header .titles .title2 {
+            width: 50%;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .Dashboard .accordion-header .titles .title3 {
+            display:none;
+        }
+        .Dashboard .accordion-header .titles .buttons {
+             display:none;
+        }
+        
+
+
+
+
+@media screen and (max-width: 1024px) {
+
+    .accordion-header .titles .title3 {
+        display: none;
+    }
+
+    .accordion-header .titles .title1 {
+        width: 40%;
+        
+    }
+
+    .accordion-header .titles .title2 {
+        width: 40%;
+    }
+
+    .accordion-header .titles .buttons {
+        width: 20%;
+    }
+    
+
+}

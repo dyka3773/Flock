@@ -1,0 +1,69 @@
+DROP TRIGGER IF EXISTS `Flock`.`newContactInserted`;
+DROP TRIGGER IF EXISTS `Flock`.`ContactDeleted`;
+DROP TRIGGER IF EXISTS `Flock`.`CampaignInserted`;
+DROP TRIGGER IF EXISTS `Flock`.`CampaignDeleted`;
+DROP TRIGGER IF EXISTS `Flock`.`ContactInsertedInGroup`;
+DROP TRIGGER IF EXISTS `Flock`.`ContactDeletedFromGroup`;
+
+
+DELIMITER $$
+
+CREATE TRIGGER `Flock`.`ContactDeletedFromGroup`
+AFTER DELETE ON  `Flock`.`Contacts_in_Groups`
+FOR EACH ROW
+BEGIN
+	
+    SELECT G.AID INTO @aiid FROM Groups G WHERE G.GID = OLD.GID;
+    
+	UPDATE `Flock`.Campaign C 
+    SET C.Num_of_Conts = C.Num_of_Conts-1 
+    WHERE C.AID = @aiid AND C.GID=OLD.GID;
+END$$
+
+CREATE TRIGGER `Flock`.`ContactInsertedInGroup`
+AFTER INSERT ON  `Flock`.`Contacts_in_Groups`
+FOR EACH ROW
+BEGIN
+	
+    SELECT G.AID INTO @aiid FROM Groups G WHERE G.GID = New.GID;
+    
+	UPDATE `Flock`.Campaign C 
+    SET C.Num_of_Conts = C.Num_of_Conts+1 
+    WHERE C.AID = @aiid AND C.GID=New.GID;
+END$$
+
+CREATE TRIGGER `Flock`.`CampaignDeleted`
+AFTER DELETE ON  `Flock`.`Campaign`
+FOR EACH ROW
+BEGIN
+	UPDATE `Flock`.Accounts A 
+    SET A.Num_of_Camps = A.Num_of_Camps-1 
+    WHERE A.AID = OLD.AID ;
+END$$
+
+CREATE TRIGGER `Flock`.`CampaignInserted`
+AFTER INSERT ON  `Flock`.`Campaign`
+FOR EACH ROW
+BEGIN
+	UPDATE `Flock`.Accounts A 
+    SET A.Num_of_Camps = A.Num_of_Camps+1 
+    WHERE A.AID = New.AID ;
+END$$
+
+CREATE TRIGGER `Flock`.`newContactInserted`
+AFTER INSERT ON  `Flock`.`Contacts`
+FOR EACH ROW
+BEGIN
+	UPDATE `Flock`.Accounts A 
+    SET A.Num_of_Conts = A.Num_of_Conts+1 
+    WHERE A.AID = New.AID ;
+END$$
+
+CREATE TRIGGER `Flock`.`ContactDeleted`
+AFTER DELETE ON  `Flock`.`Contacts`
+FOR EACH ROW
+BEGIN
+	UPDATE `Flock`.Accounts A 
+    SET A.Num_of_Conts = A.Num_of_Conts-1 
+    WHERE A.AID = OLD.AID ;
+END$$

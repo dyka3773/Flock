@@ -1,0 +1,58 @@
+﻿.Dashboard {
+   
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:1rem;
+}
+
+    .Dashboard .ui.segment.import {
+        width:40rem;
+        margin: 1rem;
+        text-align:center;
+    }
+
+    .Dashboard .inner-flex {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+        .Dashboard .inner-flex>.flex-item,.inner-flex>.form {
+            width: 40rem;
+            margin: 1rem;
+        }
+        
+
+        .Dashboard .inner-flex .inner-inner-flex {
+            display: flex;
+            flex-direction: column;
+            justify-content:flex-start;
+            
+        }
+
+            .Dashboard .inner-flex .inner-inner-flex .new-group {
+                flex:1;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                flex-direction:column;
+                margin-bottom:1rem;
+            }
+            .Dashboard .inner-flex .inner-inner-flex .basic-info {
+                flex:2;
+            }
+            
+
+
+
+
+@media screen and (max-width: 768px) {
+    .Dashboard .inner-flex>.flex-item,.inner-flex>.form {
+        width: 100%;
+        
+    }
+    .Dashboard .ui.segment.import {
+        width: 100%;
+    }
+}

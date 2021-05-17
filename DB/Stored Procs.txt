@@ -1,0 +1,500 @@
+DROP PROCEDURE IF EXISTS `Flock`.`getContacts`;
+DROP PROCEDURE IF EXISTS `Flock`.`getCamps`;
+DROP PROCEDURE IF EXISTS `Flock`.`getAllGroups`;
+DROP PROCEDURE IF EXISTS `Flock`.`user_exists`;
+DROP PROCEDURE IF EXISTS `Flock`.`addCompany`;
+DROP PROCEDURE IF EXISTS `Flock`.`addBusiness_Personal`;
+DROP PROCEDURE IF EXISTS `Flock`.`addContact`;
+DROP PROCEDURE IF EXISTS `Flock`.`addCampaign`;
+DROP PROCEDURE IF EXISTS `Flock`.`addGroup`;
+DROP PROCEDURE IF EXISTS `Flock`.`addContactToGroup`;
+DROP PROCEDURE IF EXISTS `Flock`.`deleteContact`;
+DROP PROCEDURE IF EXISTS `Flock`.`deleteManyContacts`;
+DROP PROCEDURE IF EXISTS `Flock`.`deleteCamp`;
+DROP PROCEDURE IF EXISTS `Flock`.`deleteManyCamps`;
+DROP PROCEDURE IF EXISTS `Flock`.`deleteGroup`;
+DROP PROCEDURE IF EXISTS `Flock`.`getCampsInGroup`;
+DROP PROCEDURE IF EXISTS `Flock`.`getContactsInGroup`;
+DROP PROCEDURE IF EXISTS `Flock`.`editContact`;
+DROP PROCEDURE IF EXISTS `Flock`.`editCampaign`;
+DROP PROCEDURE IF EXISTS `Flock`.`editCompany`;
+DROP PROCEDURE IF EXISTS `Flock`.`editBP`;
+DROP PROCEDURE IF EXISTS `Flock`.`getAccDetails`;
+DROP PROCEDURE IF EXISTS `Flock`.`deleteAcc`;
+DROP PROCEDURE IF EXISTS `Flock`.`addNOS`;
+DROP PROCEDURE IF EXISTS `Flock`.`getCampFromCAID`;
+DROP PROCEDURE IF EXISTS `Flock`.`numOfPagesInConts`;
+DROP PROCEDURE IF EXISTS `Flock`.`numOfPagesInCamps`;
+DROP PROCEDURE IF EXISTS `Flock`.`editGroup`;
+
+DELIMITER $$
+
+CREATE PROCEDURE `Flock`.`editGroup` (
+IN gid INT, IN aiid INT, IN gname VARCHAR(45))
+BEGIN
+
+	UPDATE Groups G
+    SET G.Group_Name = gname
+    WHERE G.GID=gid AND G.AID=aiid;
+
+END$$
+
+CREATE PROCEDURE `Flock`.`numOfPagesInCamps` (
+IN AIID INT, IN keyword VARCHAR(45), IN ofst INT, IN gid INT)
+BEGIN
+IF keyword IS NULL THEN
+	IF gid IS NULL THEN
+		SELECT COUNT(*)/ofst INTO @pageCount 
+		FROM Campaign C
+		WHERE (C.AID=AIID);
+	ELSE
+		SELECT COUNT(*)/ofst INTO @pageCount 
+		FROM Campaign C
+		WHERE (C.AID=AIID) AND C.GID=gid;
+	END IF;
+ELSE
+	IF gid IS NULL THEN
+		SELECT COUNT(*)/ofst INTO @pageCount 
+		FROM Campaign C
+		WHERE (C.AID=AIID)
+		AND ( C.C_Name LIKE CONCAT('%',keyword,'%'));
+	ELSE
+		SELECT COUNT(*)/ofst INTO @pageCount 
+		FROM Campaign C
+		WHERE (C.AID=AIID) AND C.GID=gid
+		AND ( C.C_Name LIKE CONCAT('%',keyword,'%'));
+	END IF;
+END IF;
+
+SELECT CEIL(@pageCount);
+END$$
+
+CREATE PROCEDURE `Flock`.`numOfPagesInConts` (
+IN AIID INT, IN keyword VARCHAR(45), IN ofst INT, IN gid INT)
+BEGIN
+IF keyword IS NULL THEN
+	IF gid IS NULL THEN
+		SELECT COUNT(*)/ofst INTO  @pageCount
+		FROM Contacts C
+		WHERE (C.AID=AIID);
+	ELSE
+		SELECT COUNT(*)/ofst INTO  @pageCount
+		FROM Contacts C JOIN Contacts_in_Groups CiG ON (C.CID=CiG.CID)
+		WHERE (C.AID=AIID) AND CiG.GID=gid;
+	END IF;
+ELSE
+	IF gid IS NULL THEN
+		SELECT COUNT(*)/ofst INTO  @pageCount
+		FROM Contacts C
+		WHERE (C.AID=AIID)
+        AND ( C.Full_Name LIKE CONCAT('%',keyword,'%') 
+			OR C.Email LIKE CONCAT('%',keyword,'%'));
+	ELSE
+		SELECT COUNT(*)/ofst INTO  @pageCount
+		FROM Contacts C JOIN Contacts_in_Groups CiG ON (C.CID=CiG.CID)
+		WHERE (C.AID=AIID) AND CiG.GID=gid
+        AND ( C.Full_Name LIKE CONCAT('%',keyword,'%') 
+			OR C.Email LIKE CONCAT('%',keyword,'%'));
+	END IF;
+END IF;
+
+SELECT CEIL(@pageCount);
+END$$
+
+CREATE PROCEDURE `Flock`.`getCampFromCAID` (
+IN caiid INT)
+BEGIN
+	SELECT C.CAID, C.`Subject`, C.`Text` , C.Start_Date, C.End_Date, C.Creation_Date, C.`C_Name` , F.F_Name, C.Num_of_Conts, C.Attachment, C.`AID`, C.GID
+    FROM Campaign C JOIN Frequencies F ON (C.FID=F.FID) 
+    WHERE C.CAID=caiid;
+END$$
+
+CREATE PROCEDURE `Flock`.`addNOS` (
+IN caiid INT, IN newNOS INT)
+BEGIN
+
+	SELECT C.AID INTO @AIID
+    FROM Campaign C
+    WHERE C.CAID = caiid;
+	
+	UPDATE Accounts A
+    SET A.Num_of_Sent = A.Num_of_Sen + newNOS
+    WHERE A.AID=@AIID;
+END$$
+
+CREATE PROCEDURE `Flock`.`deleteAcc` (
+IN aiid INT)
+BEGIN
+	DELETE FROM `Flock`.Accounts
+    WHERE AID=aiid;
+END$$
+
+CREATE PROCEDURE `Flock`.`user_exists` (
+IN username VARCHAR(45), IN passwrd VARCHAR(45))
+BEGIN
+	SET @userID= NULL;
+	
+    SELECT A.AID INTO @userID
+    FROM Accounts A 
+    WHERE A.Email=username
+    AND A.Passwd=passwrd;
+    
+    IF @userID IS NULL THEN
+		SELECT -1;
+	ELSE
+		SELECT @userID;
+	END IF;
+END$$
+
+CREATE PROCEDURE `Flock`.`getAccDetails` (
+IN AIID INT)
+BEGIN
+	
+    SELECT A.type INTO @accType FROM Accounts A WHERE A.AID=AIID;
+	
+    IF @accType=0 THEN
+		SELECT A.Email, A.Passwd, A.Type, A.Num_of_Camps, A.Num_of_Conts, 
+				A.Num_of_Sent, BP.F_Name, BP.L_Name, BP.Phone, BP.Gender, BP.Country, BP.ZIP
+		FROM Accounts A JOIN Business_Personal BP ON (A.AID=BP.AID)
+		WHERE A.AID=AIID;
+	ELSE
+		SELECT A.Email, A.Passwd, A.Type, A.Num_of_Camps, A.Num_of_Conts, 
+				A.Num_of_Sent,  C.C_Name, C.Country, C.Phone, C.Phy_Address, C.ZIP
+		FROM Accounts A JOIN Company C ON (A.AID=C.AID)
+		WHERE A.AID=AIID;
+    END IF;
+    
+END$$
+
+CREATE PROCEDURE `Flock`.`editCompany` (
+IN aiid INT , IN password VARCHAR(45), IN name VARCHAR(45),  IN phone INT(14),
+IN country VARCHAR(45), IN zip VARCHAR(45), IN phyAddress VARCHAR(45))
+BEGIN
+	
+    UPDATE Accounts
+    SET Passwd = password
+    WHERE AID = aiid;
+
+	UPDATE Company C
+    SET C.C_Name = name, C.Phone = phone, C.Country = country, C.ZIP = zip, C.Phy_Address = phyAddress
+    WHERE C.AID = aiid;
+END$$
+
+CREATE PROCEDURE `Flock`.`editBP` (
+IN aiid INT , IN password VARCHAR(45), IN fName VARCHAR(45), IN lName VARCHAR(45), IN phoone INT(14),
+IN geender VARCHAR(45), IN countryy VARCHAR(45), IN ziip VARCHAR(45))
+BEGIN
+
+	UPDATE Accounts
+    SET Passwd = password
+    WHERE AID = aiid;
+
+	UPDATE Business_Personal BP
+    SET BP.F_Name = fName, BP.L_Name = lName, BP.Phone = phoone, BP.Gender = geender, BP.Country = countryy, BP.ZIP = ziip
+    WHERE BP.AID = aiid;
+END$$
+
+CREATE PROCEDURE `Flock`.`editCampaign` (
+IN caiid INT, IN cname VARCHAR(45), IN aid INT , IN subject VARCHAR(100), IN text MEDIUMTEXT, IN frequency VARCHAR(45))
+BEGIN
+
+	SET @fiid = NULL;
+	SELECT F.FID INTO @fiid
+	FROM Frequencies F
+	WHERE F.F_Name=frequency;
+
+	UPDATE Campaign C
+    SET C.C_Name = cname, C.Subject = subject, C.Text = text, C.FID = @fiid
+    WHERE C.CAID=caiid AND C.AID=aid;
+END$$
+
+CREATE PROCEDURE `Flock`.`editContact` (
+IN cid INT, IN aid INT, IN fullname VARCHAR(45), IN email VARCHAR(45))
+BEGIN
+	UPDATE Contacts C
+    SET C.Full_Name = fullname, C.Email = email
+    WHERE (C.CID=cid AND C.AID=aid);
+END$$
+
+CREATE PROCEDURE `Flock`.`getContactsInGroup` (
+IN aid INT, IN gid INT)
+BEGIN
+	SELECT C.CID, C.Full_Name, C.Email, C.AID
+    FROM Contacts C JOIN Contacts_in_Groups CiG ON (C.CID=CiG.CID)
+    WHERE C.AID=aid AND CiG.GID=gid;
+END$$
+
+CREATE PROCEDURE `Flock`.`getCampsInGroup` (
+IN aid INT, IN gid INT)
+BEGIN
+	SELECT C.CAID, C.Subject, C.Text, C.Start_Date, C.End_Date, C.Creation_Date,
+    C.C_Name, F.F_Name, C.Num_of_Conts, C.Attachment, C.AID, C.GID
+    FROM Campaign C JOIN Groups G ON (C.GID=G.GID) JOIN Frequencies F ON (C.FID=F.FID)
+    WHERE C.AID=aid AND C.GID=gid;
+END$$
+
+CREATE PROCEDURE `Flock`.`deleteGroup` (
+IN giid INT, IN aiid INT)
+BEGIN
+	DELETE FROM `Flock`.Groups
+    WHERE GID=giid AND AID=aiid;
+END$$
+
+CREATE PROCEDURE `Flock`.`deleteManyCamps` (
+IN caids VARCHAR(1000000), IN aiid INT)
+BEGIN
+	-- Αναγκαστικά θα γίνει με φουλ μπακάλικο τρόπο αυτό για να μην έχω 354654 κλήσεις στη βάση
+    WHILE (LOCATE('|',caids)>0) 		-- caids is something like '65|98|23|12|1'
+    DO
+		SET @value = ELT(1, caids);
+        SET caids = SUBSTRING(caids, LOCATE('|',caids)+1);
+        
+        DELETE FROM Campaign
+		WHERE CAID= CAST(@value AS UNSIGNED INTEGER)
+        AND AID=aiid;
+	END WHILE;
+END$$
+
+CREATE PROCEDURE `Flock`.`deleteCamp` (
+IN caiid INT, IN aiid INT)
+BEGIN
+	DELETE FROM Campaign
+    WHERE CAID=caiid AND AID=aiid;
+END$$
+
+CREATE PROCEDURE `Flock`.`deleteManyContacts` (
+IN cids VARCHAR(1000000), IN aiid INT)
+BEGIN
+	-- Αναγκαστικά θα γίνει με φουλ μπακάλικο τρόπο αυτό για να μην έχω 354654 κλήσεις στη βάση
+    WHILE (LOCATE('|',cids)>0) 		-- cids is something like '65|98|23|12|1'
+    DO
+		SET @value = ELT(1, cids);
+        SET cids = SUBSTRING(cids, LOCATE('|',cids)+1);
+        
+        DELETE FROM Contacts
+		WHERE CID= CAST(@value AS UNSIGNED INTEGER)
+        AND AID=aiid;
+	END WHILE;
+END$$
+
+CREATE PROCEDURE `Flock`.`deleteContact` (
+IN ciid INT, IN aiid INT)
+BEGIN
+	DELETE FROM Contacts 
+    WHERE CID=ciid AND AID=aiid;
+END$$
+
+CREATE PROCEDURE `Flock`.`addContactToGroup` (
+IN cid INT, IN gid INT)
+BEGIN
+	INSERT INTO `Flock`.`Contacts_in_Groups`
+	(`CID`,
+	`GID`)
+	VALUES
+	(cid,
+	gid);
+
+END$$
+
+CREATE PROCEDURE `Flock`.`addGroup` (
+IN aiid INT, IN groupname VARCHAR(45))
+BEGIN
+	INSERT INTO `Flock`.`Groups`
+	(`Group_Name`,
+	`AID`)
+	VALUES
+	(groupname,
+	aiid);
+
+END$$
+
+CREATE PROCEDURE `Flock`.`addCampaign` (
+IN sub VARCHAR(100), IN email_text MEDIUMTEXT, IN startDate varchar(60), IN endDate varchar(60), 
+IN cname VARCHAR(45), IN frequency VARCHAR(45), IN attachment BLOB, IN aid INT, IN gid INT)
+BEGIN
+	SET @checking = NULL;
+    SET @fiid = NULL;
+    
+	SELECT G.aid INTO @checking 
+    FROM Groups G
+	WHERE G.GID = gid AND G.AID = aid;
+	
+    IF @checking IS NOT NULL THEN
+    
+		SELECT COUNT(CIG.CID) INTO @NOC 
+        FROM Contacts_in_Groups CIG JOIN Groups G ON (CIG.GID=G.GID)
+        WHERE G.GID=gid;
+        
+		SELECT F.FID INTO @fiid 
+		FROM Frequencies F
+		WHERE F.F_Name = frequency;
+    
+		INSERT INTO `Flock`.`Campaign`
+		(`Subject`,
+		`Text`,
+		`Start_Date`,
+		`End_Date`,
+		`Creation_Date`,
+		`C_Name`,
+		`FID`,
+		`Num_of_Conts`,
+		`Attachment`,
+		`AID`,
+		`GID`)
+		VALUES
+		(sub,
+		email_text,
+		startDate,
+		endDate,
+		UTC_TIMESTAMP(),
+		cname,
+		@fiid,
+		@NOC,
+		attachment,
+		aid,
+		gid);
+	
+    END IF;
+
+	SELECT LAST_INSERT_ID();
+END$$
+
+CREATE PROCEDURE `Flock`.`addContact` (
+IN fname VARCHAR(45), IN email VARCHAR(45), IN aid INT, IN gid INT)
+BEGIN
+
+	IF gid IS NOT NULL THEN
+		
+        -- Check if Group belongs to the certain user
+		SET @checking = NULL;
+		SELECT G.aid INTO @checking FROM Groups G WHERE G.GID=gid AND G.AID=aid;
+		
+		IF @checking IS NOT NULL THEN
+			INSERT INTO `Flock`.`Contacts`
+			(`Full_Name`,
+			`Email`,
+			`AID`)
+			VALUES
+			(fname,
+			email,
+			aid);
+			
+            SET @ciid = LAST_INSERT_ID();
+			CALL addContactToGroup(@ciid,gid);
+        ELSE
+			SIGNAL SQLSTATE '45000'
+			SET MESSAGE_TEXT = 'This user does not have access to this certain Group';
+        END IF;
+	ELSE
+		INSERT INTO `Flock`.`Contacts`
+			(`Full_Name`,
+			`Email`,
+			`AID`)
+			VALUES
+			(fname,
+			email,
+			aid);
+	END IF;
+END$$
+
+CREATE PROCEDURE `Flock`.`addBusiness_Personal` (
+IN email VARCHAR(45), IN passwrd VARCHAR(45), IN firstname VARCHAR(45), IN lastname VARCHAR(45), 
+IN phone VARCHAR(45), IN gender VARCHAR(45), IN country VARCHAR(45), IN zip VARCHAR(45))
+BEGIN
+	INSERT INTO Accounts (Email,Passwd,Type,Num_of_Camps,Num_of_Conts,Num_of_Sent)
+    VALUES(email, passwrd, 0, 0,0,0);
+    
+    SET @aiid = LAST_INSERT_ID();
+    
+    INSERT INTO Business_Personal(AID,F_Name,L_Name,Phone,Gender,Country,ZIP)
+    VALUES(@aiid, firstname, lastname, phone, gender, country, zip);
+    
+    CALL `Flock`.`user_exists`(email, passwrd);
+END$$
+
+CREATE PROCEDURE `Flock`.`addCompany` (
+IN email VARCHAR(45), IN passwrd VARCHAR(45), IN cname VARCHAR(45), IN phone VARCHAR(45), 
+IN country VARCHAR(45), IN zip VARCHAR(45), IN address VARCHAR(45))
+BEGIN
+	INSERT INTO Accounts (Email,Passwd,Type,Num_of_Camps,Num_of_Conts,Num_of_Sent)
+    VALUES(email, passwrd, 1, 0,0,0);
+    
+    SET @aiid = LAST_INSERT_ID();
+    
+    INSERT INTO Company (AID,C_Name,Phone,Country,ZIP,Phy_Address)
+    VALUES(@aiid, cname, phone, country, zip, address);
+    
+    CALL `Flock`.`user_exists`(email, passwrd);
+END$$
+
+CREATE PROCEDURE `Flock`.`getAllGroups` (
+IN AIID INT)
+BEGIN
+	SELECT * FROM Groups G WHERE G.AID=AIID;
+END$$
+
+CREATE PROCEDURE `Flock`.`getContacts` (
+IN AIID INT, IN keyword VARCHAR(45), IN ofst INT, IN num_of_rows INT, IN gid INT)
+BEGIN
+IF keyword IS NULL THEN
+	IF gid IS NULL THEN
+		SELECT * 
+		FROM Contacts C
+		WHERE (C.AID=AIID) 
+		LIMIT OFST, NUM_OF_ROWS;
+	ELSE 
+		SELECT * 
+		FROM Contacts C JOIN Contacts_in_Groups CiG ON (C.CID=CiG.CID)
+		WHERE (C.AID=AIID) AND CiG.GID=gid
+		LIMIT OFST, NUM_OF_ROWS;
+	END IF;
+ELSE
+	IF gid IS NULL THEN
+		SELECT * 
+		FROM Contacts C
+		WHERE (C.AID=AIID) 
+        AND ( C.Full_Name LIKE CONCAT('%',keyword,'%') 
+			OR C.Email LIKE CONCAT('%',keyword,'%'))
+		LIMIT OFST, NUM_OF_ROWS;
+	ELSE 
+		SELECT * 
+		FROM Contacts C JOIN Contacts_in_Groups CiG ON (C.CID=CiG.CID)
+		WHERE (C.AID=AIID) AND CiG.GID=gid
+        AND ( C.Full_Name LIKE CONCAT('%',keyword,'%') 
+			OR C.Email LIKE CONCAT('%',keyword,'%'))
+		LIMIT OFST, NUM_OF_ROWS;
+	END IF;
+END IF;
+END$$
+
+CREATE PROCEDURE `Flock`.`getCamps` (
+IN AIID INT, IN keyword VARCHAR(45),IN ofst INT, IN num_of_rows INT, IN gid INT)
+BEGIN
+IF keyword IS NULL THEN
+	IF gid IS NULL THEN
+		SELECT C.CAID, C.`Subject`, C.`Text` , C.Start_Date, C.End_Date, C.Creation_Date, C.`C_Name` , F.F_Name, C.Num_of_Conts, C.Attachment, C.`AID`, C.GID
+		FROM Campaign C JOIN Frequencies F ON (C.FID=F.FID)
+		WHERE (C.AID=AIID) 
+		LIMIT ofst, num_of_rows;
+	ELSE
+		SELECT C.CAID, C.`Subject`, C.`Text` , C.Start_Date, C.End_Date, C.Creation_Date, C.`C_Name` , F.F_Name, C.Num_of_Conts, C.Attachment, C.`AID`, C.GID
+		FROM Campaign C JOIN Frequencies F ON (C.FID=F.FID)
+		WHERE (C.AID=AIID) AND C.GID=gid
+		LIMIT ofst, num_of_rows;
+	END IF;
+ELSE
+	IF gid IS NULL THEN
+		SELECT C.CAID, C.`Subject`, C.`Text` , C.Start_Date, C.End_Date, C.Creation_Date, C.`C_Name` , F.F_Name, C.Num_of_Conts, C.Attachment, C.`AID`, C.GID
+		FROM Campaign C JOIN Frequencies F ON (C.FID=F.FID)
+		WHERE (C.AID=AIID) 
+        AND ( C.C_Name LIKE CONCAT('%',keyword,'%'))
+		LIMIT ofst, num_of_rows;
+	ELSE
+		SELECT C.CAID, C.`Subject`, C.`Text` , C.Start_Date, C.End_Date, C.Creation_Date, C.`C_Name` , F.F_Name, C.Num_of_Conts, C.Attachment, C.`AID`, C.GID
+		FROM Campaign C JOIN Frequencies F ON (C.FID=F.FID)
+		WHERE (C.AID=AIID) AND C.GID=gid
+        AND ( C.C_Name LIKE CONCAT('%',keyword,'%'))
+		LIMIT ofst, num_of_rows;
+	END IF;
+END IF;
+END$$

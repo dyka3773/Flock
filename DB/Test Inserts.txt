@@ -1,0 +1,62 @@
+CALL addBusiness_Personal('dyka3773@gmail.com', '1234', 'Iraklis', 'Konsoulas', '6978515275', 'Male', 'Greece', '57019');
+CALL addCompany('stefetoufe@gmail.com', '1234', 'Doofenschmirtz Inc', '6969696969', 'Greece', '57019', 'Ap.Petrou & Pavlou, 33B');
+-- call addContact('Thanos','thanos.psarras3@gmail.com', 1, 1);
+CALL addGroup(1,'Academic');
+CALL addGroup(1,'Gmail');
+CALL addGroup(1,'Other');
+CALL addGroup(2,'Academic');
+CALL addGroup(2,'Gmail');
+CALL addGroup(2,'Other');
+CALL addCampaign('peos','sad','2020-03-03 00:06:59','2020-03-03 00:06:59','aok','ONCE',NULL,1,1);
+
+CALL addContact('Thanos Psarras','thanos.psarras3@gmail.com', 1, 2);
+CALL addContact('Thanos Psarras','thanos.psarras3@gmail.com', 2, 5);
+CALL addContactToGroup(1, 3);
+CALL addContactToGroup(2, 6);
+
+CALL addContact('Thanos Psarras','captainero3184@gmail.com', 1, 2);
+CALL addContact('Thanos Psarras','captainero3184@gmail.com', 2, 5);
+
+CALL addContact('Thanos Psarras','it185312@it.teithe.gr', 1, 1);
+CALL addContact('Thanos Psarras','it185312@it.teithe.gr', 2, 4);
+
+CALL addContact('Stefanos Toufexis','stefetoufe@gmail.com', 1, 2);
+CALL addContact('Stefanos Toufexis','stefetoufe@gmail.com', 2, 5);
+CALL addContactToGroup(7, 3);
+CALL addContactToGroup(8, 6);
+
+CALL addContact('Stefanos Toufexis','stefanakistoufeki@yahoo.gr', 1, 3);
+CALL addContact('Stefanos Toufexis','stefanakistoufeki@yahoo.gr', 2, 6);
+
+CALL addContact('Stratos Skarlatos','skarlatosstratos2@gmail.com', 1, 2);
+CALL addContact('Stratos Skarlatos','skarlatosstratos2@gmail.com', 2, 5);
+CALL addContactToGroup(11, 3);
+CALL addContactToGroup(12, 6);
+
+CALL addContact('Stratos Skarlatos','it174940@it.teithe.gr', 1, 1);
+CALL addContact('Stratos Skarlatos','it174940@it.teithe.gr', 2, 4);
+
+CALL addContact('konstantinos kontos','netflixeisaiedw@gmail.com', 1, 2);
+CALL addContact('konstantinos kontos','netflixeisaiedw@gmail.com', 2, 5);
+
+CALL addContact('konstantinos kontos','kostas.jenious@hotmail.com', 1, 3);
+CALL addContact('konstantinos kontos','kostas.jenious@hotmail.com', 2, 6);
+
+CALL addContact('Hercules Konsoulas','dyka3773@gmail.com', 1, 2);
+CALL addContact('Hercules Konsoulas','dyka3773@gmail.com', 2, 5);
+CALL addContactToGroup(19, 3);
+CALL addContactToGroup(20, 6);
+
+CALL addContact('Hercules Konsoulas','it185200@it.teithe.gr', 1, 1);
+CALL addContact('Hercules Konsoulas','it185200@it.teithe.gr', 2, 4);
+
+CALL addContact('Hercules Konsoulas','herckkonsou@gmail.com', 1, 2);
+CALL addContact('Hercules Konsoulas','herckkonsou@gmail.com', 2, 5);
+
+CALL addContact('Pipis Papias','alalala@gmail.com', 1, 2);
+CALL addContact('Takhs Koykoyes','kke@gmail.gr', 2, 5);
+CALL addContact('afroxilanthi pipa','pipaedwmono@gmail.com', 2, 5);
+
+CALL addGroup(2,'tESTING');
+CALL addContactToGroup(8,7);
+CALL addContactToGroup(10,7);
