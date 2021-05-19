@@ -20,7 +20,7 @@ const randomNum = (values) => {
 }
 
 const randomString = (length) => {
-    const allCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890.-"
+    const allCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
 
     let newString = [];
     const charactersLength = allCharacters.length;

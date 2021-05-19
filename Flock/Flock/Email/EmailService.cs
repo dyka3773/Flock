@@ -85,7 +85,7 @@ namespace SendEmail
 
         }
 
-        public async void mailSender()
+        public void mailSender()
         {
 
             try
@@ -119,16 +119,16 @@ namespace SendEmail
             Debug.WriteLine("in mailSender");
             foreach (Contact c in contacts)
             {
-                Debug.WriteLine(c.ToString());
+              
                 
-                await customSend(userClient(c),mail(c));
+               customSend(userClient(c),mail(c));
             }
         }
         //uses contacts (list object) field to send a predeterminded message to the specified adresses 
 
         private async Task customSend(SmtpClient client,MailMessage mailMessage) {
+            Debug.WriteLine("sending");
 
-            Random rnd = new Random();
             await client.SendMailAsync(mailMessage);
         }
         //sends asynchronously a message with a fixed client
@@ -147,7 +147,7 @@ namespace SendEmail
 
         private SmtpClient userClient(Contact c) 
         {
-            SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+            SmtpClient client = new SmtpClient("smtp.ethereal.email", 587);
             client.UseDefaultCredentials = false;
             client.Credentials = new System.Net.NetworkCredential( getUserName(), getPass() );
             client.EnableSsl = true;
@@ -158,13 +158,13 @@ namespace SendEmail
 
         private string getUserName()
         {
-            return "flockflockflockflockflock@gmail.com";
+            return "sandy71@ethereal.email";
         }
         //gets the adress of the sender
 
         private string getPass()
         {
-            return "flock69a!";
+            return "agpPz4uyhaQNqNrjS6";
         }
         //gets the password of the sender
     }

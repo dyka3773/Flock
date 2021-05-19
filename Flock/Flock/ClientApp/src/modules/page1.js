@@ -61,8 +61,8 @@ const Page1 = () => {
     
         const fillUpBase = async () => {
             console.log("Filling up base");
-            const num = 100;
-            const numcam = 10;
+            const num = 2500;
+            const numcam = 50;
             setLoading(true);
 
 
@@ -70,14 +70,14 @@ const Page1 = () => {
             console.log(camps);
 
             for (let i of camps)
-                await addCampaign(i,2,6);
+                await addCampaign(i,2,6,"ONCE");
 
             
             
 
             const entries = dummyJsonGenerator(jsonPrototype, num);
             console.log(entries);
-            console.log( await addManyContacts(entries, 2, 6));
+            console.log(await addManyContacts(entries, 2, 6, "ONCE"));
             window.alert("succesfully added")
 
 

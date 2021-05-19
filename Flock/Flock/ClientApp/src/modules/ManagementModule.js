@@ -84,8 +84,7 @@ const ManagementModule = ({ getItems, editItems, listTitle, modalContents, accor
 
     useDidMountEffect(() => {
         const func = async () => {
-            const items = await fetchItems();
-            setItemsMaxPage({ ...itemsMaxPage, items: items });
+            fetchItemsMaxPage();
         }
 
         func();

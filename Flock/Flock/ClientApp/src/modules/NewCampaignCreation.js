@@ -45,8 +45,8 @@ const NewCampaignCreation = () => {
 
         console.log(startDate, "  ", endDate);
 
-        const res = await addCampaign({ ...inputValues, text: editorValue, frequency: frequency, startDate: startDate, endDate: endDate }
-            , token, selectedGroup).then(window.alert("Done!"));
+        const res = await addCampaign({ ...inputValues, text: editorValue, startDate: startDate, endDate: endDate }
+            , token, selectedGroup, frequency).then(window.alert("Done!"));
 
         if (frequency === 'ONCE') {
             scheduleCampaignOnce(res.data);

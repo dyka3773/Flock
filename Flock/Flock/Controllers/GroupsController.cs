@@ -176,7 +176,7 @@ namespace Flock.Controllers
             ActionResult result = BadRequest();
             try
             {
-                if (aid< 0 || aid< 0)
+                if (aid< 0)
                 {
                     throw new GeneralException("Wrong Parameters");
                 }
@@ -213,7 +213,7 @@ namespace Flock.Controllers
             ActionResult result = BadRequest();
             try
             {
-                if (aid< 0 || aid< 0)
+                if (aid< 0 || gid< 0)
                 {
                     throw new GeneralException("Wrong Parameters");
                 }

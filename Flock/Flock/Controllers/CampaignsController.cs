@@ -240,7 +240,7 @@ namespace Flock.Controllers
         {
             using var cmd = new MySqlCommand();
             ActionResult result = BadRequest();
-            try
+           try
             {
                 if (gid < 0 || aid < 0)
                 {
@@ -249,8 +249,10 @@ namespace Flock.Controllers
                 
                 cmd.Connection = new DBConnection().connect();
                 cmd.Connection.Open();
+              
                 Debug.WriteLine(String.Format("call addCampaign('{0}', '{1}', '{2}', '{3}','{4}', '{5}','{6}', {7} , {8} )",
                     camp.subject, camp.text, camp.startDate, camp.endDate, camp.name, camp.frequency, null, aid, gid));
+
                 cmd.CommandText = String.Format("call addCampaign('{0}', '{1}', '{2}', '{3}','{4}', '{5}','{6}', {7} , {8} )",
                     camp.subject, camp.text, camp.startDate, camp.endDate, camp.name, camp.frequency, null, aid, gid);
                 MySqlDataReader reader = cmd.ExecuteReader();
