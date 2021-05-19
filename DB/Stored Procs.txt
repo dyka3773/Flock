@@ -309,7 +309,7 @@ BEGIN
 END$$
 
 CREATE PROCEDURE `Flock`.`addCampaign` (
-IN sub VARCHAR(100), IN email_text MEDIUMTEXT, IN startDate varchar(60), IN endDate varchar(60), 
+IN sub VARCHAR(100), IN email_text MEDIUMTEXT, IN startDate VARCHAR(60), IN endDate VARCHAR(60), 
 IN cname VARCHAR(45), IN frequency VARCHAR(45), IN attachment BLOB, IN aid INT, IN gid INT)
 BEGIN
 	SET @checking = NULL;
@@ -360,14 +360,20 @@ BEGIN
 END$$
 
 CREATE PROCEDURE `Flock`.`addContact` (
-IN fname VARCHAR(45), IN email VARCHAR(45), IN aid INT, IN gid INT)
+IN fname VARCHAR(45), IN emaiil VARCHAR(45), IN aiid INT, IN giid INT)
 BEGIN
 
-	IF gid IS NOT NULL THEN
+SET @thisContactExists= NULL;
+SELECT C.CID INTO @thisContactExists
+FROM Contacts C 
+WHERE C.AID=aiid AND C.Email=emaiil;
+
+IF @thisContactExists IS NULL THEN 		-- True = δεν υπάρχει ήδη στη βάση
+	IF giid IS NOT NULL THEN
 		
         -- Check if Group belongs to the certain user
 		SET @checking = NULL;
-		SELECT G.aid INTO @checking FROM Groups G WHERE G.GID=gid AND G.AID=aid;
+		SELECT G.aid INTO @checking FROM Groups G WHERE G.GID=giid AND G.AID=aiid;
 		
 		IF @checking IS NOT NULL THEN
 			INSERT INTO `Flock`.`Contacts`
@@ -376,11 +382,11 @@ BEGIN
 			`AID`)
 			VALUES
 			(fname,
-			email,
-			aid);
+			emaiil,
+			aiid);
 			
             SET @ciid = LAST_INSERT_ID();
-			CALL addContactToGroup(@ciid,gid);
+			CALL addContactToGroup(@ciid,giid);
         ELSE
 			SIGNAL SQLSTATE '45000'
 			SET MESSAGE_TEXT = 'This user does not have access to this certain Group';
@@ -392,9 +398,31 @@ BEGIN
 			`AID`)
 			VALUES
 			(fname,
-			email,
-			aid);
+			emaiil,
+			aiid);
 	END IF;
+ELSE
+	IF giid IS NOT NULL THEN
+		-- Check if Group belongs to the certain user
+		SET @checking = NULL;
+		SELECT G.aid INTO @checking FROM Groups G WHERE G.GID=giid AND G.AID=aiid;
+        
+        IF @checking IS NULL THEN
+			SIGNAL SQLSTATE '45000'
+			SET MESSAGE_TEXT = 'This user does not have access to this certain Group';
+		ELSE
+			SET @contactAlreadyInGroup= NULL;
+            SELECT CiG.GID INTO @contactAlreadyInGroup
+            FROM Contacts_in_Groups CiG
+            WHERE CiG.CID=@thisContactExists AND CiG.GID=giid;
+            
+            IF @contactAlreadyInGroup IS NULL THEN
+				CALL addContactToGroup(@thisContactExists,giid);
+			END IF;
+        END IF;
+	END IF;
+END IF;
+
 END$$
 
 CREATE PROCEDURE `Flock`.`addBusiness_Personal` (
@@ -441,12 +469,12 @@ IF keyword IS NULL THEN
 		SELECT * 
 		FROM Contacts C
 		WHERE (C.AID=AIID) 
-		LIMIT OFST, NUM_OF_ROWS;
+		LIMIT ofst, num_of_rows;
 	ELSE 
 		SELECT * 
 		FROM Contacts C JOIN Contacts_in_Groups CiG ON (C.CID=CiG.CID)
 		WHERE (C.AID=AIID) AND CiG.GID=gid
-		LIMIT OFST, NUM_OF_ROWS;
+		LIMIT ofst, num_of_rows;
 	END IF;
 ELSE
 	IF gid IS NULL THEN
@@ -455,14 +483,14 @@ ELSE
 		WHERE (C.AID=AIID) 
         AND ( C.Full_Name LIKE CONCAT('%',keyword,'%') 
 			OR C.Email LIKE CONCAT('%',keyword,'%'))
-		LIMIT OFST, NUM_OF_ROWS;
+		LIMIT ofst, num_of_rows;
 	ELSE 
 		SELECT * 
 		FROM Contacts C JOIN Contacts_in_Groups CiG ON (C.CID=CiG.CID)
 		WHERE (C.AID=AIID) AND CiG.GID=gid
         AND ( C.Full_Name LIKE CONCAT('%',keyword,'%') 
 			OR C.Email LIKE CONCAT('%',keyword,'%'))
-		LIMIT OFST, NUM_OF_ROWS;
+		LIMIT ofst, num_of_rows;
 	END IF;
 END IF;
 END$$
