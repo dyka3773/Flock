@@ -99,7 +99,7 @@ namespace SendEmail
                 return;
             }
 
-            previousSend = camp.startDate;
+            
 
 
             ActionResult actionResult = new GroupsController().GetContacts(camp.AID, camp.GID);
@@ -147,7 +147,7 @@ namespace SendEmail
 
         private SmtpClient userClient(Contact c) 
         {
-            SmtpClient client = new SmtpClient("smtp.ethereal.email", 587);
+            SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.UseDefaultCredentials = false;
             client.Credentials = new System.Net.NetworkCredential( getUserName(), getPass() );
             client.EnableSsl = true;
@@ -158,13 +158,13 @@ namespace SendEmail
 
         private string getUserName()
         {
-            return "sandy71@ethereal.email";
+            return "flockflockflockflockflock@gmail.com";
         }
         //gets the adress of the sender
 
         private string getPass()
         {
-            return "agpPz4uyhaQNqNrjS6";
+            return "flock69a!";
         }
         //gets the password of the sender
     }
